@@ -63,20 +63,11 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               {children}
             </blockquote>
           ),
-          code: ({ inline, children }) => {
-            if (inline) {
-              return (
-                <code className="bg-stone-100 text-stone-700 px-1 py-0.5 rounded text-xs font-mono">
-                  {children}
-                </code>
-              );
-            }
-            return (
-              <code className="bg-stone-900 text-stone-100 block p-4 rounded-lg overflow-x-auto text-xs font-mono mb-4">
-                {children}
-              </code>
-            );
-          },
+          code: ({ children }) => (
+            <code className="bg-stone-100 text-stone-700 px-1 py-0.5 rounded text-xs font-mono">
+              {children}
+            </code>
+          ),
           pre: ({ children }) => (
             <pre className="bg-stone-900 text-stone-100 p-4 rounded-lg overflow-x-auto text-xs font-mono mb-4">
               {children}
