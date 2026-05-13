@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  @apply bg-stone-50;
+  color-scheme: light;
+}
+
+body {
+  @apply font-sans text-stone-900;
+  background-color: #fafaf9;
+}
+
+/* Prose overrides for markdown content */
+.prose {
+  @apply max-w-prose;
+}
+
+.prose h1 {
+  @apply text-2xl font-medium text-stone-900 mb-6 mt-0;
+}
+
+.prose h2 {
+  @apply text-xs uppercase tracking-wider text-stone-400 mb-2 mt-8 font-medium;
+}
+
+.prose h3 {
+  @apply text-sm font-medium text-stone-700 mb-2 mt-6;
+}
+
+.prose p {
+  @apply text-stone-800 leading-7 mb-4 text-sm;
+}
+
+.prose a {
+  @apply text-accent no-underline hover:underline;
+}
+
+.prose strong {
+  @apply font-medium text-stone-900;
+}
+
+.prose em {
+  @apply italic text-stone-700;
+}
+
+.prose ul,
+.prose ol {
+  @apply pl-4 mb-4;
+}
+
+.prose li {
+  @apply text-stone-800 mb-1 leading-7 text-sm;
+}
+
+.prose hr {
+  @apply border-stone-200 my-6 border-0 border-t;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-accent pl-4 text-stone-500 italic;
+}
+
+.prose code {
+  @apply bg-stone-100 text-stone-700 px-1 py-0.5 rounded text-xs font-mono;
+  background-color: #f5f5f4;
+  color: #5a524a;
+}
+
+.prose pre {
+  @apply bg-stone-900 text-stone-100 p-4 rounded-lg overflow-x-auto text-xs font-mono mb-4;
+  background-color: #1c1917;
+}
+
+.prose pre code {
+  @apply bg-transparent text-inherit px-0 py-0;
+  background-color: transparent;
+}
+
+.prose img {
+  @apply rounded-lg my-4 max-w-full h-auto;
+}
+
+/* Scrollbar hiding utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Focus ring for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent;
+}
+
+/* Remove default focus outline, we'll add our own */
+button,
+a,
+input {
+  @apply outline-offset-2;
+}
