@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/atom-one-light.css';
-import { ReactNode } from 'react';
 
 interface MarkdownRendererProps {
   content: string;
