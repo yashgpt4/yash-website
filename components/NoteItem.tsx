@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Note, Tag } from '@/lib/types';
-import { generatePreview, formatDate, getTagAccentColor, getTagBgColor } from '@/lib/utils';
+import { generatePreview, formatDate, getTagAccentColor } from '@/lib/utils';
 
 const TAG_LABELS: Record<Tag, string> = {
   pinned: 'Pinned',
@@ -21,7 +21,6 @@ interface NoteItemProps {
 export function NoteItem({ note, isActive }: NoteItemProps) {
   const preview = generatePreview(note.content);
   const accentColor = getTagAccentColor(note.tag);
-  const bgColor = getTagBgColor(note.tag);
 
   return (
     <Link
