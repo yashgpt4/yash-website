@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yash Vijaykar</title>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; font-size: 14px; background: #f5f5f4; color: #1c1917; -webkit-font-smoothing: antialiased; }
+
+/* ── Window chrome ── */
+.win { width: 100%; height: 100vh; display: flex; flex-direction: column; background: #f5f5f4; }
+.titlebar { height: 38px; background: #f0efee; border-bottom: 0.5px solid #e7e5e4; display: flex; align-items: center; padding: 0 14px; gap: 8px; flex-shrink: 0; }
+.dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.d-r { background: #FF5F57; } .d-y { background: #FFBD2E; } .d-g { background: #28C840; }
+.win-title { font-size: 12px; color: #a8a29e; margin-left: 6px; }
+
+/* ── Shell ── */
+.shell { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Sidebar ── */
+.sidebar { width: 210px; min-width: 210px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-header { padding: 10px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a8a29e; flex-shrink: 0; }
+.sidebar-list { flex: 1; overflow-y: auto; padding: 4px 6px 8px; }
+.sidebar-list::-webkit-scrollbar { display: none; }
+
+.ni { padding: 8px 10px; border-radius: 8px; cursor: pointer; margin-bottom: 2px; transition: background 0.1s; }
+.ni:hover { background: rgba(0,0,0,0.04); }
+.ni.active { background: #FAD647; }
+.ni-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.35; }
+.ni.active .ni-title { color: #1a1200; }
+.ni-sub { font-size: 11px; color: #a8a29e; margin-top: 2px; line-height: 1.35; }
+.ni.active .ni-sub { color: #6b5a00; }
+
+/* ── Content pane ── */
+.content { flex: 1; overflow-y: auto; background: #ffffff; }
+.content::-webkit-scrollbar { width: 5px; } .content::-webkit-scrollbar-track { background: transparent; } .content::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+.pane { display: none; padding: 32px 36px; max-width: 700px; }
+.pane.active { display: block; }
+
+/* ── Typography helpers ── */
+.conviction { font-size: 22px; font-weight: 500; color: #1c1917; line-height: 1.35; margin-bottom: 8px; }
+.sub-line { font-size: 13px; color: #78716c; margin-bottom: 4px; line-height: 1.5; }
+.divider { border: none; border-top: 0.5px solid #e7e5e4; margin: 20px 0; }
+.section-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #a8a29e; font-weight: 600; margin-bottom: 12px; }
+.approach-blurb { font-size: 13px; color: #78716c; line-height: 1.65; margin-bottom: 14px; }
+
+/* ── Stat chips ── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.chip { font-size: 12px; color: #78716c; background: #f5f5f4; border: 0.5px solid #e7e5e4; border-radius: 6px; padding: 4px 10px; }
+
+/* ── Toggle rows ── */
+.tog-header { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 0.5px solid #e7e5e4; cursor: pointer; user-select: none; }
+.tog-header:hover .tog-name { color: #E8855A; }
+.tog-arrow { font-size: 10px; color: #a8a29e; width: 14px; flex-shrink: 0; transition: transform 0.15s ease; display: inline-block; }
+.tog-arrow.open { transform: rotate(90deg); }
+.tog-num { font-size: 11px; font-weight: 600; color: #E8855A; width: 22px; flex-shrink: 0; }
+.tog-name { font-size: 16px; font-weight: 500; color: #1c1917; flex: 1; transition: color 0.1s; }
+.tog-tag { font-size: 11px; color: #a8a29e; text-align: right; line-height: 1.4; flex-shrink: 0; }
+
+.tog-body { display: none; padding: 14px 0 6px 36px; }
+.tog-body.open { display: block; }
+.co-meta { font-size: 12px; color: #a8a29e; margin-bottom: 12px; line-height: 1.6; }
+.co-meta a { color: #E8855A; text-decoration: none; }
+.co-meta a:hover { text-decoration: underline; }
+.co-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #a8a29e; margin: 12px 0 6px; }
+.co-list { list-style: disc; padding-left: 1.3em; }
+.co-list li { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 3px; }
+.co-list li ul { list-style: circle; padding-left: 1.2em; margin-top: 3px; }
+.co-list li ul li { font-size: 12px; color: #78716c; }
+.quote { border-left: 3px solid #E8855A; padding: 8px 12px; margin: 10px 0; font-size: 12px; font-style: italic; color: #78716c; border-radius: 0 4px 4px 0; background: #fff8f5; }
+.co-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid #e7e5e4; }
+.co-links a { font-size: 12px; color: #E8855A; text-decoration: none; }
+.co-links a:hover { text-decoration: underline; }
+.co-img { max-width: 100%; border-radius: 8px; margin: 10px 0; display: block; border: 0.5px solid #e7e5e4; }
+
+/* ── Past work ── */
+.past-head { font-size: 16px; font-weight: 500; color: #1c1917; margin: 8px 0 3px; }
+.past-meta { font-size: 12px; color: #a8a29e; margin-bottom: 8px; line-height: 1.5; }
+.past-meta a { color: #E8855A; text-decoration: none; }
+.past-meta a:hover { text-decoration: underline; }
+.past-blurb { font-size: 13px; color: #78716c; line-height: 1.65; margin-bottom: 8px; }
+.past-backers { font-size: 12px; color: #a8a29e; margin-bottom: 8px; }
+.past-backers a { color: #E8855A; text-decoration: none; }
+.past-backers a:hover { text-decoration: underline; }
+.edu-footer { font-size: 11px; color: #a8a29e; margin-top: 20px; line-height: 1.8; border-top: 0.5px solid #e7e5e4; padding-top: 14px; }
+
+/* ── About pane ── */
+.about-name { font-size: 22px; font-weight: 500; color: #1c1917; margin-bottom: 6px; }
+.about-role { font-size: 13px; color: #78716c; margin-bottom: 16px; }
+.about-section { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #a8a29e; margin: 18px 0 8px; }
+.about-body { font-size: 13px; color: #44403c; line-height: 1.75; }
+.about-body a { color: #E8855A; text-decoration: none; }
+.about-body a:hover { text-decoration: underline; }
+.about-list { list-style: none; padding: 0; }
+.about-list li { font-size: 13px; color: #44403c; line-height: 1.75; padding-left: 1.1em; position: relative; }
+.about-list li::before { content: "—"; position: absolute; left: 0; color: #a8a29e; }
+.contact-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+.contact-row a { font-size: 12px; color: #E8855A; text-decoration: none; }
+.contact-row a:hover { text-decoration: underline; }
+
+/* ── Principles pane ── */
+.prin-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0efee; align-items: flex-start; }
+.prin-item:last-child { border-bottom: none; }
+.prin-num { font-size: 11px; font-weight: 600; color: #E8855A; width: 20px; flex-shrink: 0; padding-top: 1px; }
+.prin-text { font-size: 13px; color: #1c1917; line-height: 1.6; flex: 1; }
+.prin-footer { font-size: 11px; color: #a8a29e; margin-top: 16px; }
+
+/* ── Blog pane ── */
+.blog-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0efee; align-items: flex-start; text-decoration: none; color: inherit; transition: background 0.1s; border-radius: 4px; }
+.blog-item:last-child { border-bottom: none; }
+.blog-item:hover .blog-title { color: #E8855A; }
+.blog-emoji { font-size: 16px; flex-shrink: 0; width: 22px; }
+.blog-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.4; transition: color 0.1s; }
+.blog-type { font-size: 11px; color: #a8a29e; margin-top: 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .sidebar { width: 160px; min-width: 160px; }
+  .pane { padding: 20px 18px; }
+  .tog-tag { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="win">
+  <!-- Title bar -->
+  <div class="titlebar">
+    <div class="dot d-r"></div>
+    <div class="dot d-y"></div>
+    <div class="dot d-g"></div>
+    <span class="win-title">yashvijaykar.com</span>
+  </div>
+
+  <div class="shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">Notes</div>
+      <div class="sidebar-list">
+
+        <div class="ni" onclick="setTab(this,'about')">
+          <div class="ni-title">🙋‍♂️ about</div>
+          <div class="ni-sub">Yash Vijaykar</div>
+        </div>
+
+        <div class="ni active" onclick="setTab(this,'portfolio')">
+          <div class="ni-title">🚣 portfolio (work work work)</div>
+          <div class="ni-sub">May 2026 · I show up before I'm hired</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'principles')">
+          <div class="ni-title">🏔️ principles</div>
+          <div class="ni-sub">Operating system</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'blog')">
+          <div class="ni-title">📝 blog</div>
+          <div class="ni-sub">Writing & thinking</div>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- ══════════════ ABOUT ══════════════ -->
+      <div id="pane-about" class="pane">
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A" alt="Yash at Kamo River, Kyoto" style="max-width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
+        <p style="font-size:12px;color:#a8a29e;font-style:italic;margin-bottom:20px;">📍 kamo river, kyoto (current fav place on earth)</p>
+        <p class="about-name">Yash Vijaykar</p>
+        <p class="about-role">Pre-founder · Product · Mumbai → wherever the right problem is</p>
+
+        <hr class="divider" />
+
+        <div class="about-section">The arc</div>
+        <p class="about-body">I'm a builder at the intersection of AI, healthcare, and early-stage startups. For the last two years I've been doing something unusual: identifying founders worth betting on, building unsolicited cases for how I'd create leverage for them, and reaching out cold — before anyone asks.</p>
+        <p class="about-body" style="margin-top:10px">I was the 1st hire and founding PM at <a href="https://nintee.com">Nintee</a> (Sequoia-backed), working directly with Paras Chopra. Shipped 12+ products 0→1 in two years across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full ownership.</p>
+        <p class="about-body" style="margin-top:10px">I think in systems, ask the hard questions, and care disproportionately about what actually moves the needle — not what looks good on a call.</p>
+
+        <div class="about-section">What I'm looking for</div>
+        <ul class="about-list">
+          <li>A pre-PMF founder in mental health, preventive healthcare, or GenAI</li>
+          <li>Where I can be their most useful non-technical person</li>
+          <li>Apprenticeship access to someone I genuinely admire — not a job title</li>
+          <li>Long-term games with long-term people</li>
+        </ul>
+
+        <div class="about-section">Start here</div>
+        <ul class="about-list">
+          <li>See the <a href="#" onclick="setTabByName('portfolio'); return false;">portfolio tab</a> — 6 unsolicited cases, real work, real outcomes</li>
+          <li>Read the <a href="#" onclick="setTabByName('principles'); return false;">principles</a> — the operating system underneath everything</li>
+          <li>Recovered from clinical depression — <a href="https://www.youtube.com/watch?v=34HSGvs0VUY" target="_blank">personal video story</a></li>
+        </ul>
+
+        <div class="about-section">Reach out</div>
+        <p class="about-body" style="margin-bottom:8px">If this resonates, email me. I read everything.</p>
+        <div class="contact-row">
+          <a href="mailto:yashvijaykar98@gmail.com">yashvijaykar98@gmail.com →</a>
+          <a href="https://x.com/yashgpt5" target="_blank">@yashgpt5 on X →</a>
+          <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
+        </div>
+      </div>
+
+      <!-- ══════════════ PORTFOLIO ══════════════ -->
+      <div id="pane-portfolio" class="pane active">
+
+        <!-- Hero -->
+        <p class="conviction">I show up before I'm hired</p>
+        <p class="sub-line">I think like a founder. I build the case before anyone asks.</p>
+        <p class="sub-line" style="margin-bottom:16px">Not chasing a job. Betting on the right thing.</p>
+
+        <hr class="divider" />
+
+        <div class="section-label">Unsolicited work</div>
+        <p class="approach-blurb">No brief. No job post. I did the work because the problem was interesting and the founder seemed worth betting on.<br>The thesis: understand their north star, map the top bottlenecks, present options.</p>
+
+        <!-- Stat chips -->
+        <div class="chips">
+          <span class="chip">3 offers / advanced discussions</span>
+          <span class="chip">1 offer declined (~$120k)</span>
+          <span class="chip">50+ founders evaluated globally</span>
+        </div>
+
+        <!-- ── 01 Kintsugi ── -->
+        <div class="tog-header" onclick="tog(1)">
+          <span class="tog-arrow" id="ar1">▶</span>
+          <span class="tog-num">01</span>
+          <span class="tog-name">Kintsugi</span>
+          <span class="tog-tag">AI mental health · SF<br>Offer declined</span>
+        </div>
+        <div id="sec1" class="tog-body">
+          <p class="co-meta">AI mental health screening · <a href="https://www.linkedin.com/in/gracechang/" target="_blank">Grace Chang</a> · Series A, post-PMF · San Francisco</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Cold emailed Grace twice — first email high signal, no reply. Followed up a week later with a better hook → got a reply and a meeting</li>
+            <li>Built Kintsugi's business case from first principles before the call
+              <ul>
+                <li>Mapped the core inefficiency: manual, human-dependent screening</li>
+                <li>Quantified: insurers lose ~$1.26B/yr from missed depression in chronic-disease members</li>
+                <li>Fermi estimate: flag 1% of calls + convert 20% to care → ~$240M saved → ROI of 120×</li>
+              </ul>
+            </li>
+            <li>Mapped smart outreach, automated ops workflows (BD meeting summaries → Slack + HubSpot)</li>
+            <li>Got an assignment from Albert (COO): build a CXO pitch deck — shipped with full autonomy, went beyond the brief</li>
+            <li>Shipped a Loom walking through the work before the next call</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"First time I've watched a video at 1x, Yash!" — Grace Chang</div>
+          <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/grace_chang_loom_reply.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvZ3JhY2VfY2hhbmdfbG9vbV9yZXBseS5wbmciLCJpYXQiOjE3Nzg4Mjk0NDgsImV4cCI6MTg3MzQzNzQ0OH0.yJ8nBDtN9nRFPabBld3sRXFEYHiEmv91ADuHn3IRZQw" alt="Grace Chang's reply to the Loom" />
+          <ul class="co-list">
+            <li>Got the offer (~$120k/yr) and declined</li>
+            <li>Wanted apprenticeship access to a founder I admire, not a contract. Long-term games with long-term people. Walked away respectfully.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.kintsugihealth.com" target="_blank">Kintsugi →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=335-247" target="_blank">See the work →</a>
+            <a href="https://www.loom.com/share/36f0f3138e4d4beab9b69ba71ac29395" target="_blank">Watch the Loom →</a>
+          </div>
+        </div>
+
+        <!-- ── 02 78Health ── -->
+        <div class="tog-header" onclick="tog(2)">
+          <span class="tog-arrow" id="ar2">▶</span>
+          <span class="tog-num">02</span>
+          <span class="tog-name">78Health</span>
+          <span class="tog-tag">Remote patient monitoring · CA + BLR<br>Offer discussion</span>
+        </div>
+        <div id="sec2" class="tog-body">
+          <p class="co-meta">Remote patient monitoring · <a href="https://www.linkedin.com/in/naren-nachiappan-036387/" target="_blank">Naren Nachiappan</a>, 4× founder · Pre-PMF · California + Bengaluru</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Identified the core constraint: clinician time
+              <ul>
+                <li>One physician capped at ~20 patients/day</li>
+                <li>78Health's model unlocks 1,500+ patients per physician</li>
+              </ul>
+            </li>
+            <li>Built the revenue math: $6M run rate = 0.2 take rate × $250k/physician × 120 physicians</li>
+            <li>Mapped the full funnel — physician signing to first live patient. Flagged missing denominators: active patients per physician, CAC, retention speed, activation rate</li>
+            <li>Ran a pre-mortem on the fundraise and two-market risk (US + India bandwidth split)</li>
+            <li>Asked the hard questions: EMR integration risk, platform risk from Epic/Cerner, why two markets simultaneously</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"Apart from the product management basics, possess rare qualities — can navigate uncertainty. Possesses mental strength and resilience." — Naren Nachiappan</div>
+          <ul class="co-list">
+            <li>Got to offer discussion — equity, comp, onboarding — before fundraise timing created uncertainty</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.78health.com" target="_blank">78Health →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=410-1655" target="_blank">See the work →</a>
+          </div>
+        </div>
+
+        <!-- ── 03 HealthyGamer ── -->
+        <div class="tog-header" onclick="tog(3)">
+          <span class="tog-arrow" id="ar3">▶</span>
+          <span class="tog-num">03</span>
+          <span class="tog-name">HealthyGamer GG</span>
+          <span class="tog-tag">Mental health platform · TX<br>Rejected, flagged it</span>
+        </div>
+        <div id="sec3" class="tog-body">
+          <p class="co-meta">Mental health platform · Dr. K · Texas</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Built two distinct ICPs with job-to-be-done mapping
+              <ul>
+                <li>Guides ICP: 18–32, male-skewed, gamer identity, self-diagnosed ADHD/anxiety. Trigger: "I've watched 40 Dr. K videos, time to go deeper." Value prop: $120 vs $200/therapy session</li>
+                <li>Membership ICP: 18–35, long-term Dr. K follower. Wants ongoing growth, not a one-off fix. $10–15/mo frictionless</li>
+              </ul>
+            </li>
+            <li>Mapped both funnels end-to-end
+              <ul>
+                <li>Guides CVR at 0.5–1% of 1.5M monthly site visitors</li>
+                <li>Membership: 6–12K active subscribers, $72–144K MRR, 8–15% monthly churn</li>
+              </ul>
+            </li>
+            <li>Identified revenue bottlenecks and built the 6-month path to 50% growth: $1M → $1.5M</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Asked hard questions in the interview because I genuinely cared what moves the needle — got a generic rejection with zero context</li>
+            <li>Flagged it directly to Dr. K: "For a company whose mission is built on trust, care, and honest conversation — these small interactions carry disproportionate weight." Said my part. Moved on.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.youtube.com/c/HealthyGamerGG" target="_blank">HealthyGamer GG →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=335-508" target="_blank">See the work →</a>
+            <a href="https://x.com/yashgpt5/status/1950630867216605270" target="_blank">Book thread (liked by Dr. K) →</a>
+          </div>
+        </div>
+
+        <!-- ── 04 Nabeel ── -->
+        <div class="tog-header" onclick="tog(4)">
+          <span class="tog-arrow" id="ar4">▶</span>
+          <span class="tog-num">04</span>
+          <span class="tog-name">Nabeel Qureshi</span>
+          <span class="tog-tag">Stealth healthcare · NYC<br>Stalled on visa</span>
+        </div>
+        <div id="sec4" class="tog-body">
+          <p class="co-meta">Stealth healthcare startup · <a href="https://x.com/nabeelqu" target="_blank">Ex-Palantir</a> · NYC</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Read his blogs. Watched his podcast. Played Factorio. Then cold emailed with a personalised video — mission-aligned, not credential-matching</li>
+            <li>Deep research: his writing, podcast appearances, publicly shared frameworks</li>
+            <li>Ask was deliberate: start with a tiny problem, earn the rest</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"I thought you did a good job." — Nabeel Qureshi</div>
+          <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nabeel_cold_dm.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmFiZWVsX2NvbGRfZG0ucG5nIiwiaWF0IjoxNzc4ODI5NTA1LCJleHAiOjE4MTAzNjU1MDV9.ukxNXhlH1PobcHMVjZGvaiplPwdhW02U4YnkyoVTKUY" alt="Nabeel's reply" />
+          <ul class="co-list">
+            <li>Nabeel replied, watched the video, engaged genuinely</li>
+            <li>Stalled on visa. Not merit.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://x.com/nabeelqu" target="_blank">Nabeel Qureshi →</a>
+            <a href="https://youtu.be/2D92ys4X8aQ" target="_blank">Watch the video →</a>
+          </div>
+        </div>
+
+        <!-- ── 05 Nikhil ── -->
+        <div class="tog-header" onclick="tog(5)">
+          <span class="tog-arrow" id="ar5">▶</span>
+          <span class="tog-num">05</span>
+          <span class="tog-name">Nikhil Kamath</span>
+          <span class="tog-tag">WTFund / Zerodha · BLR<br>Did the work, didn't send</span>
+        </div>
+        <div id="sec5" class="tog-body">
+          <p class="co-meta"><a href="https://x.com/nikhilkamathcio" target="_blank">WTFund</a> / Zerodha · Bengaluru</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Went deep into NK's world — podcasts, investment thesis, WTFund cohort — before building anything</li>
+            <li>Mapped why energy transition is his highest-conviction bet, bottom-up:
+              <ul>
+                <li>GHGs → renewable shift → CO2 halved</li>
+                <li>UEI as the energy trading layer</li>
+                <li>CPO incentive alignment as the real unlock</li>
+              </ul>
+            </li>
+            <li>Built a Figma mindmap validating the whole thesis. Researched his portfolio: Ossus, SolarSquare, Matel. Ranked 10 key insights. Did the full work.</li>
+            <li>Then didn't send it.</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Caught myself mid-way: the drive was "get a 10x career jump" — ego, not mission. Chose not to reach out from that place.</li>
+            <li>The self-awareness that stopped me is the thing he'd respect most.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=409-343" target="_blank">See the mindmap →</a>
+          </div>
+        </div>
+
+        <!-- ── 06 Sahil ── -->
+        <div class="tog-header" onclick="tog(6)">
+          <span class="tog-arrow" id="ar6">▶</span>
+          <span class="tog-num">06</span>
+          <span class="tog-name">Sahil Lavingia</span>
+          <span class="tog-tag">Gumroad / Antiwork · NYC<br>Moved on clean</span>
+        </div>
+        <div id="sec6" class="tog-body">
+          <p class="co-meta"><a href="https://x.com/shl" target="_blank">Gumroad</a> / Antiwork · NYC</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Studied the business cold: balance sheet, Antiwork's north star ($10M EBITDA), product philosophy, open-source strategy, PM stance</li>
+            <li>Sahil posted a $1K story bounty — wrote the sci-fi story with AI, then declined the money. Cold email: "I don't want the $1,000. I want to work with you."</li>
+            <li>Built a personalised video: why his "Reflecting" post was the moment I knew I had to reach out, how I could create leverage starting tomorrow</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Got ghosted — then noticed he'd blocked me on X and deleted my comment on his thread</li>
+            <li>Reached back out: "Felt weird and unlike you — curious if something went wrong on my end." No reply.</li>
+            <li>Chose not to force it. Moved on clean.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=409-1491" target="_blank">See the work →</a>
+            <a href="https://docs.google.com/document/d/1--xQf2BOUDsTFCQAajb0KMUEagWqOPHFRa2qD8BUWKQ/edit" target="_blank">Stories →</a>
+          </div>
+        </div>
+
+        <!-- Past work -->
+        <hr class="divider" style="margin-top:20px" />
+        <div class="section-label">Past work</div>
+
+        <!-- Nintee -->
+        <p class="past-head">Nintee</p>
+        <p class="past-meta">Product · <a href="https://x.com/paraschopra" target="_blank">Paras Chopra</a> · Sequoia-backed · Bengaluru · Jun 2022 – Apr 2024</p>
+        <p class="past-blurb">1st hire and founding PM. Worked directly with Paras Chopra ($200M SaaS exit). Shipped 12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full ownership every sprint.</p>
+        <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwiaWF0IjoxNzc4ODMzNDc5LCJleHAiOjE4MTAzNjk0Nzl9._4UsEoWcqjHC7EUup1VfZE8ruZ1jqu5XcxONtQRE9v8" alt="Nintee" style="max-width:360px" />
+        <ul class="co-list" style="margin:8px 0 10px">
+          <li>WordRally (mobile word game) — 3 MVPs + 25 alpha builds in one month; D1 retention 25%; avg session 1.5 min → 8 min</li>
+          <li>Nintee Habit Coach (LLM, React Native) — conversational AI from design to prod; FTUE, image captioning, chat memory, intent classification</li>
+          <li>Weight loss coaching app — $800 MRR, 90+ active users globally; Sanjeev Bikhchandani and Vijay Shekhar Sharma were users</li>
+          <li>Calorie tracking + NLP chatbot — D7 retention 20% → 40%; Tanmay Bhat (6M followers) was an active user</li>
+          <li>Community — Discord + Telegram from 0 → 2,500 members; solved cold-start from scratch</li>
+        </ul>
+        <p class="past-backers">Backers: Sequoia · <a href="https://x.com/kunalb11" target="_blank">Kunal Shah</a> · <a href="https://x.com/balajis" target="_blank">Balaji Srinivasan</a></p>
+        <div class="co-links" style="border-top:none;padding-top:0;margin-bottom:16px">
+          <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=302-176" target="_blank">See the work →</a>
+          <a href="https://nintee.com/" target="_blank">Why Nintee wrapped →</a>
+        </div>
+
+        <hr class="divider" style="margin:12px 0" />
+
+        <!-- Level Supermind -->
+        <p class="past-head">Level Supermind</p>
+        <p class="past-meta">Project Manager · 7th employee · <a href="https://x.com/BeerBicepsGuy" target="_blank">BeerBiceps / Ranveer Allahbadia</a> · Mumbai · May 2021 – Feb 2022</p>
+        <ul class="co-list" style="margin-bottom:14px">
+          <li>Led trainer onboarding — closed target by 157%, managed 7 global trainers across 5+ countries</li>
+          <li>Delivered 60+ audio experiences</li>
+          <li>Owned video production: team of 21, budget INR 20L (~$27k)</li>
+        </ul>
+
+        <hr class="divider" style="margin:12px 0" />
+
+        <!-- PijonCo -->
+        <p class="past-head">PijonCo</p>
+        <p class="past-meta">Co-Founder · Mumbai · Sep 2020 – Sep 2021</p>
+        <p class="past-blurb">D2C merch brand built from zero — design, ops, meme marketing. 100+ orders PAN India. Shut down at breakeven when the learning curve flattened. Intentional.</p>
+
+        <!-- Education -->
+        <div class="edu-footer">
+          B.Tech, Food Engineering & Technology · Institute of Chemical Technology, Mumbai · 2017–2021<br>
+          Chose not to sit for campus placements — joined BeerBiceps' startup instead.
+        </div>
+
+      </div><!-- /portfolio pane -->
+
+      <!-- ══════════════ PRINCIPLES ══════════════ -->
+      <div id="pane-principles" class="pane">
+        <p class="conviction" style="font-size:18px">Principles</p>
+        <p class="sub-line" style="margin-bottom:20px">The operating system underneath everything I do.</p>
+        <hr class="divider" />
+
+        <div id="principles-list">
+          <!-- rendered by JS -->
+        </div>
+
+        <p class="prin-footer">Last updated May 2026</p>
+      </div>
+
+      <!-- ══════════════ BLOG ══════════════ -->
+      <div id="pane-blog" class="pane">
+        <p class="conviction" style="font-size:18px">Writing & thinking</p>
+        <p class="sub-line" style="margin-bottom:20px">Threads, essays, and notes. Mostly about mental health, startups, and what I'm figuring out.</p>
+        <hr class="divider" />
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg" alt="Yash writing" style="max-width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
+        <p style="font-size:12px;color:#a8a29e;font-style:italic;margin-bottom:20px;">i write where ever i can - i'm sure you can relate</p>
+        <div id="blog-list">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+    </main><!-- /content -->
+  </div><!-- /shell -->
+</div><!-- /win -->
+
+<script>
+// ── Tab switching ──
+function setTab(el, id) {
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + id).classList.add('active');
+}
+
+function setTabByName(id) {
+  const tabs = { about: 0, portfolio: 1, principles: 2, blog: 3 };
+  const ni = document.querySelectorAll('.ni')[tabs[id]];
+  if (ni) setTab(ni, id);
+}
+
+// ── Toggles ──
+function tog(i) {
+  var body = document.getElementById('sec' + i);
+  var arrow = document.getElementById('ar' + i);
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+// ── Principles data ──
+var PRINCIPLES = [
+  "Be inside-out, not outside-in",
+  "Escape competition through authenticity",
+  "Outcomes are lagging indicators — focus on inputs",
+  "Feedback is a shortcut to improvement, not an instruction",
+  "Slow is smooth and smooth is fast",
+  "Decision quality over decision speed",
+  "If it's not fun, value-creating, and lucrative — pass",
+  "Rejection is data, not identity",
+  "External advice is input, not instruction",
+  "When in doubt, move toward energy, not certainty",
+  "Play long-term games with long-term people",
+  "No one can compete with you being you"
+];
+
+var pl = document.getElementById('principles-list');
+PRINCIPLES.forEach(function(p, i) {
+  var div = document.createElement('div');
+  div.className = 'prin-item';
+  div.innerHTML = '<span class="prin-num">0' + (i < 9 ? (i + 1) : (i + 1)) + '</span><span class="prin-text">' + p + '</span>';
+  pl.appendChild(div);
+});
+
+// ── Blog data ──
+var BLOG = [
+  { emoji: '✍️', title: 'Notes on Death — v1', type: 'Substack', url: 'https://open.substack.com/pub/yashyijaykar/p/notes-on-death-v1?r=1cy66g&utm_campaign=post&utm_medium=web' },
+  { emoji: '🧵', title: 'Belonging as a Core Need', type: 'Thread', url: 'https://x.com/yashgpt5/status/2019290185029283921' },
+  { emoji: '🌼', title: 'You Will Never Regret Investing Time in Yourself', type: 'Substack', url: 'https://open.substack.com/pub/yashyijaykar/p/you-will-never-regret-investing-time' },
+  { emoji: '🎮', title: 'How to Raise a Healthy Gamer', type: 'Thread', url: 'https://x.com/yashgpt5/status/1950630867216605270' },
+  { emoji: '🎨', title: 'Kids at Work — Short Film', type: 'Film', url: 'https://x.com/yashgpt5/status/1941856086027604255' },
+  { emoji: '🧵', title: 'I Came Out of Clinical Depression — Learnings', type: 'Thread', url: 'https://x.com/yashgpt4/status/1932112899708952873' },
+  { emoji: '🪞', title: 'Self Esteem vs Ego', type: 'Notion', url: 'https://yashgpt.notion.site/Self-esteem-vs-Ego-1c1562144cf5800fb814fd878634e8ee' },
+  { emoji: '🎂', title: 'Turned 26. Notes to Self', type: 'Thread', url: 'https://x.com/yashgpt4/status/1929781987809632389' },
+  { emoji: '🎥', title: 'Recovered from Clinical Depression — Personal Video Story', type: 'Video', url: 'https://www.youtube.com/watch?v=34HSGvs0VUY' },
+  { emoji: '🚀', title: 'Glimpse into 2 Years at a Sequoia-backed AI Startup', type: 'Thread', url: 'https://x.com/yashgpt4/status/1790422806267933157' },
+  { emoji: '🛠️', title: 'Nintee Buildbook — Things We Shipped & Killed', type: 'Thread', url: 'https://x.com/yashgpt4/status/1756597131295764866' },
+  { emoji: '☯️', title: 'Change is a Process, Not an Event', type: 'Thread', url: 'https://x.com/yashgpt4/status/1799678032166203615' },
+  { emoji: '📓', title: 'Notes on Clear Thinking by Shane Parrish', type: 'Thread', url: 'https://x.com/yashgpt4/status/1823675248442839378' },
+  { emoji: '💪', title: 'Best Hacks for Long-term Behaviour Change', type: 'Thread', url: 'https://x.com/yashgpt4/status/1738432852797292854' },
+  { emoji: '🏆', title: 'Escaping Competition — Standing Out Among 1500+ Applicants', type: 'Thread', url: 'https://x.com/yashgpt4/status/1814246649322955004' },
+  { emoji: '📒', title: 'Notes on Hooked by Nir Eyal — Build Habit Forming Products', type: 'Notion', url: 'https://yashgpt.notion.site/Hooked-d61c49bb44084f7f9b3ff3e59267056e' },
+  { emoji: '✅', title: 'Outside-in View — Avoid Biases to Get to Desired Outcome', type: 'Thread', url: 'https://x.com/yashgpt4/status/1792876465752809655' },
+  { emoji: '🤦', title: "You Don't Need to Monetise Every Hobby", type: 'Thread', url: 'https://x.com/yashgpt4/status/1753270149766164926' },
+];
+
+var bl = document.getElementById('blog-list');
+BLOG.forEach(function(b) {
+  var a = document.createElement('a');
+  a.className = 'blog-item';
+  a.href = b.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.innerHTML = '<span class="blog-emoji">' + b.emoji + '</span><div><div class="blog-title">' + b.title + '</div><div class="blog-type">' + b.type + '</div></div>';
+  bl.appendChild(a);
+});
+
+// ── Fix principle numbering (01–12) ──
+document.querySelectorAll('.prin-num').forEach(function(el, i) {
+  el.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+});
+</script>
+
+</body>
+</html>
