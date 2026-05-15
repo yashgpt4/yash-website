@@ -14,7 +14,7 @@ export default async function NotesPage() {
       </div>
 
       {/* Desktop: empty state on right */}
-      <div className="hidden md:flex flex-1 items-center justify-center bg-white text-center">
+      <div className="hidden md:flex flex-1 items-center justify-center bg-white dark:bg-stone-900 text-center">
         <p className="text-sm text-stone-400">Select a note to read it.</p>
       </div>
 

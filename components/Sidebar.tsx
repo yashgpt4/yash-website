@@ -25,7 +25,6 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTag, setActiveTag] = useState<Tag | null>(null);
 
-  // Get unique tags from published notes
   const availableTags = useMemo(() => {
     const tags = new Set<Tag>();
     notes.forEach((note) => {
@@ -34,7 +33,6 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
     return Array.from(tags).sort();
   }, [notes]);
 
-  // Filter notes based on search and tag
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       const matchesSearch = note.title
@@ -45,25 +43,23 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
     });
   }, [notes, searchQuery, activeTag]);
 
-  // Separate pinned and unpinned notes
   const pinnedNotes = filteredNotes.filter((n) => n.pinned);
   const otherNotes = filteredNotes.filter((n) => !n.pinned);
 
-  // Sort by date
   const sortedOtherNotes = otherNotes.sort(
     (a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
   );
 
   return (
-    <div className="flex h-screen w-full flex-col border-r border-stone-200 bg-stone-100 md:w-64">
+    <div className="flex h-screen w-full flex-col border-r border-stone-200 dark:border-stone-700/50 bg-stone-100 dark:bg-stone-800 md:w-64">
       <WindowChrome />
 
-      {/* Mobile header - hidden on desktop */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-stone-200">
-        <h2 className="text-sm font-medium text-stone-900">Yash Vijaykar</h2>
+      {/* Mobile header */}
+      <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-700/50">
+        <h2 className="text-sm font-medium text-stone-900 dark:text-stone-100">Yash Vijaykar</h2>
         <svg
-          className="h-4 w-4 text-stone-500"
+          className="h-4 w-4 text-stone-500 dark:text-stone-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -78,31 +74,26 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
       </div>
 
       {/* Desktop sidebar header */}
-      <div className="hidden md:block px-4 py-3 border-b border-stone-200">
-        <h2 className="text-xs font-medium text-stone-500 uppercase tracking-wide">
-          Notes <span className="text-stone-400">({filteredNotes.length})</span>
+      <div className="hidden md:block px-4 py-3 border-b border-stone-200 dark:border-stone-700/50">
+        <h2 className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+          Notes <span className="text-stone-400 dark:text-stone-500">({filteredNotes.length})</span>
         </h2>
       </div>
 
-      {/* Search bar */}
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
-
-      {/* Tag filter */}
       <TagFilter
         activeTags={activeTag ? [activeTag] : []}
         availableTags={availableTags}
         onTagToggle={setActiveTag}
       />
 
-      {/* Notes list */}
       <div className="flex-1 overflow-y-auto scrollbar-hide">
-        {/* Pinned section */}
         {pinnedNotes.length > 0 && (
           <div>
-            <div className="px-4 pt-4 pb-2 text-xs font-medium text-stone-400 uppercase tracking-wide">
+            <div className="px-4 pt-4 pb-2 text-xs font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wide">
               PINNED
             </div>
-            <div className="border-b border-stone-200">
+            <div className="border-b border-stone-200 dark:border-stone-700/50">
               {pinnedNotes.map((note) => (
                 <NoteItem
                   key={note.id}
@@ -114,10 +105,9 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
           </div>
         )}
 
-        {/* Other notes */}
         {sortedOtherNotes.length > 0 && (
           <div>
-            <div className="px-4 pt-4 pb-2 text-xs font-medium text-stone-400 uppercase tracking-wide">
+            <div className="px-4 pt-4 pb-2 text-xs font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wide">
               {activeTag ? TAG_LABELS[activeTag] : 'RECENT'}
             </div>
             {sortedOtherNotes.map((note) => (
@@ -130,10 +120,9 @@ export function Sidebar({ notes, currentSlug }: SidebarProps) {
           </div>
         )}
 
-        {/* No results */}
         {filteredNotes.length === 0 && (
           <div className="flex items-center justify-center h-32">
-            <p className="text-xs text-stone-400">No notes found</p>
+            <p className="text-xs text-stone-400 dark:text-stone-500">No notes found</p>
           </div>
         )}
       </div>

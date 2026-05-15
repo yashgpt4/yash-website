@@ -11,24 +11,24 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose prose-sm max-w-prose">
+    <div className="prose prose-sm w-full">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         components={{
           h1: ({ children }) => (
-            <h1 className="text-xl font-medium text-stone-900 mb-6 mt-0">{children}</h1>
+            <h1 className="text-xl font-medium text-stone-900 dark:text-stone-100 mb-6 mt-0">{children}</h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-xs uppercase letter-spacing tracking-wide text-stone-400 mb-2 mt-8 font-medium">
+            <h2 className="text-xs uppercase tracking-wide text-stone-400 dark:text-stone-500 mb-2 mt-8 font-medium">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-sm font-medium text-stone-700 mb-2 mt-6">{children}</h3>
+            <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 mt-6">{children}</h3>
           ),
           p: ({ children }) => (
-            <p className="text-sm text-stone-800 leading-7 mb-4">{children}</p>
+            <p className="text-sm text-stone-800 dark:text-stone-300 leading-7 mb-4">{children}</p>
           ),
           a: ({ href, children }) => (
             <a
@@ -41,30 +41,30 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </a>
           ),
           strong: ({ children }) => (
-            <strong className="font-medium text-stone-900">{children}</strong>
+            <strong className="font-medium text-stone-900 dark:text-stone-100">{children}</strong>
           ),
           em: ({ children }) => (
-            <em className="italic text-stone-700">{children}</em>
+            <em className="italic text-stone-700 dark:text-stone-400">{children}</em>
           ),
           ul: ({ children }) => (
-            <ul className="pl-4 mb-4 list-none space-y-1">{children}</ul>
+            <ul className="pl-4 mb-4 list-disc space-y-1">{children}</ul>
           ),
           ol: ({ children }) => (
-            <ol className="pl-4 mb-4 list-none space-y-1">{children}</ol>
+            <ol className="pl-4 mb-4 list-decimal space-y-1">{children}</ol>
           ),
           li: ({ children }) => (
-            <li className="text-sm text-stone-800 leading-7 mb-1 before:content-['—'] before:mr-2">
+            <li className="text-sm text-stone-800 dark:text-stone-300 leading-7 mb-1">
               {children}
             </li>
           ),
-          hr: () => <hr className="border-stone-200 my-6 border-0 border-t" />,
+          hr: () => <hr className="border-stone-200 dark:border-stone-700 my-6 border-0 border-t" />,
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-accent pl-4 text-stone-500 italic text-sm my-4">
+            <blockquote className="border-l-4 border-accent pl-4 text-stone-500 dark:text-stone-400 italic text-sm my-4">
               {children}
             </blockquote>
           ),
           code: ({ children }) => (
-            <code className="bg-stone-100 text-stone-700 px-1 py-0.5 rounded text-xs font-mono">
+            <code className="bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 px-1 py-0.5 rounded text-xs font-mono">
               {children}
             </code>
           ),
@@ -83,22 +83,22 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           ),
           table: ({ children }) => (
             <div className="overflow-x-auto my-4">
-              <table className="w-full text-sm border-collapse border border-stone-200">
+              <table className="w-full text-sm border-collapse border border-stone-200 dark:border-stone-700">
                 {children}
               </table>
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-stone-100">{children}</thead>
+            <thead className="bg-stone-100 dark:bg-stone-800">{children}</thead>
           ),
-          tr: ({ children }) => <tr className="border-b border-stone-200">{children}</tr>,
+          tr: ({ children }) => <tr className="border-b border-stone-200 dark:border-stone-700">{children}</tr>,
           th: ({ children }) => (
-            <th className="border border-stone-200 px-3 py-2 text-left font-medium">
+            <th className="border border-stone-200 dark:border-stone-700 px-3 py-2 text-left font-medium text-stone-900 dark:text-stone-100">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="border border-stone-200 px-3 py-2">{children}</td>
+            <td className="border border-stone-200 dark:border-stone-700 px-3 py-2 text-stone-800 dark:text-stone-300">{children}</td>
           ),
         }}
       >

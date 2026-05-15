@@ -32,19 +32,17 @@ export function TagFilter({ activeTags, availableTags, onTagToggle }: TagFilterP
 
   return (
     <div className="flex flex-wrap gap-2 px-4 py-2">
-      {/* All button */}
       <button
         onClick={() => onTagToggle(null)}
         className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
           !isActive
-            ? 'bg-stone-300 text-stone-700'
-            : 'bg-stone-100 text-stone-500 hover:bg-stone-150'
+            ? 'bg-stone-300 dark:bg-stone-600 text-stone-700 dark:text-stone-200'
+            : 'bg-stone-200 dark:bg-stone-700 text-stone-500 dark:text-stone-400 hover:bg-stone-300 dark:hover:bg-stone-600'
         }`}
       >
         All
       </button>
 
-      {/* Tag pills */}
       {availableTags.map((tag) => {
         const isActiveTag = activeTag === tag;
         const colors = TAG_COLORS[tag];
@@ -56,7 +54,7 @@ export function TagFilter({ activeTags, availableTags, onTagToggle }: TagFilterP
             className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
               isActiveTag
                 ? `${colors.bg} ${colors.text}`
-                : 'bg-stone-100 text-stone-500 hover:bg-stone-150'
+                : 'bg-stone-200 dark:bg-stone-700 text-stone-500 dark:text-stone-400 hover:bg-stone-300 dark:hover:bg-stone-600'
             }`}
           >
             {TAG_LABELS[tag]}

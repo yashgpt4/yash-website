@@ -37,6 +37,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        {/* Inline theme init — runs before paint to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

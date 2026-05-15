@@ -12,14 +12,24 @@ html {
   color-scheme: light;
 }
 
+html.dark {
+  @apply bg-stone-900;
+  color-scheme: dark;
+}
+
 body {
   @apply font-sans text-stone-900;
   background-color: #fafaf9;
 }
 
+.dark body {
+  @apply text-stone-100;
+  background-color: #1c1917;
+}
+
 /* Prose overrides for markdown content */
 .prose {
-  @apply max-w-prose;
+  width: 100%;
 }
 
 .prose h1 {
@@ -87,7 +97,55 @@ body {
   @apply rounded-lg my-4 max-w-full h-auto;
 }
 
-/* Scrollbar hiding utility */
+/* ─── Dark mode prose overrides ─── */
+
+.dark .prose h1 {
+  @apply text-stone-100;
+}
+
+.dark .prose h2 {
+  @apply text-stone-500;
+}
+
+.dark .prose h3 {
+  @apply text-stone-300;
+}
+
+.dark .prose p {
+  @apply text-stone-300;
+}
+
+.dark .prose strong {
+  @apply text-stone-100;
+}
+
+.dark .prose em {
+  @apply text-stone-400;
+}
+
+.dark .prose li {
+  @apply text-stone-300;
+}
+
+.dark .prose hr {
+  @apply border-stone-700;
+}
+
+.dark .prose blockquote {
+  @apply text-stone-400 border-accent;
+}
+
+.dark .prose code {
+  background-color: #292524;
+  color: #a8a29e;
+}
+
+.dark .prose a {
+  @apply text-accent;
+}
+
+/* ─── Scrollbar hiding ─── */
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -97,14 +155,14 @@ body {
   display: none;
 }
 
-/* Focus ring for accessibility */
+/* ─── Focus rings ─── */
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
   @apply outline-2 outline-offset-2 outline-accent;
 }
 
-/* Remove default focus outline, we'll add our own */
 button,
 a,
 input {
