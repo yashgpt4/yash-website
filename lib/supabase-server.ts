@@ -1,15 +1,16 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+let supabaseServer: SupabaseClient | null = null;
+if (supabaseUrl && supabaseAnonKey) {
+  supabaseServer = createClient(supabaseUrl, supabaseAnonKey);
 }
 
-export const supabaseServer = createClient(supabaseUrl, supabaseAnonKey);
-
 export async function getAllPublishedNotes() {
+  if (!supabaseServer) return [];
+
   const { data, error } = await supabaseServer
     .from('notes')
     .select('*')
@@ -26,6 +27,8 @@ export async function getAllPublishedNotes() {
 }
 
 export async function getNoteBySlug(slug: string) {
+  if (!supabaseServer) return null;
+
   const { data, error } = await supabaseServer
     .from('notes')
     .select('*')
