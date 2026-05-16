@@ -20,7 +20,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 .shell { display: flex; flex: 1; overflow: hidden; }
 
 /* ── Sidebar ── */
-.sidebar { width: 210px; min-width: 210px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; }
+.sidebar { width: 245px; min-width: 245px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; }
 .sidebar-header { padding: 10px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a8a29e; flex-shrink: 0; }
 .sidebar-list { flex: 1; overflow-y: auto; padding: 4px 6px 8px; }
 .sidebar-list::-webkit-scrollbar { display: none; }
@@ -93,9 +93,8 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 .about-body { font-size: 13px; color: #44403c; line-height: 1.75; }
 .about-body a { color: #E8855A; text-decoration: none; }
 .about-body a:hover { text-decoration: underline; }
-.about-list { list-style: none; padding: 0; }
-.about-list li { font-size: 13px; color: #44403c; line-height: 1.75; padding-left: 1.1em; position: relative; }
-.about-list li::before { content: "—"; position: absolute; left: 0; color: #a8a29e; }
+.about-list { list-style: disc; padding-left: 1.3em; }
+.about-list li { font-size: 13px; color: #44403c; line-height: 1.75; }
 .contact-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
 .contact-row a { font-size: 12px; color: #E8855A; text-decoration: none; }
 .contact-row a:hover { text-decoration: underline; }
@@ -117,7 +116,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .sidebar { width: 160px; min-width: 160px; }
+  .sidebar { width: 185px; min-width: 185px; }
   .pane { padding: 20px 18px; }
   .tog-tag { display: none; }
 }
@@ -168,40 +167,58 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
       <!-- ══════════════ ABOUT ══════════════ -->
       <div id="pane-about" class="pane">
-        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A" alt="Yash at Kamo River, Kyoto" style="max-width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
-        <p style="font-size:12px;color:#a8a29e;font-style:italic;margin-bottom:20px;">📍 kamo river, kyoto (current fav place on earth)</p>
+
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A"
+             alt="Yash at Kamo River, Kyoto"
+             loading="eager"
+             style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
+        <p style="font-size:12px; color:#a8a29e; font-style:italic; margin-bottom:14px;">📍 kamo river, kyoto, a real hooman - smiling</p>
+
         <p class="about-name">Yash Vijaykar</p>
-        <p class="about-role">Pre-founder · Product · Mumbai → wherever the right problem is</p>
+
+        <p class="about-body" style="margin-bottom:10px;">
+          Hola I am yash (rhymes with brush 🪥/ 🖌️)<br>
+          I'm a builder at the intersection of AI, healthcare, and early-stage startups.
+        </p>
+
+        <p class="about-body" style="margin-bottom:10px;">
+          i was part of the founding team of an AI healthcare consumer startup - it shut down, since then i have been just experimenting with life (cause why not 🤷) taking bets on myself (its daunting and <a href="https://yashyijaykar.substack.com/p/you-will-never-regret-investing-time?triedRedirect=true&_src_ref=yashgpt4.github.io" target="_blank">you'd never regret betting on yourself</a>)
+        </p>
+
+        <ul style="list-style:disc; padding-left:1.3em; margin-bottom:10px;">
+          <li class="about-body" style="margin-bottom:4px;">ended up learning a lot about myself</li>
+          <li class="about-body" style="margin-bottom:4px;">was diagnosed with clinical depression, <a href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">solved for it</a></li>
+          <li class="about-body" style="margin-bottom:4px;">started living inside out (driving things from within (antifragile), than listening to external forces, people around me telling what i "should" / "shouldn't" do (fragile))</li>
+          <li class="about-body" style="margin-bottom:4px;">rewarded myself a trip to Japan last dec - it was AWESOME!</li>
+        </ul>
+
+        <p style="font-size:12px; color:#78716c; font-style:italic; margin-bottom:14px;">
+          (I can say with certain confidence now, I've gotten pretty good with navigating uncertainty)
+        </p>
+
+        <p class="about-body">
+          on the work side, been doing something unusual: identifying founders worth betting on (scouting like a vc), building unsolicited cases for how I'd create leverage for them, and reaching out cold, before anyone asks. <a href="#" onclick="setTabByName('portfolio'); return false;">check out the portfolio.</a>
+        </p>
 
         <hr class="divider" />
 
-        <div class="about-section">The arc</div>
-        <p class="about-body">I'm a builder at the intersection of AI, healthcare, and early-stage startups. For the last two years I've been doing something unusual: identifying founders worth betting on, building unsolicited cases for how I'd create leverage for them, and reaching out cold — before anyone asks.</p>
-        <p class="about-body" style="margin-top:10px">I was the 1st hire and founding PM at <a href="https://nintee.com">Nintee</a> (Sequoia-backed), working directly with Paras Chopra. Shipped 12+ products 0→1 in two years across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full ownership.</p>
-        <p class="about-body" style="margin-top:10px">I think in systems, ask the hard questions, and care disproportionately about what actually moves the needle — not what looks good on a call.</p>
+        <div class="about-section">what now</div>
 
-        <div class="about-section">What I'm looking for</div>
-        <ul class="about-list">
-          <li>A pre-PMF founder in mental health, preventive healthcare, or GenAI</li>
-          <li>Where I can be their most useful non-technical person</li>
-          <li>Apprenticeship access to someone I genuinely admire — not a job title</li>
-          <li>Long-term games with long-term people</li>
-        </ul>
+        <ol style="list-style:decimal; padding-left:1.3em; margin-bottom:16px;">
+          <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru -> North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity), want to be surrounded with positive sum players and play the long term games with long term people</li>
+          <li class="about-body">i am excited to join a startup as soon as possible (small team energy is what I'm craving)</li>
+        </ol>
 
-        <div class="about-section">Start here</div>
-        <ul class="about-list">
-          <li>See the <a href="#" onclick="setTabByName('portfolio'); return false;">portfolio tab</a> — 6 unsolicited cases, real work, real outcomes</li>
-          <li>Read the <a href="#" onclick="setTabByName('principles'); return false;">principles</a> — the operating system underneath everything</li>
-          <li>Recovered from clinical depression — <a href="https://www.youtube.com/watch?v=34HSGvs0VUY" target="_blank">personal video story</a></li>
-        </ul>
+        <hr class="divider" />
 
-        <div class="about-section">Reach out</div>
-        <p class="about-body" style="margin-bottom:8px">If this resonates, email me. I read everything.</p>
+        <p class="about-body" style="margin-bottom:4px;">if you find a vibe fit, email me with <strong>[subject]:</strong> to love icecream 🍦, is to be hooman</p>
+        <p style="font-size:12px; color:#78716c; margin-bottom:10px;">i read everything.</p>
         <div class="contact-row">
           <a href="mailto:yashvijaykar98@gmail.com">yashvijaykar98@gmail.com →</a>
           <a href="https://x.com/yashgpt5" target="_blank">@yashgpt5 on X →</a>
           <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
         </div>
+
       </div>
 
       <!-- ══════════════ PORTFOLIO ══════════════ -->
@@ -426,7 +443,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <p class="past-head">Nintee</p>
         <p class="past-meta">Product · <a href="https://x.com/paraschopra" target="_blank">Paras Chopra</a> · Sequoia-backed · Bengaluru · Jun 2022 – Apr 2024</p>
         <p class="past-blurb">1st hire and founding PM. Worked directly with Paras Chopra ($200M SaaS exit). Shipped 12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full ownership every sprint.</p>
-        <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwiaWF0IjoxNzc4ODMzNDc5LCJleHAiOjE4MTAzNjk0Nzl9._4UsEoWcqjHC7EUup1VfZE8ruZ1jqu5XcxONtQRE9v8" alt="Nintee" style="max-width:360px" />
+        <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwiaWF0IjoxNzc4ODMzNDc5LCJleHAiOjE4MTAzNjk0Nzl9._4UsEoWcqjHC7EUup1VfZE8ruZ1jqu5XcxONtQRE9v8" alt="Nintee" style="max-width:100%" />
         <ul class="co-list" style="margin:8px 0 10px">
           <li>WordRally (mobile word game) — 3 MVPs + 25 alpha builds in one month; D1 retention 25%; avg session 1.5 min → 8 min</li>
           <li>Nintee Habit Coach (LLM, React Native) — conversational AI from design to prod; FTUE, image captioning, chat memory, intent classification</li>
@@ -469,8 +486,9 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
       <!-- ══════════════ PRINCIPLES ══════════════ -->
       <div id="pane-principles" class="pane">
         <p class="conviction" style="font-size:18px">Principles</p>
-        <p class="sub-line" style="margin-bottom:20px">The operating system underneath everything I do.</p>
-        <hr class="divider" />
+        <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">These are reminders that take me closer to who I am. I need them time to time. Carved out based on experiences lived through.</p>
+        <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">Inspired from <a href="https://nabeelqu.co/principles" target="_blank" rel="noopener" style="color:#E8855A;text-decoration:none;">nabeelqu's principles note</a>. Feel free to steal what you like.</p>
+        <hr class="divider" style="margin-top:16px;" />
 
         <div id="principles-list">
           <!-- rendered by JS -->
@@ -484,7 +502,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <p class="conviction" style="font-size:18px">Writing & thinking</p>
         <p class="sub-line" style="margin-bottom:20px">Threads, essays, and notes. Mostly about mental health, startups, and what I'm figuring out.</p>
         <hr class="divider" />
-        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg" alt="Yash writing" style="max-width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg" alt="Yash writing" style="max-width:260px;width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
         <p style="font-size:12px;color:#a8a29e;font-style:italic;margin-bottom:20px;">i write where ever i can - i'm sure you can relate</p>
         <div id="blog-list">
           <!-- rendered by JS -->
@@ -521,25 +539,31 @@ function tog(i) {
 
 // ── Principles data ──
 var PRINCIPLES = [
-  "Be inside-out, not outside-in",
-  "Escape competition through authenticity",
-  "Outcomes are lagging indicators — focus on inputs",
-  "Feedback is a shortcut to improvement, not an instruction",
-  "Slow is smooth and smooth is fast",
-  "Decision quality over decision speed",
-  "If it's not fun, value-creating, and lucrative — pass",
-  "Rejection is data, not identity",
-  "External advice is input, not instruction",
-  "When in doubt, move toward energy, not certainty",
-  "Play long-term games with long-term people",
-  "No one can compete with you being you"
+  { text: "Be you. Inside out. Authenticity brings you peace.", note: "No-one can compete with you on being you (via naval)" },
+  { text: "Have agency over your agency." },
+  { text: "Separation of task. Take ownership and focus only on your task." },
+  { text: "You can only control your actions + how you respond." },
+  { text: "You always have a choice on how you respond." },
+  { text: "Anger is hot coal you hold in your hands waiting to throw at someone else.", note: "via naval — via buddhist philosophy" },
+  { text: "Look at the bigger picture every once in a while — it's beautiful." },
+  { text: "Have courage to be disliked — it's okay, it frees you.", note: "via Alfred Adler" },
+  { text: "Self worth is an abstraction, has no meaning. Tying achievement to your worth is a self defeating concept — focus on what you find interesting, satisfying. Keep having fun." },
+  { text: "Show up and let the magic happen." },
+  { text: "Operate from your strengths." },
+  { text: "Decision quality >>> decision speed." },
+  { text: "Slow is smooth, smooth is fast." },
+  { text: "Outcomes are lagging indicators — focus on your inputs.", note: "Don't judge each day by harvest you reap, but the seeds you plant. Don't chase butterflies, build a garden, let butterflies come and chill." },
+  { text: "There are more parasites than parasitical organisms — optimise for symbiotes." },
+  { text: "Keep going." },
+  { text: "Compassion. Kindness — towards self and people around." },
+  { text: "Abundance. Positive sum games. There's no finite wealth. Make something people want." }
 ];
 
 var pl = document.getElementById('principles-list');
 PRINCIPLES.forEach(function(p, i) {
   var div = document.createElement('div');
-  div.className = 'prin-item';
-  div.innerHTML = '<span class="prin-num">0' + (i < 9 ? (i + 1) : (i + 1)) + '</span><span class="prin-text">' + p + '</span>';
+  div.style.cssText = 'padding: 8px 0; font-size: 13px; color: #1c1917; line-height: 1.7;';
+  div.innerHTML = (i + 1) + '. ' + p.text + (p.note ? ' ' + p.note : '');
   pl.appendChild(div);
 });
 
@@ -576,10 +600,6 @@ BLOG.forEach(function(b) {
   bl.appendChild(a);
 });
 
-// ── Fix principle numbering (01–12) ──
-document.querySelectorAll('.prin-num').forEach(function(el, i) {
-  el.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
-});
 </script>
 
 </body>
