@@ -28,6 +28,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yash Vijaykar</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧃</text></svg>" />
 <style>
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -660,18 +661,34 @@ function toggleSidebar() {
 }
 
 // ── Tab switching ──
-function setTab(el, id) {
+var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5 };
+
+function setTab(el, id, pushState) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   el.classList.add('active');
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
   document.getElementById('pane-' + id).classList.add('active');
+  if (pushState !== false) history.pushState({ id: id }, '', '/' + id);
 }
 
-function setTabByName(id) {
-  const tabs = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5 };
-  const ni = document.querySelectorAll('.ni')[tabs[id]];
-  if (ni) setTab(ni, id);
+function setTabByName(id, pushState) {
+  const ni = document.querySelectorAll('.ni')[TABS[id]];
+  if (ni) setTab(ni, id, pushState);
 }
+
+// ── Restore tab from URL on load ──
+(function() {
+  var path = window.location.pathname.replace('/', '').split('/')[0];
+  if (path && TABS.hasOwnProperty(path)) {
+    setTabByName(path, false);
+  }
+})();
+
+// ── Handle browser back/forward ──
+window.addEventListener('popstate', function(e) {
+  var id = (e.state && e.state.id) || 'about';
+  setTabByName(id, false);
+});
 
 // ── Toggles ──
 function tog(i) {
