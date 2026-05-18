@@ -1,6 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!--
+  ═══════════════════════════════════════════════
+  VERSION HISTORY
+  ───────────────────────────────────────────────
+  v2.1 · May 18 2026
+    - Portfolio: removed status tags from all 6 toggle headers
+    - Portfolio: updated sub-line 2 (vc-scouting framing)
+    - Portfolio: renamed section label "Unsolicited work" → "Proof of work"
+    - Portfolio: added SpaceX investor line to blurb
+    - Portfolio: updated stat chips (9 offers declined, ~$120k declined)
+    - Portfolio: added footer links (LinkedIn, X, Substack, Resume)
+    - About: [subject]: now bold + italic
+    - About: CTA updated ("vibe fit? Let's chat!")
+    - About: uncertainty line styling fixed (was grey/italic in error)
+
+  v2.0 · May 18 2026
+    - About: increased hero image size (420px → 520px)
+    - About: updated image caption to "current fav place on earth"
+    - About: updated WHAT NOW item 1 (like minded + like hearted framing)
+    - About: updated WHAT NOW item 2 (solve meaningful problems)
+    - About: updated end CTA copy ("you find a vibe fit? Let's chat!")
+
+  v1.0 · May 2026
+    - Initial release
+  ═══════════════════════════════════════════════
+-->
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yash Vijaykar</title>
@@ -15,12 +39,17 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 .d-r { background: #FF5F57; } .d-y { background: #FFBD2E; } .d-g { background: #28C840; }
 .win-title { font-size: 12px; color: #a8a29e; margin-left: 6px; }
+.sidebar-toggle { background: none; border: none; cursor: pointer; padding: 4px 6px; border-radius: 5px; display: flex; flex-direction: column; gap: 3px; opacity: 0.45; transition: opacity 0.15s; }
+.sidebar-toggle:hover { opacity: 0.85; }
+.sidebar-toggle span { display: block; width: 14px; height: 1.5px; background: #1c1917; border-radius: 2px; transition: width 0.2s; }
+.sidebar-toggle span:nth-child(2) { width: 10px; }
 
 /* ── Shell ── */
 .shell { display: flex; flex: 1; overflow: hidden; }
 
 /* ── Sidebar ── */
-.sidebar { width: 245px; min-width: 245px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; }
+.sidebar { width: 245px; min-width: 245px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; transition: width 0.22s ease, min-width 0.22s ease, opacity 0.18s ease; }
+.sidebar.collapsed { width: 0; min-width: 0; opacity: 0; border-right-color: transparent; }
 .sidebar-header { padding: 10px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a8a29e; flex-shrink: 0; }
 .sidebar-list { flex: 1; overflow-y: auto; padding: 4px 6px 8px; }
 .sidebar-list::-webkit-scrollbar { display: none; }
@@ -41,10 +70,10 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
 /* ── Typography helpers ── */
 .conviction { font-size: 22px; font-weight: 500; color: #1c1917; line-height: 1.35; margin-bottom: 8px; }
-.sub-line { font-size: 13px; color: #78716c; margin-bottom: 4px; line-height: 1.5; }
+.sub-line { font-size: 13px; color: #1c1917; margin-bottom: 4px; line-height: 1.5; }
 .divider { border: none; border-top: 0.5px solid #e7e5e4; margin: 20px 0; }
 .section-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #a8a29e; font-weight: 600; margin-bottom: 12px; }
-.approach-blurb { font-size: 13px; color: #78716c; line-height: 1.65; margin-bottom: 14px; }
+.approach-blurb { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 14px; }
 
 /* ── Stat chips ── */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
@@ -57,11 +86,11 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 .tog-arrow.open { transform: rotate(90deg); }
 .tog-num { font-size: 11px; font-weight: 600; color: #E8855A; width: 22px; flex-shrink: 0; }
 .tog-name { font-size: 16px; font-weight: 500; color: #1c1917; flex: 1; transition: color 0.1s; }
-.tog-tag { font-size: 11px; color: #a8a29e; text-align: right; line-height: 1.4; flex-shrink: 0; }
+.tog-tag { font-size: 11px; color: #78716c; text-align: right; line-height: 1.4; flex-shrink: 0; }
 
 .tog-body { display: none; padding: 14px 0 6px 36px; }
 .tog-body.open { display: block; }
-.co-meta { font-size: 12px; color: #a8a29e; margin-bottom: 12px; line-height: 1.6; }
+.co-meta { font-size: 12px; color: #78716c; margin-bottom: 12px; line-height: 1.6; }
 .co-meta a { color: #E8855A; text-decoration: none; }
 .co-meta a:hover { text-decoration: underline; }
 .co-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #a8a29e; margin: 12px 0 6px; }
@@ -77,14 +106,14 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
 /* ── Past work ── */
 .past-head { font-size: 16px; font-weight: 500; color: #1c1917; margin: 8px 0 3px; }
-.past-meta { font-size: 12px; color: #a8a29e; margin-bottom: 8px; line-height: 1.5; }
+.past-meta { font-size: 12px; color: #78716c; margin-bottom: 8px; line-height: 1.5; }
 .past-meta a { color: #E8855A; text-decoration: none; }
 .past-meta a:hover { text-decoration: underline; }
-.past-blurb { font-size: 13px; color: #78716c; line-height: 1.65; margin-bottom: 8px; }
-.past-backers { font-size: 12px; color: #a8a29e; margin-bottom: 8px; }
+.past-blurb { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 8px; }
+.past-backers { font-size: 12px; color: #78716c; margin-bottom: 8px; }
 .past-backers a { color: #E8855A; text-decoration: none; }
 .past-backers a:hover { text-decoration: underline; }
-.edu-footer { font-size: 11px; color: #a8a29e; margin-top: 20px; line-height: 1.8; border-top: 0.5px solid #e7e5e4; padding-top: 14px; }
+.edu-footer { font-size: 11px; color: #78716c; margin-top: 20px; line-height: 1.8; border-top: 0.5px solid #e7e5e4; padding-top: 14px; }
 
 /* ── About pane ── */
 .about-name { font-size: 22px; font-weight: 500; color: #1c1917; margin-bottom: 6px; }
@@ -130,6 +159,9 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
     <div class="dot d-r"></div>
     <div class="dot d-y"></div>
     <div class="dot d-g"></div>
+    <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
     <span class="win-title">yashvijaykar.com</span>
   </div>
 
@@ -139,12 +171,12 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
       <div class="sidebar-header">Notes</div>
       <div class="sidebar-list">
 
-        <div class="ni" onclick="setTab(this,'about')">
+        <div class="ni active" onclick="setTab(this,'about')">
           <div class="ni-title">🙋‍♂️ about</div>
           <div class="ni-sub">Yash Vijaykar</div>
         </div>
 
-        <div class="ni active" onclick="setTab(this,'portfolio')">
+        <div class="ni" onclick="setTab(this,'portfolio')">
           <div class="ni-title">🚣 portfolio (work work work)</div>
           <div class="ni-sub">May 2026 · I show up before I'm hired</div>
         </div>
@@ -166,13 +198,13 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
     <main class="content">
 
       <!-- ══════════════ ABOUT ══════════════ -->
-      <div id="pane-about" class="pane">
+      <div id="pane-about" class="pane active">
 
         <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A"
              alt="Yash at Kamo River, Kyoto"
              loading="eager"
-             style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
-        <p style="font-size:12px; color:#a8a29e; font-style:italic; margin-bottom:14px;">📍 kamo river, kyoto, a real hooman - smiling</p>
+             style="max-width:520px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
+        <p style="font-size:12px; color:#a8a29e; font-style:italic; margin-bottom:14px;">📍 kamo river, kyoto (current fav place on earth)</p>
 
         <p class="about-name">Yash Vijaykar</p>
 
@@ -192,7 +224,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <li class="about-body" style="margin-bottom:4px;">rewarded myself a trip to Japan last dec - it was AWESOME!</li>
         </ul>
 
-        <p style="font-size:12px; color:#78716c; font-style:italic; margin-bottom:14px;">
+        <p class="about-body" style="margin-bottom:14px;">
           (I can say with certain confidence now, I've gotten pretty good with navigating uncertainty)
         </p>
 
@@ -205,14 +237,14 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <div class="about-section">what now</div>
 
         <ol style="list-style:decimal; padding-left:1.3em; margin-bottom:16px;">
-          <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru -> North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity), want to be surrounded with positive sum players and play the long term games with long term people</li>
-          <li class="about-body">i am excited to join a startup as soon as possible (small team energy is what I'm craving)</li>
+          <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru -> North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity), want to be around high conc of like minded + like hearted people playing positive sum players and long term games 🫶</li>
+          <li class="about-body">i am excited to be a part of a startup asap as possible (small team energy, solve meaningful problems is what I'm craving)</li>
         </ol>
 
         <hr class="divider" />
 
-        <p class="about-body" style="margin-bottom:4px;">if you find a vibe fit, email me with <strong>[subject]:</strong> to love icecream 🍦, is to be hooman</p>
-        <p style="font-size:12px; color:#78716c; margin-bottom:10px;">i read everything.</p>
+        <p class="about-body" style="margin-bottom:4px;">vibe fit? Let's chat! pls email with <strong><em>[subject]: to love icecream 🍦, is to be hooman</em></strong> and we'll take it from there</p>
+        <p style="font-size:12px; color:#78716c; margin-bottom:10px;">(PS: I read every everything)</p>
         <div class="contact-row">
           <a href="mailto:yashvijaykar98@gmail.com">yashvijaykar98@gmail.com →</a>
           <a href="https://x.com/yashgpt5" target="_blank">@yashgpt5 on X →</a>
@@ -222,22 +254,22 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
       </div>
 
       <!-- ══════════════ PORTFOLIO ══════════════ -->
-      <div id="pane-portfolio" class="pane active">
+      <div id="pane-portfolio" class="pane">
 
         <!-- Hero -->
         <p class="conviction">I show up before I'm hired</p>
         <p class="sub-line">I think like a founder. I build the case before anyone asks.</p>
-        <p class="sub-line" style="margin-bottom:16px">Not chasing a job. Betting on the right thing.</p>
+        <p class="sub-line" style="margin-bottom:16px">Identifying founders worth betting on (scouting like a vc) to work with, building cases for how I'd create leverage for them, and reaching out cold, before anyone asks.</p>
 
         <hr class="divider" />
 
-        <div class="section-label">Unsolicited work</div>
-        <p class="approach-blurb">No brief. No job post. I did the work because the problem was interesting and the founder seemed worth betting on.<br>The thesis: understand their north star, map the top bottlenecks, present options.</p>
+        <div class="section-label">Proof of work</div>
+        <p class="approach-blurb">No brief. No job post. I did the work because the problem was interesting and the founder seemed worth betting on.<br>The thesis: understand their north star, map the top bottlenecks, present options.<br>I've also walked away — 9 times, including an early SpaceX investor after a 4-hr call when integrity red flags surfaced.</p>
 
         <!-- Stat chips -->
         <div class="chips">
-          <span class="chip">3 offers / advanced discussions</span>
-          <span class="chip">1 offer declined (~$120k)</span>
+          <span class="chip">9 offers declined post-Nintee</span>
+          <span class="chip">~$120k offer declined</span>
           <span class="chip">50+ founders evaluated globally</span>
         </div>
 
@@ -246,7 +278,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar1">▶</span>
           <span class="tog-num">01</span>
           <span class="tog-name">Kintsugi</span>
-          <span class="tog-tag">AI mental health · SF<br>Offer declined</span>
+          <span class="tog-tag">AI mental health · SF</span>
         </div>
         <div id="sec1" class="tog-body">
           <p class="co-meta">AI mental health screening · <a href="https://www.linkedin.com/in/gracechang/" target="_blank">Grace Chang</a> · Series A, post-PMF · San Francisco</p>
@@ -283,7 +315,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar2">▶</span>
           <span class="tog-num">02</span>
           <span class="tog-name">78Health</span>
-          <span class="tog-tag">Remote patient monitoring · CA + BLR<br>Offer discussion</span>
+          <span class="tog-tag">Remote patient monitoring · CA + BLR</span>
         </div>
         <div id="sec2" class="tog-body">
           <p class="co-meta">Remote patient monitoring · <a href="https://www.linkedin.com/in/naren-nachiappan-036387/" target="_blank">Naren Nachiappan</a>, 4× founder · Pre-PMF · California + Bengaluru</p>
@@ -316,7 +348,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar3">▶</span>
           <span class="tog-num">03</span>
           <span class="tog-name">HealthyGamer GG</span>
-          <span class="tog-tag">Mental health platform · TX<br>Rejected, flagged it</span>
+          <span class="tog-tag">Mental health platform · TX</span>
         </div>
         <div id="sec3" class="tog-body">
           <p class="co-meta">Mental health platform · Dr. K · Texas</p>
@@ -353,7 +385,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar4">▶</span>
           <span class="tog-num">04</span>
           <span class="tog-name">Nabeel Qureshi</span>
-          <span class="tog-tag">Stealth healthcare · NYC<br>Stalled on visa</span>
+          <span class="tog-tag">Stealth healthcare · NYC</span>
         </div>
         <div id="sec4" class="tog-body">
           <p class="co-meta">Stealth healthcare startup · <a href="https://x.com/nabeelqu" target="_blank">Ex-Palantir</a> · NYC</p>
@@ -381,7 +413,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar5">▶</span>
           <span class="tog-num">05</span>
           <span class="tog-name">Nikhil Kamath</span>
-          <span class="tog-tag">WTFund / Zerodha · BLR<br>Did the work, didn't send</span>
+          <span class="tog-tag">WTFund / Zerodha · BLR</span>
         </div>
         <div id="sec5" class="tog-body">
           <p class="co-meta"><a href="https://x.com/nikhilkamathcio" target="_blank">WTFund</a> / Zerodha · Bengaluru</p>
@@ -413,7 +445,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
           <span class="tog-arrow" id="ar6">▶</span>
           <span class="tog-num">06</span>
           <span class="tog-name">Sahil Lavingia</span>
-          <span class="tog-tag">Gumroad / Antiwork · NYC<br>Moved on clean</span>
+          <span class="tog-tag">Gumroad / Antiwork · NYC</span>
         </div>
         <div id="sec6" class="tog-body">
           <p class="co-meta"><a href="https://x.com/shl" target="_blank">Gumroad</a> / Antiwork · NYC</p>
@@ -475,17 +507,25 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <p class="past-meta">Co-Founder · Mumbai · Sep 2020 – Sep 2021</p>
         <p class="past-blurb">D2C merch brand built from zero — design, ops, meme marketing. 100+ orders PAN India. Shut down at breakeven when the learning curve flattened. Intentional.</p>
 
+        <hr class="divider" style="margin:12px 0" />
+
         <!-- Education -->
-        <div class="edu-footer">
-          B.Tech, Food Engineering & Technology · Institute of Chemical Technology, Mumbai · 2017–2021<br>
-          Chose not to sit for campus placements — joined BeerBiceps' startup instead.
+        <p class="past-blurb">🧑‍🏫 B.Tech, Food Engineering & Technology · Institute of Chemical Technology, Mumbai · 2017–2021. Chose not to sit for campus placements — joined BeerBiceps' startup instead.</p>
+
+        <hr class="divider" style="margin-top:20px" />
+
+        <div class="contact-row" style="margin-top:8px;">
+          <a href="https://www.linkedin.com/in/yashvijaykar/" target="_blank">LinkedIn →</a>
+          <a href="https://x.com/yashgpt5" target="_blank">X →</a>
+          <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
+          <a href="https://drive.google.com/file/d/10cbMdBO3AAyfenrEUZNeSbObxSjXfEqw/view?usp=sharing" target="_blank">Resume → <span style="color:#a8a29e;">(for founders only)</span></a>
         </div>
 
       </div><!-- /portfolio pane -->
 
       <!-- ══════════════ PRINCIPLES ══════════════ -->
       <div id="pane-principles" class="pane">
-        <p class="conviction" style="font-size:18px">Principles</p>
+        <p class="conviction">🏔️ principles</p>
         <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">These are reminders that take me closer to who I am. I need them time to time. Carved out based on experiences lived through.</p>
         <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">Inspired from <a href="https://nabeelqu.co/principles" target="_blank" rel="noopener" style="color:#E8855A;text-decoration:none;">nabeelqu's principles note</a>. Feel free to steal what you like.</p>
         <hr class="divider" style="margin-top:16px;" />
@@ -499,7 +539,7 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
       <!-- ══════════════ BLOG ══════════════ -->
       <div id="pane-blog" class="pane">
-        <p class="conviction" style="font-size:18px">Writing & thinking</p>
+        <p class="conviction">📝 blog</p>
         <p class="sub-line" style="margin-bottom:20px">Threads, essays, and notes. Mostly about mental health, startups, and what I'm figuring out.</p>
         <hr class="divider" />
         <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg" alt="Yash writing" style="max-width:260px;width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
@@ -514,6 +554,11 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 </div><!-- /win -->
 
 <script>
+// ── Sidebar toggle ──
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('collapsed');
+}
+
 // ── Tab switching ──
 function setTab(el, id) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
@@ -562,7 +607,7 @@ var PRINCIPLES = [
 var pl = document.getElementById('principles-list');
 PRINCIPLES.forEach(function(p, i) {
   var div = document.createElement('div');
-  div.style.cssText = 'padding: 8px 0; font-size: 13px; color: #1c1917; line-height: 1.7;';
+  div.style.cssText = 'padding: 2px 0; font-size: 13px; color: #1c1917; line-height: 1.6;';
   div.innerHTML = (i + 1) + '. ' + p.text + (p.note ? ' ' + p.note : '');
   pl.appendChild(div);
 });
