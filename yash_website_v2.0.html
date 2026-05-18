@@ -202,7 +202,6 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
         <div class="ni" onclick="setTab(this,'inspo')">
           <div class="ni-title">🌟 inspo</div>
-          <div class="ni-sub">people who light me up</div>
         </div>
 
         <div class="ni-locked">
@@ -668,6 +667,7 @@ function setTab(el, id, pushState) {
   el.classList.add('active');
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
   document.getElementById('pane-' + id).classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
   if (pushState !== false) history.pushState({ id: id }, '', '/' + id);
 }
 
