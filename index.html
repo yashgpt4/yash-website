@@ -54,6 +54,9 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 .sidebar-list { flex: 1; overflow-y: auto; padding: 4px 6px 8px; }
 .sidebar-list::-webkit-scrollbar { display: none; }
 .sidebar.collapsed .sidebar-list { display: none; }
+.ni-locked { padding: 8px 10px; border-radius: 8px; margin-bottom: 2px; opacity: 0.4; cursor: default; }
+.ni-locked .ni-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.35; }
+.ni-locked .ni-sub { font-size: 11px; color: #a8a29e; margin-top: 2px; line-height: 1.35; }
 
 .ni { padding: 8px 10px; border-radius: 8px; cursor: pointer; margin-bottom: 2px; transition: background 0.1s; }
 .ni:hover { background: rgba(0,0,0,0.04); }
@@ -189,6 +192,24 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <div class="ni" onclick="setTab(this,'blog')">
           <div class="ni-title">📝 blog</div>
           <div class="ni-sub">Writing & thinking</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'sakura')">
+          <div class="ni-title">🌸 project sakura</div>
+          <div class="ni-sub">#mentalhealthultrapromax</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'inspo')">
+          <div class="ni-title">🌟 inspo</div>
+          <div class="ni-sub">people who light me up</div>
+        </div>
+
+        <div class="ni-locked">
+          <div class="ni-title">🔒 moving to north america</div>
+        </div>
+
+        <div class="ni-locked">
+          <div class="ni-title">🔒 startup vocabulary</div>
         </div>
 
       </div>
@@ -549,6 +570,82 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         </div>
       </div>
 
+      <!-- ══════════════ PROJECT SAKURA ══════════════ -->
+      <div id="pane-sakura" class="pane">
+
+        <p class="conviction">🌸 project sakura</p>
+        <p class="sub-line" style="margin-bottom:16px;">I recovered from clinical depression.</p>
+
+        <hr class="divider" />
+
+        <div class="quote" style="margin-bottom:16px;">"Depression is one of the worst forms of suffering, because of the immense feelings of shame, worthlessness and hopelessness." — Dr. David Burns</div>
+
+        <p class="about-body" style="margin-bottom:12px;">
+          It has been a challenging yet very transformational experience coming out of depression. I wrote about my journey and what helped me in this thread:
+        </p>
+
+        <div class="contact-row" style="margin-bottom:20px;">
+          <a href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">🧵 X thread: my journey →</a>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="about-section">why this project</div>
+
+        <p class="about-body" style="margin-bottom:12px;">
+          I felt strongly — why are things like these not taught to us? Practicing compassion, how to boost your self-esteem, how to respond when someone around you is struggling. People around me didn't know how to respond when I was depressed. The saddest part: a lot of people are silently struggling, because things aren't evidently put out.
+        </p>
+
+        <p class="about-body" style="margin-bottom:20px;">
+          The goal is simple: help someone struggling with tools & comfort.
+        </p>
+
+        <hr class="divider" />
+
+        <div class="about-section">tools & resources</div>
+
+        <ul class="about-list" style="margin-bottom:20px;">
+          <li class="about-body" style="margin-bottom:8px;">
+            <a href="https://docs.google.com/document/d/1uRWYlJgx90ghg60n_CwjqlNmft8-jsHhr-mV5TTIYsc/" target="_blank">CBT tool I built →</a> — the framework that helped me most
+          </li>
+          <li class="about-body" style="margin-bottom:8px;">
+            <a href="https://www.google.com/search?q=feeling+good+by+david+burn" target="_blank">Feeling Good — Dr. David Burns →</a> — the book that changed things
+          </li>
+        </ul>
+
+        <hr class="divider" />
+
+        <p class="about-body" style="margin-bottom:6px;"><a href="https://www.youtube.com/watch?v=0Hu0YAprTDE" target="_blank">Update video: I am doing amazing now</a>. Here's an update video 👇🏻</p>
+        <a href="https://www.youtube.com/watch?v=0Hu0YAprTDE" target="_blank" style="display:block; max-width:420px;">
+          <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/tattoo_update.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvdGF0dG9vX3VwZGF0ZS5wbmciLCJpYXQiOjE3NzkxMDQxODYsImV4cCI6MTgxMDY0MDE4Nn0.QY2gr_R5roD0zxx5BV99ZfK2meJVxRtMPk0vqo5vOAk"
+               alt="Yash update — watch on YouTube"
+               style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; display:block; transition: opacity 0.15s;"
+               onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'" />
+        </a>
+
+      </div>
+
+      <!-- ══════════════ INSPO ══════════════ -->
+      <div id="pane-inspo" class="pane">
+
+        <p class="conviction">🌟 inspo</p>
+        <p class="sub-line" style="margin-bottom:16px;">a collection of people from various disciplines who inspire me will appear here</p>
+
+        <hr class="divider" />
+
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/This-is-what-I-do.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvVGhpcy1pcy13aGF0LUktZG8uZ2lmIiwiaWF0IjoxNzc5MTA1MzExLCJleHAiOjE4MTA2NDEzMTF9.6JMEGfhNCdKoJjX6I3n1_Ng7yU9pTqw_1559TTNCC3s"
+             alt="This is what I do"
+             style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:20px; display:block;" />
+
+        <hr class="divider" />
+
+        <p class="about-body" style="margin-bottom:6px;">
+          this website UI was inspired by <a href="https://www.helenhuang.io/" target="_blank">Helen Huang's</a> personal website, who was inspired by <a href="https://www.alanagoyal.com/notes/about-me" target="_blank">Alana Goyal's</a> personal website, who was inspired by <a href="https://www.alanagoyal.com/notes/inspo" target="_blank">many other folks</a>.
+        </p>
+        <p class="about-body">feel free to carry on the inspiration chain! 🙌</p>
+
+      </div>
+
     </main><!-- /content -->
   </div><!-- /shell -->
 </div><!-- /win -->
@@ -571,7 +668,7 @@ function setTab(el, id) {
 }
 
 function setTabByName(id) {
-  const tabs = { about: 0, portfolio: 1, principles: 2, blog: 3 };
+  const tabs = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5 };
   const ni = document.querySelectorAll('.ni')[tabs[id]];
   if (ni) setTab(ni, id);
 }
