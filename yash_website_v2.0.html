@@ -202,14 +202,21 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
         <div class="ni" onclick="setTab(this,'inspo')">
           <div class="ni-title">🌟 inspo</div>
+          <div class="ni-sub">collection of inspiration</div>
         </div>
 
-        <div class="ni-locked">
-          <div class="ni-title">🔒 moving to north america</div>
+        <div class="ni" onclick="setTab(this,'entrepreneurship')">
+          <div class="ni-title">🫠 entrepreneurship (WIP)</div>
+          <div class="ni-sub">notes to self</div>
         </div>
 
         <div class="ni-locked">
           <div class="ni-title">🔒 startup vocabulary</div>
+          <div class="ni-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">cooked, 10x, foundermode</div>
+        </div>
+
+        <div class="ni-locked">
+          <div class="ni-title">🔒 moving to north america</div>
         </div>
 
       </div>
@@ -259,7 +266,8 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
         <ol style="list-style:decimal; padding-left:1.3em; margin-bottom:16px;">
           <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru -> North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity), want to be around high conc of like minded + like hearted people playing positive sum players and long term games 🫶</li>
-          <li class="about-body">i am excited to be a part of a startup asap as possible (small team energy, solve meaningful problems is what I'm craving)</li>
+          <li class="about-body" style="margin-bottom:8px;">i am excited to be a part of a startup asap as possible (small team energy, solve meaningful problems is what I'm craving)</li>
+          <li class="about-body">curating life with <a href="https://x.com/Invictusbinz" target="_blank" style="color:#1c1917;text-decoration:none;">@invictusbinz</a> 💁🏻‍♀️</li>
         </ol>
 
         <hr class="divider" />
@@ -280,6 +288,8 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
         <!-- Hero -->
         <p class="conviction">I show up before I'm hired</p>
         <p class="sub-line">I think like a founder. I build the case before anyone asks.</p>
+        <p class="sub-line" style="margin-bottom:4px">Overindexing on [what you work on] + [who you work with] >>> [how hard you work]</p>
+        <p class="sub-line" style="margin-bottom:4px">Ofc given that you're hardworking.</p>
         <p class="sub-line" style="margin-bottom:16px">Identifying founders worth betting on (scouting like a vc) to work with, building cases for how I'd create leverage for them, and reaching out cold, before anyone asks.</p>
 
         <hr class="divider" />
@@ -646,6 +656,109 @@ html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans
 
       </div>
 
+      <!-- ══════════════ ENTREPRENEURSHIP ══════════════ -->
+      <div id="pane-entrepreneurship" class="pane">
+
+        <p class="conviction">🫠 entrepreneurship (WIP)</p>
+        <p class="sub-line" style="margin-bottom:20px;">Notes to self — raw clarity on where I stand and where I'm headed.</p>
+
+        <hr class="divider" />
+
+        <!-- Toggle 1: Clarity Gained -->
+        <div class="tog-header" onclick="tog('e1')">
+          <span class="tog-arrow" id="are1">▶</span>
+          <span class="tog-name">Clarity gained</span>
+        </div>
+        <div class="tog-body" id="sece1">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;"><a href="https://paulgraham.com/wealth.html" target="_blank" style="color:#E8855A;text-decoration:none;">There is no finite wealth in this world.</a> Wealth can be created — somebody doing well doesn't always come at someone else's expense.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Go where the demand is / obvious needs exist.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Go where capital is (capital is leverage).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Good decision making and high leverage >>> mere hard work. Decision making is a leverage touch point — use clear thinking (via Shane Parrish) to maximise odds of success: define clear goal, track least resistant path to get there; leverage LLMs to see your blindspots, cheaply validate hypotheses.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Entrepreneurship feels right (an obvious choice for me) — not like I am choosing this for a set period of time.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Luck exists. It's an arbitrary multiplier — all successful startups got lucky (luck was part of the equation, not the only variable).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I want to be in an environment with maximum leverage — gravitating towards high concentration of long-term players with <a href="https://x.com/nikunj/status/1976782727593750910?s=46" target="_blank" style="color:#E8855A;text-decoration:none;">abundance mindset</a>.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Truths internalised: there are no set rules. There are no "adults" — everyone is figuring it out along the way. All humans are suffering in their own ways, because life (having desires) is suffering (via Buddhist philosophy).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">What you work on + who you work with >>> how hard you work (via Naval).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Double down on asymmetric bets, tail events via Taleb (capped downside, asymmetric positive upside). Absolute probabilities of future events are useless — what you want to look at is tail events.</li>
+            <li class="approach-blurb">There are always going to be waves to surf — I just need to position myself at the right place and be ready with my surfing gear.</li>
+          </ol>
+        </div>
+
+        <!-- Toggle 2: What I Don't Know -->
+        <div class="tog-header" onclick="tog('e2')">
+          <span class="tog-arrow" id="are2">▶</span>
+          <span class="tog-name">What I don't know</span>
+        </div>
+        <div class="tog-body" id="sece2">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;">What exact problem I am excited to solve for fellow humans — unique insight, thesis, wedge (why this problem, why me, why now). Currently actively exploring Mental health, Healthcare, GenAI B2B SaaS. One area: no. of professionals as bottleneck in Mental health care in the USA (10 professionals / 100,000 patients). How can AI help augment professionals to scale more patients?</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Right community and environment where I will flourish.</li>
+            <li class="approach-blurb">+ Many more things I haven't figured out — if I already had, I wouldn't be writing this and would have already reached where I want to.</li>
+          </ol>
+        </div>
+
+        <!-- Toggle 3: What I Know For Sure -->
+        <div class="tog-header" onclick="tog('e3')">
+          <span class="tog-arrow" id="are3">▶</span>
+          <span class="tog-name">What I know for sure</span>
+        </div>
+        <div class="tog-body" id="sece3">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;">I have an entrepreneur's DNA.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I am doing this 100% for me — it aligns internally with what I want to spend my time on (value creation, problem solving, practising autonomy).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I want to solve problems where the product materially improves the user's life.<br/><br/><img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/product_manipulation_matrix.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvcHJvZHVjdF9tYW5pcHVsYXRpb25fbWF0cml4LnBuZyIsImlhdCI6MTc3OTM3NDcyMCwiZXhwIjoxODEwOTEwNzIwfQ.eDSclza7SOVbqawbvzsSAMrXGr-6tMs4vrROu_ezYZY" alt="Product matrix" style="max-width:420px;width:100%;border-radius:8px;border:0.5px solid #e7e5e4;margin-top:8px;display:block;" /></li>
+            <li class="approach-blurb">Embodied — <a href="https://www.youtube.com/watch?v=kYfNvmF0Bqw" target="_blank" style="color:#E8855A;text-decoration:none;">Steve Jobs, circa 1994</a>: <em>"When you grow up, you tend to get told that the world is the way it is and your life is just to live your life inside the world... Life can be much broader once you discover one simple fact, and that is: everything around you that you call life was made up by people that were no smarter than you. And you can change it, you can influence it, you can build your own things that other people can use. Once you learn that, you'll never be the same again."</em></li>
+          </ol>
+        </div>
+
+        <!-- Toggle 4: Where Am I Blocked On -->
+        <div class="tog-header" onclick="tog('e4')">
+          <span class="tog-arrow" id="are4">▶</span>
+          <span class="tog-name">Where am I blocked on</span>
+        </div>
+        <div class="tog-body" id="sece4">
+          <ul style="list-style:disc;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb">Finding the right tribe — being around right people, right environment, playing long-term games. I know I can't do it alone; efforts can only multiply with people. Leverage of right community is needed.</li>
+          </ul>
+        </div>
+
+        <!-- Toggle 5: Vision -->
+        <div class="tog-header" onclick="tog('e5')">
+          <span class="tog-arrow" id="are5">▶</span>
+          <span class="tog-name">Vision</span>
+        </div>
+        <div class="tog-body" id="sece5">
+          <p class="approach-blurb" style="margin-bottom:8px;">Create value — Utility × Scale (inspiration from Elon Musk). <em>"How useful have you been to your fellow human beings times how many people?"</em></p>
+          <p class="approach-blurb" style="margin-bottom:8px;">Creating massive value for a very long period of time requires intentionality, space and depth. I am on that path.</p>
+          <p class="approach-blurb">I am very confident this is bound to happen. It's okay if people around can't see it right now — the right people will come along the way, and I shall keep moving forward.</p>
+        </div>
+
+        <!-- Toggle 6: WIP -->
+        <div class="tog-header" onclick="tog('e6')">
+          <span class="tog-arrow" id="are6">▶</span>
+          <span class="tog-name">WIP</span>
+        </div>
+        <div class="tog-body" id="sece6">
+          <p class="approach-blurb" style="margin-bottom:12px;">Entrepreneurship simply is solving offering gaps in a market.</p>
+          <p class="approach-blurb" style="margin-bottom:6px;font-weight:500;">🧠 Nudges I use to Think Bigger</p>
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0 0 14px;">
+            <li class="approach-blurb" style="margin-bottom:6px;">Use "What if it works?" as a forcing function.</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">What would it take for this to be the next default behavior? Musk thinks: <em>"What must be true for this to be inevitable?"</em></li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Peter Thiel's "secrets" lens: What do you believe is true that most people don't? What will compound in value and defensibility over time?</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Work from physics, not vibes — identify a constraint you can break (latency, cost per inference, regulatory bottleneck) and re-architect the stack around it.</li>
+            <li class="approach-blurb">Secrets + Aggregation Theory: look for markets where you can aggregate fragmented supply/demand with a superior UX and own the demand.</li>
+          </ol>
+          <p class="approach-blurb" style="margin-bottom:6px;font-weight:500;">PMF</p>
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:6px;">You can't motivate a user — solve for existing behaviours. High-frequency chores a persona hates and is prone to errors → automate via LLMs. Make something people want.</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Solve for existing pains (world is full of inefficiencies — my job is to look at the right one and solve for it).</li>
+            <li class="approach-blurb">0 → 1: 100 users who absolutely love your product >>> thousands who like it (via Sam Altman, YCombinator).</li>
+          </ol>
+        </div>
+
+      </div>
+
     </main><!-- /content -->
   </div><!-- /shell -->
 </div><!-- /win -->
@@ -660,7 +773,7 @@ function toggleSidebar() {
 }
 
 // ── Tab switching ──
-var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5 };
+var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5, entrepreneurship: 6 };
 
 function setTab(el, id, pushState) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
