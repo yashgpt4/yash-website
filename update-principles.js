@@ -7,7 +7,16 @@ const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
 
-const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhcmJjeGN1Zm9mbnFqenhkbW11Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODY2NDQ1NCwiZXhwIjoyMDk0MjQwNDU0fQ.joWcoDV4Y2_6kHp05zJKi_T842c6YiMDnv2VNsNthug';
+// NEVER hardcode keys. Set this in your shell before running:
+//   export SUPABASE_SERVICE_ROLE_KEY='your-key-here'
+// Get the current key from: Supabase dashboard → Settings → API → Service Role Key
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SERVICE_ROLE_KEY) {
+  console.error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+  console.error('Run: export SUPABASE_SERVICE_ROLE_KEY=\'your-key-here\'');
+  process.exit(1);
+}
 
 const sb = createClient(
   'https://yarbcxcufofnqjzxdmmu.supabase.co',

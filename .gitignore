@@ -34,3 +34,9 @@ yarn-error.log*
 .idea/
 *.swp
 *.swo
+
+# Environment variables — never commit these
+.env
+.env.local
+.env*.local
+*.env
