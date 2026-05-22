@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "mkdir -p dist && cp index.html dist/ && cp -r public/* dist/ 2>/dev/null || true",
+    "build": "mkdir -p .next && cp index.html .next/ && cp -r public/* .next/ 2>/dev/null || true",
     "start": "next start",
     "lint": "next lint"
   },
