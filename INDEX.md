@@ -32,7 +32,6 @@ Complete guide to all files in the yash-website project.
 
 | File | Purpose | Time |
 |---|---|---|
-| **[TERMINAL_GUIDE.md](./docs/TERMINAL_GUIDE.md)** | What is Terminal? How to use it? (for non-techies) | 10 min read |
 | **[QUICK_START.md](./QUICK_START.md)** | Local setup in 5 min | 5 min read |
 | **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** | Complete setup with GitHub SSH, Supabase & Vercel | 45 min read |
 

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Sidebar } from '@/components/Sidebar';
 import { NoteContent } from '@/components/NoteContent';
 import { PortfolioContent } from '@/components/PortfolioContent';
+import { AboutContent } from '@/components/AboutContent';
 import { getNoteBySlug } from '@/lib/supabase-server';
 
 export const revalidate = 3600;
@@ -55,6 +56,8 @@ export default async function NotePage({ params }: NotePageProps) {
       <div className="w-full md:flex-1 md:relative">
         {params.slug === 'work' ? (
           <PortfolioContent />
+        ) : params.slug === 'about' ? (
+          <AboutContent note={note} />
         ) : (
           <NoteContent note={note} />
         )}

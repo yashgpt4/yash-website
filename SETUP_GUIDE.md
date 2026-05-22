@@ -1,6 +1,6 @@
 # Complete Setup Guide
 
-Get your yashvijaykar.com website running in 30 minutes.
+Get your yashvijaykar.com website running in ~45 minutes.
 
 ## Overview
 

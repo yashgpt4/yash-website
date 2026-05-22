@@ -22,7 +22,7 @@ A notes app-inspired personal website built with Next.js, Supabase, and Vercel.
 - **Styling**: Tailwind CSS
 - **Hosting**: Vercel
 - **Markdown**: react-markdown + remark-gfm + rehype-highlight
-- **Fonts**: Geist (Vercel's font family)
+- **Fonts**: Inter (Google Fonts via `next/font/google`)
 
 ## Quick Start
 
@@ -171,7 +171,7 @@ const x = 1;
 
 ### Typography
 
-- **Font**: Geist Sans (loaded via `next/font`)
+- **Font**: Inter (loaded via `next/font/google`)
 - **Body**: 15px, line-height 1.75
 - **Line length**: 65 characters (ensures readability)
 

@@ -25,7 +25,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 mt-6">{children}</h3>
+            <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100 mb-3 mt-10 pb-2 border-b border-stone-100 dark:border-stone-800">{children}</h3>
           ),
           p: ({ children }) => (
             <p className="text-sm text-stone-800 dark:text-stone-300 leading-7 mb-4">{children}</p>

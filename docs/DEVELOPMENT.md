@@ -15,7 +15,7 @@ How to modify and extend the yashvijaykar.com website.
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/yash-website.git
+git clone git@github.com:yashgpt4/yash-website.git
 cd yash-website
 ```
 

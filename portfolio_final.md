@@ -15,7 +15,7 @@ The thesis is simple: understand their north star, map the top bottlenecks slowi
 
 ---
 
-## 01 · Kintsugi
+### 01 · Kintsugi
 
 **AI mental health screening · [Grace Chang](https://www.linkedin.com/in/gracechang/) · Series A, post-PMF · San Francisco**
 
@@ -46,7 +46,7 @@ Cold emailed Grace twice. First email: high signal, no reply. Followed up a week
 
 ---
 
-## 02 · 78Health
+### 02 · 78Health
 
 **Remote patient monitoring · [Naren Nachiappan](https://www.linkedin.com/in/naren-nachiappan-036387/), 4× founder · Pre-PMF · California + Bengaluru**
 
@@ -73,7 +73,7 @@ Physician-led startup operating across the US and India. Mapped their $6M revenu
 
 ---
 
-## 03 · HealthyGamer GG
+### 03 · HealthyGamer GG
 
 **Mental health platform · Dr. K · Texas**
 
@@ -98,7 +98,7 @@ Full product teardown — separate ICPs, funnel maps, and revenue math for both 
 
 ---
 
-## 04 · Nabeel Qureshi
+### 04 · Nabeel Qureshi
 
 **Stealth healthcare startup · [Ex-Palantir](https://x.com/nabeelqu) · NYC**
 
@@ -123,7 +123,7 @@ Read his blogs. Watched his podcast. Played Factorio. Then cold emailed with a p
 
 ---
 
-## 05 · Nikhil Kamath
+### 05 · Nikhil Kamath
 
 **[WTFund](https://x.com/nikhilkamathcio) / Zerodha · Bengaluru**
 
@@ -149,7 +149,7 @@ Went deep into NK's world — podcasts, investment thesis, WTFund cohort — bef
 
 ---
 
-## 06 · Sahil Lavingia
+### 06 · Sahil Lavingia
 
 **[Gumroad](https://x.com/shl) / Antiwork · NYC**
 
@@ -177,7 +177,7 @@ Studied the business cold before reaching out — balance sheet, Antiwork's nort
 
 ---
 
-## Nintee
+### Nintee
 
 **Product · [Paras Chopra](https://x.com/paraschopra) · Sequoia-backed · Bengaluru · Jun 2022 – Apr 2024**
 
@@ -201,7 +201,7 @@ Backers: Sequoia · [Kunal Shah](https://x.com/kunalb11) · [Balaji Srinivasan](
 
 ---
 
-## Level Supermind
+### Level Supermind
 
 **Project Manager · 7th employee · [BeerBiceps / Ranveer Allahbadia](https://x.com/BeerBicepsGuy) · Mumbai · May 2021 – Feb 2022**
 
@@ -211,7 +211,7 @@ Backers: Sequoia · [Kunal Shah](https://x.com/kunalb11) · [Balaji Srinivasan](
 
 ---
 
-## PijonCo
+### PijonCo
 
 **Co-Founder · Mumbai · Sep 2020 – Sep 2021**
 

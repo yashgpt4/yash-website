@@ -7,14 +7,9 @@ Deploy your website to the internet in minutes.
 First, create a GitHub repository and push the code:
 
 ```bash
-# Initialize git if not already done
-git init
+# If not already done in SETUP_GUIDE.md:
 git add .
 git commit -m "Initial commit: yashvijaykar.com MVP"
-
-# Create a new repository on GitHub, then:
-git remote add origin https://github.com/yourusername/yash-website.git
-git branch -M main
 git push -u origin main
 ```
 

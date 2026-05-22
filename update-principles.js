@@ -1,6 +1,6 @@
 /**
- * Run this once from your terminal to push portfolio content to Supabase:
- *   node update-portfolio-content.js
+ * Run this once from your terminal to push principles content to Supabase:
+ *   node update-principles.js
  */
 
 const { createClient } = require('@supabase/supabase-js');
@@ -15,7 +15,7 @@ const sb = createClient(
 );
 
 const content = fs.readFileSync(
-  path.join(__dirname, 'portfolio_final.md'),
+  path.join(__dirname, 'portfolio content', 'principles.md'),
   'utf-8'
 );
 
@@ -24,10 +24,10 @@ async function run() {
     .from('notes')
     .upsert(
       {
-        slug: 'work',
-        title: 'I show up before I\'m hired',
+        slug: 'principles',
+        title: 'Principles',
         content,
-        tag: 'work',
+        tag: 'principles',
         published: true,
         pinned: false,
         updated_at: new Date().toISOString(),

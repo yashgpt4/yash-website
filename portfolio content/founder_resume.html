@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yash Vijaykar</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    color: #111;
+    background: #fff;
+    padding: 40px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* Header */
+  .header { margin-bottom: 18px; }
+  .name { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; color: #000; }
+  .tagline {
+    font-size: 10px;
+    color: #555;
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-top: 6px;
+    font-size: 9.5px;
+    color: #555;
+  }
+  .contact-row a { color: #555; text-decoration: none; border-bottom: 0.5px solid #ccc; }
+  .job-sub a { color: #888; text-decoration: none; border-bottom: 0.5px solid #ccc; }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid #111; margin: 12px 0; }
+  .divider-light { border: none; border-top: 0.5px solid #ddd; margin: 10px 0; }
+
+  /* Summary */
+  .summary {
+    font-size: 10px;
+    line-height: 1.65;
+    color: #222;
+    margin-bottom: 16px;
+  }
+  .summary strong { font-weight: 600; color: #000; }
+
+  /* Section */
+  .section { margin-bottom: 14px; }
+  .section-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 8px;
+  }
+
+  /* Job block */
+  .job { margin-bottom: 12px; }
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1px;
+  }
+  .job-title-line { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+  .job-company { font-size: 11px; font-weight: 700; color: #000; }
+  .job-role {
+    font-size: 9.5px;
+    color: #666;
+    font-style: italic;
+  }
+  .job-date {
+    font-size: 9px;
+    color: #888;
+    white-space: nowrap;
+  }
+  .job-sub {
+    font-size: 9px;
+    color: #888;
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+
+  ul { padding-left: 12px; }
+  ul li {
+    font-size: 9.5px;
+    color: #222;
+    margin-bottom: 3px;
+    line-height: 1.55;
+  }
+  ul li a { color: #222; text-decoration: none; border-bottom: 0.5px solid #bbb; }
+  a { color: inherit; }
+  ul li strong { font-weight: 600; color: #000; }
+
+  /* Skills */
+  .skills-block { display: flex; flex-direction: column; gap: 3px; }
+  .skill-row { display: flex; gap: 8px; font-size: 9.5px; }
+  .skill-cat { font-weight: 600; color: #000; min-width: 90px; }
+  .skill-val { color: #444; }
+
+  /* Footer note */
+  .footer-note {
+    margin-top: 18px;
+    font-size: 8.5px;
+    color: #aaa;
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+
+  @media print {
+    body { padding: 28px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="name">Yash Vijaykar 🧃</div>
+  <div class="tagline">Founding PM · Nintee (Sequoia-backed, Paras Chopra) · Healthcare × AI · 3 yrs 0→1</div>
+  <div class="contact-row">
+    <span>yashvijaykar98@gmail.com</span>
+    <span>+91 9511832266</span>
+    <a href="https://linkedin.com/in/yashvijaykar" target="_blank">linkedin.com/in/yashvijaykar</a>
+    <span>X: <a href="https://x.com/yashgpt4" target="_blank">@yashgpt4</a></span>
+    <a href="https://yashgpt4.github.io/" target="_blank">Blog: yashgpt4.github.io</a>
+    <span>Bengaluru · Open to remote / Toronto / SF / NYC</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SUMMARY -->
+<div class="summary">
+  <strong>1st hire and founding PM at Nintee</strong> (Sequoia-backed; founder Paras Chopra — $200M SaaS exit); shipped <strong>12+ products 0→1</strong> across healthcare, GenAI, and mobile gaming in 2 years. After Nintee closed, produced an unsolicited product + GTM pitch for an SF-based Healthcare AI founder — received a <strong>$120k offer, declined</strong> to hold out for direct founder collaboration. Looking for the next 0→1 with a founder I'd go to war with.
+</div>
+
+<!-- INDEPENDENT -->
+<div class="section">
+  <div class="section-label">Independent Operator</div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title-line">
+        <span class="job-company">Independent Operator</span>
+        <span class="job-role">Product · GTM · Strategy</span>
+      </div>
+      <span class="job-date">May 2024 – Present</span>
+    </div>
+    <ul>
+      <li>Produced unsolicited product + GTM strategy for <a href="https://www.kintsugihealth.com/" target="_blank"><strong>Kintsugi Health</strong></a> (SF, B2B Healthcare AI SaaS): LLM-based lead enrichment, sales motion design, competitive teardown → <strong>received $120k/yr offer; declined</strong> for founder proximity</li>
+      <li>Cold-pitched <a href="https://x.com/nabeelqu" target="_blank"><strong>Nabeel Qureshi</strong></a> (ex-Palantir enterprise lead, NYC) → received invitation to join his team in NYC; stalled on visa, not merit</li>
+      <li>PMF + bottleneck analysis for <a href="https://www.78health.com/" target="_blank"><strong>78Health</strong></a>: clinician-time constraint mapping, persona framework, revenue math toward <strong>$6M run rate</strong></li>
+      <li>Fleshed out 6-month product strategy for <strong>Healthygamer GG</strong> (Dr. K's mental health platform): identified bottlenecks; mapped path to <strong>50% revenue growth ($1M → $1.5M)</strong></li>
+      <li>Talked to <strong>50+ founders and operators globally</strong>; built evaluation framework for startup fit — scouting like a VC (founder EQ, mission clarity, market timing)</li>
+      <li>Evaluated and declined <strong>9 opportunities post-Nintee</strong>, including one from an early SpaceX investor — walked away after a 4-hr call when integrity red flags surfaced</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider-light">
+
+<!-- NINTEE -->
+<div class="section">
+  <div class="section-label">Experience</div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title-line">
+        <span class="job-company">Nintee</span>
+        <span class="job-role">Product Manager, Founding Team · 1st hire</span>
+      </div>
+      <span class="job-date">Jun 2022 – Apr 2024</span>
+    </div>
+    <div class="job-sub">Sequoia-backed AI startup · Founder: <a href="https://x.com/paraschopra" target="_blank">Paras Chopra</a> ($200M SaaS exit, Wingify) · After close: declined offer to join Wingify — chose to stay in 0→1</div>
+    <ul>
+      <li>Shipped <strong>12+ products 0→1</strong> in 2 years — each structured as a hypothesis-validation sprint across preventive healthcare, GenAI coaching, mobile gaming, and active learning</li>
+      <li><strong>WordRally</strong> (mobile word game): 3 MVPs + 25+ alpha builds on Play Store in 1 month; D1 retention <strong>25%</strong>; avg session <strong>1.5 min → 8 min</strong></li>
+      <li><strong>Nintee Habit Coach</strong> (LLM-powered, React Native): led conversational AI chatbot from design to production; integrated FTUE, image captioning, chat summary, user memory, intent classification</li>
+      <li><strong>Weight loss coaching app</strong>: <strong>$800 MRR</strong>, 90+ active users globally; <a href="https://x.com/sbikh" target="_blank">Sanjeev Bikhchandani</a> and <a href="https://x.com/vijayshekhar" target="_blank">Vijay Shekhar Sharma</a> were users</li>
+      <li><strong>Calorie tracking + NLP chatbot</strong>: D7 retention <strong>20% → 40%</strong>; <a href="https://x.com/thetanmay" target="_blank">Tanmay Bhat</a> (6M followers) was an active user</li>
+      <li><strong>Community</strong>: built Discord + Telegram from <strong>0 → 2,500 members</strong>; solved cold-start problem from scratch</li>
+      <li>Documentation-as-thinking culture: owned PRDs, roadmaps, RCAs, weekly reflections; managed async comms across product, design, and engineering</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title-line">
+        <span class="job-company">Level Supermind</span>
+        <span class="job-role">Project Manager · 7th employee</span>
+      </div>
+      <span class="job-date">May 2021 – Feb 2022</span>
+    </div>
+    <div class="job-sub">BeerBiceps wellness app · Founders: <a href="https://www.youtube.com/@beerbiceps/videos" target="_blank">Ranveer Allahbadia</a> (9M+ followers), Harshil Karia (Founder, Schbang)</div>
+    <ul>
+      <li>Led trainer onboarding team of 5 → <strong>closed target by 157%</strong></li>
+      <li>Managed 7 global trainers across 5+ countries; delivered <strong>60+ audio experiences</strong> end-to-end</li>
+      <li>Owned video production: team of 21, budget <strong>INR 20L (~$27k)</strong>; delivered full video asset library for launch</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <div class="job-title-line">
+        <span class="job-company">PijonCo</span>
+        <span class="job-role">Co-Founder</span>
+      </div>
+      <span class="job-date">Sep 2020 – Sep 2021</span>
+    </div>
+    <ul>
+      <li>Lemonade-stand project — D2C merch brand built from scratch (design, ops, meme marketing); <strong>100+ orders PAN India</strong>; shut down at breakeven when learning curve flattened — intentional</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider-light">
+
+<!-- SKILLS -->
+<div class="section">
+  <div class="section-label">Skills</div>
+  <div class="skills-block">
+    <div class="skill-row"><span class="skill-cat">Product</span><span class="skill-val">Hypothesis validation, 0→1 shipping, rapid experimentation, PRDs, roadmaps, retention optimisation</span></div>
+    <div class="skill-row"><span class="skill-cat">LLM / GenAI</span><span class="skill-val">Chatbot design, content pipelines, image captioning, intent classification, prompt engineering, evals (Langsmith), agents (CrewAI)</span></div>
+    <div class="skill-row"><span class="skill-cat">GTM</span><span class="skill-val">B2B outbound, community building, performance marketing analytics, content strategy, positioning</span></div>
+    <div class="skill-row"><span class="skill-cat">Tools</span><span class="skill-val">Figma, Notion, Jira, Firebase, Mixpanel, UXCam, Vercel, Anthropic API, OpenAI API</span></div>
+  </div>
+</div>
+
+<hr class="divider-light">
+
+<!-- EDUCATION -->
+<div class="section">
+  <div style="display:flex; justify-content:space-between; align-items:baseline;">
+    <span style="font-size:9.5px; color:#333;"><strong>B.Tech, Food Engineering & Technology</strong> · Institute of Chemical Technology, Mumbai</span>
+    <span style="font-size:9px; color:#888;">2017 – 2021</span>
+  </div>
+  <div style="font-size:9px; color:#aaa; margin-top:2px;">Chose not to sit for campus placements — joined BeerBiceps' startup instead.</div>
+</div>
+
+<div class="footer-note">yashvijaykar98@gmail.com · linkedin.com/in/yashvijaykar · @yashgpt4</div>
+
+</body>
+</html>

@@ -40,7 +40,7 @@ A complete personal website inspired by the macOS Notes app, with:
 - `components/NoteContent.tsx` — Right panel with note content
 - `components/MarkdownRenderer.tsx` — Markdown to HTML with custom styling
 
-**Library** (3 files)
+**Library** (4 files)
 - `lib/types.ts` — TypeScript interfaces
 - `lib/supabase.ts` — Supabase client (browser)
 - `lib/supabase-server.ts` — Supabase client (server) + helper functions
