@@ -1,0 +1,884 @@
+<!--
+  ═══════════════════════════════════════════════
+  VERSION HISTORY
+  ───────────────────────────────────────────────
+  v2.1 · May 18 2026
+    - Portfolio: removed status tags from all 6 toggle headers
+    - Portfolio: updated sub-line 2 (vc-scouting framing)
+    - Portfolio: renamed section label "Unsolicited work" → "Proof of work"
+    - Portfolio: added SpaceX investor line to blurb
+    - Portfolio: updated stat chips (9 offers declined, ~$120k declined)
+    - Portfolio: added footer links (LinkedIn, X, Substack, Resume)
+    - About: [subject]: now bold + italic
+    - About: CTA updated ("vibe fit? Let's chat!")
+    - About: uncertainty line styling fixed (was grey/italic in error)
+
+  v2.0 · May 18 2026
+    - About: increased hero image size (420px → 520px)
+    - About: updated image caption to "current fav place on earth"
+    - About: updated WHAT NOW item 1 (like minded + like hearted framing)
+    - About: updated WHAT NOW item 2 (solve meaningful problems)
+    - About: updated end CTA copy ("you find a vibe fit? Let's chat!")
+
+  v1.0 · May 2026
+    - Initial release
+  ═══════════════════════════════════════════════
+-->
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yash Vijaykar</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧃</text></svg>" />
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif; font-size: 14px; background: #f5f5f4; color: #1c1917; -webkit-font-smoothing: antialiased; }
+
+/* ── Window chrome ── */
+.win { width: 100%; height: 100vh; display: flex; flex-direction: column; background: #f5f5f4; }
+.titlebar { height: 38px; background: #f0efee; border-bottom: 0.5px solid #e7e5e4; display: flex; align-items: center; padding: 0 14px; gap: 8px; flex-shrink: 0; }
+.dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.d-r { background: #FF5F57; } .d-y { background: #FFBD2E; } .d-g { background: #28C840; }
+
+/* ── Shell ── */
+.shell { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Sidebar ── */
+.sidebar { width: 245px; min-width: 245px; background: #f0efee; border-right: 0.5px solid #e7e5e4; display: flex; flex-direction: column; overflow: hidden; transition: width 0.22s ease, min-width 0.22s ease; }
+.sidebar.collapsed { width: 32px; min-width: 32px; }
+.sidebar-header { height: 38px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; flex-shrink: 0; border-bottom: 0.5px solid #e7e5e4; transition: padding 0.22s ease; }
+.sidebar.collapsed .sidebar-header { padding: 0; justify-content: center; }
+.sidebar-header-label { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a8a29e; white-space: nowrap; overflow: hidden; opacity: 1; transition: opacity 0.15s; }
+.sidebar.collapsed .sidebar-header-label { opacity: 0; display: none; }
+.sidebar-toggle { background: none; border: 0.5px solid #d6d3d1; cursor: pointer; width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #78716c; font-size: 11px; flex-shrink: 0; transition: background 0.1s; line-height: 1; }
+.sidebar-toggle:hover { background: #e7e5e4; }
+.sidebar-list { flex: 1; overflow-y: auto; padding: 4px 6px 8px; }
+.sidebar-list::-webkit-scrollbar { display: none; }
+.sidebar.collapsed .sidebar-list { display: none; }
+.ni-locked { padding: 8px 10px; border-radius: 8px; margin-bottom: 2px; opacity: 0.4; cursor: default; }
+.ni-locked .ni-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.35; }
+.ni-locked .ni-sub { font-size: 11px; color: #a8a29e; margin-top: 2px; line-height: 1.35; }
+
+.ni { padding: 8px 10px; border-radius: 8px; cursor: pointer; margin-bottom: 2px; transition: background 0.1s; }
+.ni:hover { background: rgba(0,0,0,0.04); }
+.ni.active { background: #FAD647; }
+.ni-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.35; }
+.ni.active .ni-title { color: #1a1200; }
+.ni-sub { font-size: 11px; color: #a8a29e; margin-top: 2px; line-height: 1.35; }
+.ni.active .ni-sub { color: #6b5a00; }
+
+/* ── Content pane ── */
+.content { flex: 1; overflow-y: auto; background: #ffffff; }
+.content::-webkit-scrollbar { width: 5px; } .content::-webkit-scrollbar-track { background: transparent; } .content::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+.pane { display: none; padding: 32px 36px; max-width: 700px; }
+.pane.active { display: block; }
+
+/* ── Typography helpers ── */
+.conviction { font-size: 22px; font-weight: 500; color: #1c1917; line-height: 1.35; margin-bottom: 8px; }
+.sub-line { font-size: 13px; color: #1c1917; margin-bottom: 4px; line-height: 1.5; }
+.divider { border: none; border-top: 0.5px solid #e7e5e4; margin: 20px 0; }
+.section-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #a8a29e; font-weight: 600; margin-bottom: 12px; }
+.approach-blurb { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 14px; }
+
+/* ── Stat chips ── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.chip { font-size: 12px; color: #78716c; background: #f5f5f4; border: 0.5px solid #e7e5e4; border-radius: 6px; padding: 4px 10px; }
+
+/* ── Toggle rows ── */
+.tog-header { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 0.5px solid #e7e5e4; cursor: pointer; user-select: none; }
+.tog-header:hover .tog-name { color: #E8855A; }
+.tog-arrow { font-size: 10px; color: #a8a29e; width: 14px; flex-shrink: 0; transition: transform 0.15s ease; display: inline-block; }
+.tog-arrow.open { transform: rotate(90deg); }
+.tog-num { font-size: 11px; font-weight: 600; color: #E8855A; width: 22px; flex-shrink: 0; }
+.tog-name { font-size: 16px; font-weight: 500; color: #1c1917; flex: 1; transition: color 0.1s; }
+.tog-tag { font-size: 11px; color: #78716c; text-align: right; line-height: 1.4; flex-shrink: 0; }
+
+.tog-body { display: none; padding: 14px 0 6px 36px; }
+.tog-body.open { display: block; }
+.co-meta { font-size: 12px; color: #78716c; margin-bottom: 12px; line-height: 1.6; }
+.co-meta a { color: #E8855A; text-decoration: none; }
+.co-meta a:hover { text-decoration: underline; }
+.co-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #a8a29e; margin: 12px 0 6px; }
+.co-list { list-style: disc; padding-left: 1.3em; }
+.co-list li { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 3px; }
+.co-list li ul { list-style: circle; padding-left: 1.2em; margin-top: 3px; }
+.co-list li ul li { font-size: 12px; color: #78716c; }
+.quote { border-left: 3px solid #E8855A; padding: 8px 12px; margin: 10px 0; font-size: 12px; font-style: italic; color: #78716c; border-radius: 0 4px 4px 0; background: #fff8f5; }
+.co-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid #e7e5e4; }
+.co-links a { font-size: 12px; color: #E8855A; text-decoration: none; }
+.co-links a:hover { text-decoration: underline; }
+.co-img { max-width: 100%; border-radius: 8px; margin: 10px 0; display: block; border: 0.5px solid #e7e5e4; }
+
+/* ── Past work ── */
+.past-head { font-size: 16px; font-weight: 500; color: #1c1917; margin: 8px 0 3px; }
+.past-meta { font-size: 12px; color: #78716c; margin-bottom: 8px; line-height: 1.5; }
+.past-meta a { color: #E8855A; text-decoration: none; }
+.past-meta a:hover { text-decoration: underline; }
+.past-blurb { font-size: 13px; color: #1c1917; line-height: 1.65; margin-bottom: 8px; }
+.past-backers { font-size: 12px; color: #78716c; margin-bottom: 8px; }
+.past-backers a { color: #E8855A; text-decoration: none; }
+.past-backers a:hover { text-decoration: underline; }
+.edu-footer { font-size: 11px; color: #78716c; margin-top: 20px; line-height: 1.8; border-top: 0.5px solid #e7e5e4; padding-top: 14px; }
+
+/* ── About pane ── */
+.about-name { font-size: 22px; font-weight: 500; color: #1c1917; margin-bottom: 6px; }
+.about-role { font-size: 13px; color: #78716c; margin-bottom: 16px; }
+.about-section { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #a8a29e; margin: 18px 0 8px; }
+.about-body { font-size: 13px; color: #44403c; line-height: 1.75; }
+.about-body a { color: #E8855A; text-decoration: none; }
+.about-body a:hover { text-decoration: underline; }
+.about-list { list-style: disc; padding-left: 1.3em; }
+.about-list li { font-size: 13px; color: #44403c; line-height: 1.75; }
+.contact-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+.contact-row a { font-size: 12px; color: #E8855A; text-decoration: none; }
+.contact-row a:hover { text-decoration: underline; }
+
+/* ── Principles pane ── */
+.prin-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0efee; align-items: flex-start; }
+.prin-item:last-child { border-bottom: none; }
+.prin-num { font-size: 11px; font-weight: 600; color: #E8855A; width: 20px; flex-shrink: 0; padding-top: 1px; }
+.prin-text { font-size: 13px; color: #1c1917; line-height: 1.6; flex: 1; }
+.prin-footer { font-size: 11px; color: #a8a29e; margin-top: 16px; }
+
+/* ── Blog pane ── */
+.blog-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0efee; align-items: flex-start; text-decoration: none; color: inherit; transition: background 0.1s; border-radius: 4px; }
+.blog-item:last-child { border-bottom: none; }
+.blog-item:hover .blog-title { color: #E8855A; }
+.blog-emoji { font-size: 16px; flex-shrink: 0; width: 22px; }
+.blog-title { font-size: 13px; font-weight: 500; color: #1c1917; line-height: 1.4; transition: color 0.1s; }
+.blog-type { font-size: 11px; color: #a8a29e; margin-top: 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .sidebar { width: 185px; min-width: 185px; }
+  .pane { padding: 20px 18px; }
+  .tog-tag { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="win">
+  <!-- Title bar -->
+  <div class="titlebar">
+    <div class="dot d-r"></div>
+    <div class="dot d-y"></div>
+    <div class="dot d-g"></div>
+  </div>
+
+  <div class="shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-header-label">Notes</span>
+        <button class="sidebar-toggle" id="sidebar-btn" onclick="toggleSidebar()" title="Toggle sidebar">‹</button>
+      </div>
+      <div class="sidebar-list">
+
+        <div class="ni active" onclick="setTab(this,'about')">
+          <div class="ni-title">🙋‍♂️ about</div>
+          <div class="ni-sub">Yash Vijaykar</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'portfolio')">
+          <div class="ni-title">🚣 portfolio (work work work)</div>
+          <div class="ni-sub">May 2026 · I show up before I'm hired</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'principles')">
+          <div class="ni-title">🏔️ principles</div>
+          <div class="ni-sub">Operating system</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'blog')">
+          <div class="ni-title">📝 blog</div>
+          <div class="ni-sub">Writing & thinking</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'sakura')">
+          <div class="ni-title">🌸 project sakura</div>
+          <div class="ni-sub">#mentalhealthultrapromax</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'inspo')">
+          <div class="ni-title">🌟 inspo</div>
+          <div class="ni-sub">collection of inspiration</div>
+        </div>
+
+        <div class="ni" onclick="setTab(this,'entrepreneurship')">
+          <div class="ni-title">🫠 entrepreneurship (WIP)</div>
+          <div class="ni-sub">notes to self</div>
+        </div>
+
+        <div class="ni-locked">
+          <div class="ni-title">🔒 startup vocabulary</div>
+          <div class="ni-sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">cooked, 10x, foundermode</div>
+        </div>
+
+        <div class="ni-locked">
+          <div class="ni-title">🔒 moving to north america</div>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- ══════════════ ABOUT ══════════════ -->
+      <div id="pane-about" class="pane active">
+
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A"
+             alt="Yash at Kamo River, Kyoto"
+             loading="eager"
+             style="max-width:520px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
+        <p style="font-size:12px; color:#a8a29e; font-style:italic; margin-bottom:14px;">📍 kamo river, kyoto (current fav place on earth)</p>
+
+        <p class="about-name">Yash Vijaykar</p>
+
+        <p class="about-body" style="margin-bottom:10px;">
+          Hola I am yash (rhymes with brush 🪥/ 🖌️)<br>
+          I'm a builder at the intersection of AI, healthcare, and early-stage startups.
+        </p>
+
+        <p class="about-body" style="margin-bottom:10px;">
+          i was part of the founding team of an AI healthcare consumer startup - it shut down, since then i have been just experimenting with life (cause why not 🤷) taking bets on myself (its daunting and <a href="https://yashyijaykar.substack.com/p/you-will-never-regret-investing-time?triedRedirect=true&_src_ref=yashgpt4.github.io" target="_blank">you'd never regret betting on yourself</a>)
+        </p>
+
+        <ul style="list-style:disc; padding-left:1.3em; margin-bottom:10px;">
+          <li class="about-body" style="margin-bottom:4px;">ended up learning a lot about myself</li>
+          <li class="about-body" style="margin-bottom:4px;">was diagnosed with clinical depression, <a href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">solved for it</a></li>
+          <li class="about-body" style="margin-bottom:4px;">started living inside out (driving things from within (antifragile), than listening to external forces, people around me telling what i "should" / "shouldn't" do (fragile))</li>
+          <li class="about-body" style="margin-bottom:4px;">rewarded myself a trip to Japan last dec - it was AWESOME!</li>
+        </ul>
+
+        <p class="about-body" style="margin-bottom:14px;">
+          (I can say with certain confidence now, I've gotten pretty good with navigating uncertainty)
+        </p>
+
+        <p class="about-body">
+          on the work side, been doing something unusual: identifying founders worth betting on (scouting like a vc), building unsolicited cases for how I'd create leverage for them, and reaching out cold, before anyone asks. <a href="#" onclick="setTabByName('portfolio'); return false;">check out the portfolio.</a>
+        </p>
+
+        <hr class="divider" />
+
+        <div class="about-section">what now</div>
+
+        <ol style="list-style:decimal; padding-left:1.3em; margin-bottom:16px;">
+          <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru -> North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity), want to be around high conc of like minded + like hearted people playing positive sum players and long term games 🫶</li>
+          <li class="about-body" style="margin-bottom:8px;">i am excited to be a part of a startup asap as possible (small team energy, solve meaningful problems is what I'm craving)</li>
+          <li class="about-body">curating life with <a href="https://x.com/Invictusbinz" target="_blank" style="color:#1c1917;text-decoration:none;">@invictusbinz</a> 💁🏻‍♀️</li>
+        </ol>
+
+        <hr class="divider" />
+
+        <p class="about-body" style="margin-bottom:4px;">vibe fit? Let's chat! pls email with <strong><em>[subject]: to love icecream 🍦, is to be hooman</em></strong> and we'll take it from there</p>
+        <p style="font-size:12px; color:#78716c; margin-bottom:10px;">(PS: I read every everything)</p>
+        <div class="contact-row">
+          <a href="mailto:yashvijaykar98@gmail.com">yashvijaykar98@gmail.com →</a>
+          <a href="https://x.com/yashgpt5" target="_blank">@yashgpt5 on X →</a>
+          <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
+        </div>
+
+      </div>
+
+      <!-- ══════════════ PORTFOLIO ══════════════ -->
+      <div id="pane-portfolio" class="pane">
+
+        <!-- Hero -->
+        <p class="conviction">I show up before I'm hired</p>
+        <p class="sub-line">I think like a founder. I build the case before anyone asks.</p>
+        <p class="sub-line" style="margin-bottom:4px">Overindexing on [what you work on] + [who you work with] >>> [how hard you work]</p>
+        <p class="sub-line" style="margin-bottom:4px">Ofc given that you're hardworking.</p>
+        <p class="sub-line" style="margin-bottom:16px">Identifying founders worth betting on (scouting like a vc) to work with, building cases for how I'd create leverage for them, and reaching out cold, before anyone asks.</p>
+
+        <hr class="divider" />
+
+        <div class="section-label">Proof of work</div>
+        <p class="approach-blurb">No brief. No job post. I did the work because the problem was interesting and the founder seemed worth betting on.<br>The thesis: understand their north star, map the top bottlenecks, present options.<br>I've also walked away — 9 times, including an early SpaceX investor after a 4-hr call when integrity red flags surfaced.</p>
+
+        <!-- Stat chips -->
+        <div class="chips">
+          <span class="chip">9 offers declined post-Nintee</span>
+          <span class="chip">~$120k offer declined</span>
+          <span class="chip">50+ founders evaluated globally</span>
+        </div>
+
+        <!-- ── 01 Kintsugi ── -->
+        <div class="tog-header" onclick="tog(1)">
+          <span class="tog-arrow" id="ar1">▶</span>
+          <span class="tog-num">01</span>
+          <span class="tog-name">Kintsugi</span>
+          <span class="tog-tag">AI mental health · SF</span>
+        </div>
+        <div id="sec1" class="tog-body">
+          <p class="co-meta">AI mental health screening · <a href="https://www.linkedin.com/in/gracechang/" target="_blank">Grace Chang</a> · Series A, post-PMF · San Francisco</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Cold emailed Grace twice — first email high signal, no reply. Followed up a week later with a better hook → got a reply and a meeting</li>
+            <li>Built Kintsugi's business case from first principles before the call
+              <ul>
+                <li>Mapped the core inefficiency: manual, human-dependent screening</li>
+                <li>Quantified: insurers lose ~$1.26B/yr from missed depression in chronic-disease members</li>
+                <li>Fermi estimate: flag 1% of calls + convert 20% to care → ~$240M saved → ROI of 120×</li>
+              </ul>
+            </li>
+            <li>Mapped smart outreach, automated ops workflows (BD meeting summaries → Slack + HubSpot)</li>
+            <li>Got an assignment from Albert (COO): build a CXO pitch deck — shipped with full autonomy, went beyond the brief</li>
+            <li>Shipped a Loom walking through the work before the next call</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"First time I've watched a video at 1x, Yash!" — Grace Chang</div>
+          <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/grace_chang_loom_reply.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvZ3JhY2VfY2hhbmdfbG9vbV9yZXBseS5wbmciLCJpYXQiOjE3Nzg4Mjk0NDgsImV4cCI6MTg3MzQzNzQ0OH0.yJ8nBDtN9nRFPabBld3sRXFEYHiEmv91ADuHn3IRZQw" alt="Grace Chang's reply to the Loom" />
+          <ul class="co-list">
+            <li>Got the offer (~$120k/yr) and declined</li>
+            <li>Wanted apprenticeship access to a founder I admire, not a contract. Long-term games with long-term people. Walked away respectfully.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.kintsugihealth.com" target="_blank">Kintsugi →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=335-247" target="_blank">See the work →</a>
+            <a href="https://www.loom.com/share/36f0f3138e4d4beab9b69ba71ac29395" target="_blank">Watch the Loom →</a>
+          </div>
+        </div>
+
+        <!-- ── 02 78Health ── -->
+        <div class="tog-header" onclick="tog(2)">
+          <span class="tog-arrow" id="ar2">▶</span>
+          <span class="tog-num">02</span>
+          <span class="tog-name">78Health</span>
+          <span class="tog-tag">Remote patient monitoring · CA + BLR</span>
+        </div>
+        <div id="sec2" class="tog-body">
+          <p class="co-meta">Remote patient monitoring · <a href="https://www.linkedin.com/in/naren-nachiappan-036387/" target="_blank">Naren Nachiappan</a>, 4× founder · Pre-PMF · California + Bengaluru</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Identified the core constraint: clinician time
+              <ul>
+                <li>One physician capped at ~20 patients/day</li>
+                <li>78Health's model unlocks 1,500+ patients per physician</li>
+              </ul>
+            </li>
+            <li>Built the revenue math: $6M run rate = 0.2 take rate × $250k/physician × 120 physicians</li>
+            <li>Mapped the full funnel — physician signing to first live patient. Flagged missing denominators: active patients per physician, CAC, retention speed, activation rate</li>
+            <li>Ran a pre-mortem on the fundraise and two-market risk (US + India bandwidth split)</li>
+            <li>Asked the hard questions: EMR integration risk, platform risk from Epic/Cerner, why two markets simultaneously</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"Apart from the product management basics, possess rare qualities — can navigate uncertainty. Possesses mental strength and resilience." — Naren Nachiappan</div>
+          <ul class="co-list">
+            <li>Got to offer discussion — equity, comp, onboarding — before fundraise timing created uncertainty</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.78health.com" target="_blank">78Health →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=410-1655" target="_blank">See the work →</a>
+          </div>
+        </div>
+
+        <!-- ── 03 HealthyGamer ── -->
+        <div class="tog-header" onclick="tog(3)">
+          <span class="tog-arrow" id="ar3">▶</span>
+          <span class="tog-num">03</span>
+          <span class="tog-name">HealthyGamer GG</span>
+          <span class="tog-tag">Mental health platform · TX</span>
+        </div>
+        <div id="sec3" class="tog-body">
+          <p class="co-meta">Mental health platform · Dr. K · Texas</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Built two distinct ICPs with job-to-be-done mapping
+              <ul>
+                <li>Guides ICP: 18–32, male-skewed, gamer identity, self-diagnosed ADHD/anxiety. Trigger: "I've watched 40 Dr. K videos, time to go deeper." Value prop: $120 vs $200/therapy session</li>
+                <li>Membership ICP: 18–35, long-term Dr. K follower. Wants ongoing growth, not a one-off fix. $10–15/mo frictionless</li>
+              </ul>
+            </li>
+            <li>Mapped both funnels end-to-end
+              <ul>
+                <li>Guides CVR at 0.5–1% of 1.5M monthly site visitors</li>
+                <li>Membership: 6–12K active subscribers, $72–144K MRR, 8–15% monthly churn</li>
+              </ul>
+            </li>
+            <li>Identified revenue bottlenecks and built the 6-month path to 50% growth: $1M → $1.5M</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Asked hard questions in the interview because I genuinely cared what moves the needle — got a generic rejection with zero context</li>
+            <li>Flagged it directly to Dr. K: "For a company whose mission is built on trust, care, and honest conversation — these small interactions carry disproportionate weight." Said my part. Moved on.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.youtube.com/c/HealthyGamerGG" target="_blank">HealthyGamer GG →</a>
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=335-508" target="_blank">See the work →</a>
+            <a href="https://x.com/yashgpt5/status/1950630867216605270" target="_blank">Book thread (liked by Dr. K) →</a>
+          </div>
+        </div>
+
+        <!-- ── 04 Nabeel ── -->
+        <div class="tog-header" onclick="tog(4)">
+          <span class="tog-arrow" id="ar4">▶</span>
+          <span class="tog-num">04</span>
+          <span class="tog-name">Nabeel Qureshi</span>
+          <span class="tog-tag">Stealth healthcare · NYC</span>
+        </div>
+        <div id="sec4" class="tog-body">
+          <p class="co-meta">Stealth healthcare startup · <a href="https://x.com/nabeelqu" target="_blank">Ex-Palantir</a> · NYC</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Read his blogs. Watched his podcast. Played Factorio. Then cold emailed with a personalised video — mission-aligned, not credential-matching</li>
+            <li>Deep research: his writing, podcast appearances, publicly shared frameworks</li>
+            <li>Ask was deliberate: start with a tiny problem, earn the rest</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <div class="quote">"I thought you did a good job." — Nabeel Qureshi</div>
+          <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nabeel_cold_dm.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmFiZWVsX2NvbGRfZG0ucG5nIiwiaWF0IjoxNzc4ODI5NTA1LCJleHAiOjE4MTAzNjU1MDV9.ukxNXhlH1PobcHMVjZGvaiplPwdhW02U4YnkyoVTKUY" alt="Nabeel's reply" />
+          <ul class="co-list">
+            <li>Nabeel replied, watched the video, engaged genuinely</li>
+            <li>Stalled on visa. Not merit.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://x.com/nabeelqu" target="_blank">Nabeel Qureshi →</a>
+            <a href="https://youtu.be/2D92ys4X8aQ" target="_blank">Watch the video →</a>
+          </div>
+        </div>
+
+        <!-- ── 05 Nikhil ── -->
+        <div class="tog-header" onclick="tog(5)">
+          <span class="tog-arrow" id="ar5">▶</span>
+          <span class="tog-num">05</span>
+          <span class="tog-name">Nikhil Kamath</span>
+          <span class="tog-tag">WTFund / Zerodha · BLR</span>
+        </div>
+        <div id="sec5" class="tog-body">
+          <p class="co-meta"><a href="https://x.com/nikhilkamathcio" target="_blank">WTFund</a> / Zerodha · Bengaluru</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Went deep into NK's world — podcasts, investment thesis, WTFund cohort — before building anything</li>
+            <li>Mapped why energy transition is his highest-conviction bet, bottom-up:
+              <ul>
+                <li>GHGs → renewable shift → CO2 halved</li>
+                <li>UEI as the energy trading layer</li>
+                <li>CPO incentive alignment as the real unlock</li>
+              </ul>
+            </li>
+            <li>Built a Figma mindmap validating the whole thesis. Researched his portfolio: Ossus, SolarSquare, Matel. Ranked 10 key insights. Did the full work.</li>
+            <li>Then didn't send it.</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Caught myself mid-way: the drive was "get a 10x career jump" — ego, not mission. Chose not to reach out from that place.</li>
+            <li>The self-awareness that stopped me is the thing he'd respect most.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=409-343" target="_blank">See the mindmap →</a>
+          </div>
+        </div>
+
+        <!-- ── 06 Sahil ── -->
+        <div class="tog-header" onclick="tog(6)">
+          <span class="tog-arrow" id="ar6">▶</span>
+          <span class="tog-num">06</span>
+          <span class="tog-name">Sahil Lavingia</span>
+          <span class="tog-tag">Gumroad / Antiwork · NYC</span>
+        </div>
+        <div id="sec6" class="tog-body">
+          <p class="co-meta"><a href="https://x.com/shl" target="_blank">Gumroad</a> / Antiwork · NYC</p>
+          <div class="co-section">What I did</div>
+          <ul class="co-list">
+            <li>Studied the business cold: balance sheet, Antiwork's north star ($10M EBITDA), product philosophy, open-source strategy, PM stance</li>
+            <li>Sahil posted a $1K story bounty — wrote the sci-fi story with AI, then declined the money. Cold email: "I don't want the $1,000. I want to work with you."</li>
+            <li>Built a personalised video: why his "Reflecting" post was the moment I knew I had to reach out, how I could create leverage starting tomorrow</li>
+          </ul>
+          <div class="co-section">What happened</div>
+          <ul class="co-list">
+            <li>Got ghosted — then noticed he'd blocked me on X and deleted my comment on his thread</li>
+            <li>Reached back out: "Felt weird and unlike you — curious if something went wrong on my end." No reply.</li>
+            <li>Chose not to force it. Moved on clean.</li>
+          </ul>
+          <div class="co-links">
+            <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=409-1491" target="_blank">See the work →</a>
+            <a href="https://docs.google.com/document/d/1--xQf2BOUDsTFCQAajb0KMUEagWqOPHFRa2qD8BUWKQ/edit" target="_blank">Stories →</a>
+          </div>
+        </div>
+
+        <!-- Past work -->
+        <hr class="divider" style="margin-top:20px" />
+        <div class="section-label">Past work</div>
+
+        <!-- Nintee -->
+        <p class="past-head">Nintee</p>
+        <p class="past-meta">Product · <a href="https://x.com/paraschopra" target="_blank">Paras Chopra</a> · Sequoia-backed · Bengaluru · Jun 2022 – Apr 2024</p>
+        <p class="past-blurb">1st hire and founding PM. Worked directly with Paras Chopra ($200M SaaS exit). Shipped 12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full ownership every sprint.</p>
+        <img class="co-img" src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwiaWF0IjoxNzc4ODMzNDc5LCJleHAiOjE4MTAzNjk0Nzl9._4UsEoWcqjHC7EUup1VfZE8ruZ1jqu5XcxONtQRE9v8" alt="Nintee" style="max-width:100%" />
+        <ul class="co-list" style="margin:8px 0 10px">
+          <li>WordRally (mobile word game) — 3 MVPs + 25 alpha builds in one month; D1 retention 25%; avg session 1.5 min → 8 min</li>
+          <li>Nintee Habit Coach (LLM, React Native) — conversational AI from design to prod; FTUE, image captioning, chat memory, intent classification</li>
+          <li>Weight loss coaching app — $800 MRR, 90+ active users globally; Sanjeev Bikhchandani and Vijay Shekhar Sharma were users</li>
+          <li>Calorie tracking + NLP chatbot — D7 retention 20% → 40%; Tanmay Bhat (6M followers) was an active user</li>
+          <li>Community — Discord + Telegram from 0 → 2,500 members; solved cold-start from scratch</li>
+        </ul>
+        <p class="past-backers">Backers: Sequoia · <a href="https://x.com/kunalb11" target="_blank">Kunal Shah</a> · <a href="https://x.com/balajis" target="_blank">Balaji Srinivasan</a></p>
+        <div class="co-links" style="border-top:none;padding-top:0;margin-bottom:16px">
+          <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=302-176" target="_blank">See the work →</a>
+          <a href="https://nintee.com/" target="_blank">Why Nintee wrapped →</a>
+        </div>
+
+        <hr class="divider" style="margin:12px 0" />
+
+        <!-- Level Supermind -->
+        <p class="past-head">Level Supermind</p>
+        <p class="past-meta">Project Manager · 7th employee · <a href="https://x.com/BeerBicepsGuy" target="_blank">BeerBiceps / Ranveer Allahbadia</a> · Mumbai · May 2021 – Feb 2022</p>
+        <ul class="co-list" style="margin-bottom:14px">
+          <li>Led trainer onboarding — closed target by 157%, managed 7 global trainers across 5+ countries</li>
+          <li>Delivered 60+ audio experiences</li>
+          <li>Owned video production: team of 21, budget INR 20L (~$27k)</li>
+        </ul>
+
+        <hr class="divider" style="margin:12px 0" />
+
+        <!-- PijonCo -->
+        <p class="past-head">PijonCo</p>
+        <p class="past-meta">Co-Founder · Mumbai · Sep 2020 – Sep 2021</p>
+        <p class="past-blurb">D2C merch brand built from zero — design, ops, meme marketing. 100+ orders PAN India. Shut down at breakeven when the learning curve flattened. Intentional.</p>
+
+        <hr class="divider" style="margin:12px 0" />
+
+        <!-- Education -->
+        <p class="past-blurb">🧑‍🏫 B.Tech, Food Engineering & Technology · Institute of Chemical Technology, Mumbai · 2017–2021. Chose not to sit for campus placements — joined BeerBiceps' startup instead.</p>
+
+        <hr class="divider" style="margin-top:20px" />
+
+        <div class="contact-row" style="margin-top:8px;">
+          <a href="https://www.linkedin.com/in/yashvijaykar/" target="_blank">LinkedIn →</a>
+          <a href="https://x.com/yashgpt5" target="_blank">X →</a>
+          <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
+          <a href="https://drive.google.com/file/d/10cbMdBO3AAyfenrEUZNeSbObxSjXfEqw/view?usp=sharing" target="_blank">Resume → <span style="color:#a8a29e;">(for founders only)</span></a>
+        </div>
+
+      </div><!-- /portfolio pane -->
+
+      <!-- ══════════════ PRINCIPLES ══════════════ -->
+      <div id="pane-principles" class="pane">
+        <p class="conviction">🏔️ principles</p>
+        <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">These are reminders that take me closer to who I am. I need them time to time. Carved out based on experiences lived through.</p>
+        <p style="font-size:13px;color:#1c1917;line-height:1.6;margin-bottom:4px">Inspired from <a href="https://nabeelqu.co/principles" target="_blank" rel="noopener" style="color:#E8855A;text-decoration:none;">nabeelqu's principles note</a>. Feel free to steal what you like.</p>
+        <hr class="divider" style="margin-top:16px;" />
+
+        <div id="principles-list">
+          <!-- rendered by JS -->
+        </div>
+
+        <p class="prin-footer">Last updated May 2026</p>
+      </div>
+
+      <!-- ══════════════ BLOG ══════════════ -->
+      <div id="pane-blog" class="pane">
+        <p class="conviction">📝 blog</p>
+        <p class="sub-line" style="margin-bottom:20px">Threads, essays, and notes. Mostly about mental health, startups, and what I'm figuring out.</p>
+        <hr class="divider" />
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg" alt="Yash writing" style="max-width:260px;width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
+        <p style="font-size:12px;color:#a8a29e;font-style:italic;margin-bottom:20px;">i write where ever i can - i'm sure you can relate</p>
+        <div id="blog-list">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ══════════════ PROJECT SAKURA ══════════════ -->
+      <div id="pane-sakura" class="pane">
+
+        <p class="conviction">🌸 project sakura</p>
+        <p class="sub-line" style="margin-bottom:16px;">I recovered from clinical depression.</p>
+
+        <hr class="divider" />
+
+        <div class="quote" style="margin-bottom:16px;">"Depression is one of the worst forms of suffering, because of the immense feelings of shame, worthlessness and hopelessness." — Dr. David Burns</div>
+
+        <p class="about-body" style="margin-bottom:12px;">
+          It has been a challenging yet very transformational experience coming out of depression. I wrote about my journey and what helped me in this thread:
+        </p>
+
+        <div class="contact-row" style="margin-bottom:20px;">
+          <a href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">🧵 X thread: my journey →</a>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="about-section">why this project</div>
+
+        <p class="about-body" style="margin-bottom:12px;">
+          I felt strongly — why are things like these not taught to us? Practicing compassion, how to boost your self-esteem, how to respond when someone around you is struggling. People around me didn't know how to respond when I was depressed. The saddest part: a lot of people are silently struggling, because things aren't evidently put out.
+        </p>
+
+        <p class="about-body" style="margin-bottom:20px;">
+          The goal is simple: help someone struggling with tools & comfort.
+        </p>
+
+        <hr class="divider" />
+
+        <div class="about-section">tools & resources</div>
+
+        <ul class="about-list" style="margin-bottom:20px;">
+          <li class="about-body" style="margin-bottom:8px;">
+            <a href="https://docs.google.com/document/d/1uRWYlJgx90ghg60n_CwjqlNmft8-jsHhr-mV5TTIYsc/" target="_blank">CBT tool I built →</a> — the framework that helped me most
+          </li>
+          <li class="about-body" style="margin-bottom:8px;">
+            <a href="https://www.google.com/search?q=feeling+good+by+david+burn" target="_blank">Feeling Good — Dr. David Burns →</a> — the book that changed things
+          </li>
+        </ul>
+
+        <hr class="divider" />
+
+        <p class="about-body" style="margin-bottom:6px;"><a href="https://www.youtube.com/watch?v=0Hu0YAprTDE" target="_blank">Update video: I am doing amazing now</a>. Here's an update video 👇🏻</p>
+        <a href="https://www.youtube.com/watch?v=0Hu0YAprTDE" target="_blank" style="display:block; max-width:420px;">
+          <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/tattoo_update.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvdGF0dG9vX3VwZGF0ZS5wbmciLCJpYXQiOjE3NzkxMDQxODYsImV4cCI6MTgxMDY0MDE4Nn0.QY2gr_R5roD0zxx5BV99ZfK2meJVxRtMPk0vqo5vOAk"
+               alt="Yash update — watch on YouTube"
+               style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; display:block; transition: opacity 0.15s;"
+               onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'" />
+        </a>
+
+      </div>
+
+      <!-- ══════════════ INSPO ══════════════ -->
+      <div id="pane-inspo" class="pane">
+
+        <p class="conviction">🌟 inspo</p>
+        <p class="sub-line" style="margin-bottom:16px;">a collection of people from various disciplines who inspire me will appear here</p>
+
+        <hr class="divider" />
+
+        <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/This-is-what-I-do.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvVGhpcy1pcy13aGF0LUktZG8uZ2lmIiwiaWF0IjoxNzc5MTA1MzExLCJleHAiOjE4MTA2NDEzMTF9.6JMEGfhNCdKoJjX6I3n1_Ng7yU9pTqw_1559TTNCC3s"
+             alt="This is what I do"
+             style="max-width:420px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:20px; display:block;" />
+
+        <hr class="divider" />
+
+        <p class="about-body" style="margin-bottom:6px;">
+          this website UI was inspired by <a href="https://www.helenhuang.io/" target="_blank">Helen Huang's</a> personal website, who was inspired by <a href="https://www.alanagoyal.com/notes/about-me" target="_blank">Alana Goyal's</a> personal website, who was inspired by <a href="https://www.alanagoyal.com/notes/inspo" target="_blank">many other folks</a>.
+        </p>
+        <p class="about-body">feel free to carry on the inspiration chain! 🙌</p>
+
+      </div>
+
+      <!-- ══════════════ ENTREPRENEURSHIP ══════════════ -->
+      <div id="pane-entrepreneurship" class="pane">
+
+        <p class="conviction">🫠 entrepreneurship (WIP)</p>
+        <p class="sub-line" style="margin-bottom:20px;">Notes to self — raw clarity on where I stand and where I'm headed.</p>
+
+        <hr class="divider" />
+
+        <!-- Toggle 1: Clarity Gained -->
+        <div class="tog-header" onclick="tog('e1')">
+          <span class="tog-arrow" id="are1">▶</span>
+          <span class="tog-name">Clarity gained</span>
+        </div>
+        <div class="tog-body" id="sece1">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;"><a href="https://paulgraham.com/wealth.html" target="_blank" style="color:#E8855A;text-decoration:none;">There is no finite wealth in this world.</a> Wealth can be created — somebody doing well doesn't always come at someone else's expense.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Go where the demand is / obvious needs exist.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Go where capital is (capital is leverage).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Good decision making and high leverage >>> mere hard work. Decision making is a leverage touch point — use clear thinking (via Shane Parrish) to maximise odds of success: define clear goal, track least resistant path to get there; leverage LLMs to see your blindspots, cheaply validate hypotheses.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Entrepreneurship feels right (an obvious choice for me) — not like I am choosing this for a set period of time.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Luck exists. It's an arbitrary multiplier — all successful startups got lucky (luck was part of the equation, not the only variable).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I want to be in an environment with maximum leverage — gravitating towards high concentration of long-term players with <a href="https://x.com/nikunj/status/1976782727593750910?s=46" target="_blank" style="color:#E8855A;text-decoration:none;">abundance mindset</a>.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Truths internalised: there are no set rules. There are no "adults" — everyone is figuring it out along the way. All humans are suffering in their own ways, because life (having desires) is suffering (via Buddhist philosophy).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">What you work on + who you work with >>> how hard you work (via Naval).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Double down on asymmetric bets, tail events via Taleb (capped downside, asymmetric positive upside). Absolute probabilities of future events are useless — what you want to look at is tail events.</li>
+            <li class="approach-blurb">There are always going to be waves to surf — I just need to position myself at the right place and be ready with my surfing gear.</li>
+          </ol>
+        </div>
+
+        <!-- Toggle 2: What I Don't Know -->
+        <div class="tog-header" onclick="tog('e2')">
+          <span class="tog-arrow" id="are2">▶</span>
+          <span class="tog-name">What I don't know</span>
+        </div>
+        <div class="tog-body" id="sece2">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;">What exact problem I am excited to solve for fellow humans — unique insight, thesis, wedge (why this problem, why me, why now). Currently actively exploring Mental health, Healthcare, GenAI B2B SaaS. One area: no. of professionals as bottleneck in Mental health care in the USA (10 professionals / 100,000 patients). How can AI help augment professionals to scale more patients?</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">Right community and environment where I will flourish.</li>
+            <li class="approach-blurb">+ Many more things I haven't figured out — if I already had, I wouldn't be writing this and would have already reached where I want to.</li>
+          </ol>
+        </div>
+
+        <!-- Toggle 3: What I Know For Sure -->
+        <div class="tog-header" onclick="tog('e3')">
+          <span class="tog-arrow" id="are3">▶</span>
+          <span class="tog-name">What I know for sure</span>
+        </div>
+        <div class="tog-body" id="sece3">
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:8px;">I have an entrepreneur's DNA.</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I am doing this 100% for me — it aligns internally with what I want to spend my time on (value creation, problem solving, practising autonomy).</li>
+            <li class="approach-blurb" style="margin-bottom:8px;">I want to solve problems where the product materially improves the user's life.<br/><br/><img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/product_manipulation_matrix.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvcHJvZHVjdF9tYW5pcHVsYXRpb25fbWF0cml4LnBuZyIsImlhdCI6MTc3OTM3NDcyMCwiZXhwIjoxODEwOTEwNzIwfQ.eDSclza7SOVbqawbvzsSAMrXGr-6tMs4vrROu_ezYZY" alt="Product matrix" style="max-width:420px;width:100%;border-radius:8px;border:0.5px solid #e7e5e4;margin-top:8px;display:block;" /></li>
+            <li class="approach-blurb">Embodied — <a href="https://www.youtube.com/watch?v=kYfNvmF0Bqw" target="_blank" style="color:#E8855A;text-decoration:none;">Steve Jobs, circa 1994</a>: <em>"When you grow up, you tend to get told that the world is the way it is and your life is just to live your life inside the world... Life can be much broader once you discover one simple fact, and that is: everything around you that you call life was made up by people that were no smarter than you. And you can change it, you can influence it, you can build your own things that other people can use. Once you learn that, you'll never be the same again."</em></li>
+          </ol>
+        </div>
+
+        <!-- Toggle 4: Where Am I Blocked On -->
+        <div class="tog-header" onclick="tog('e4')">
+          <span class="tog-arrow" id="are4">▶</span>
+          <span class="tog-name">Where am I blocked on</span>
+        </div>
+        <div class="tog-body" id="sece4">
+          <ul style="list-style:disc;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb">Finding the right tribe — being around right people, right environment, playing long-term games. I know I can't do it alone; efforts can only multiply with people. Leverage of right community is needed.</li>
+          </ul>
+        </div>
+
+        <!-- Toggle 5: Vision -->
+        <div class="tog-header" onclick="tog('e5')">
+          <span class="tog-arrow" id="are5">▶</span>
+          <span class="tog-name">Vision</span>
+        </div>
+        <div class="tog-body" id="sece5">
+          <p class="approach-blurb" style="margin-bottom:8px;">Create value — Utility × Scale (inspiration from Elon Musk). <em>"How useful have you been to your fellow human beings times how many people?"</em></p>
+          <p class="approach-blurb" style="margin-bottom:8px;">Creating massive value for a very long period of time requires intentionality, space and depth. I am on that path.</p>
+          <p class="approach-blurb">I am very confident this is bound to happen. It's okay if people around can't see it right now — the right people will come along the way, and I shall keep moving forward.</p>
+        </div>
+
+        <!-- Toggle 6: WIP -->
+        <div class="tog-header" onclick="tog('e6')">
+          <span class="tog-arrow" id="are6">▶</span>
+          <span class="tog-name">WIP</span>
+        </div>
+        <div class="tog-body" id="sece6">
+          <p class="approach-blurb" style="margin-bottom:12px;">Entrepreneurship simply is solving offering gaps in a market.</p>
+          <p class="approach-blurb" style="margin-bottom:6px;font-weight:500;">🧠 Nudges I use to Think Bigger</p>
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0 0 14px;">
+            <li class="approach-blurb" style="margin-bottom:6px;">Use "What if it works?" as a forcing function.</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">What would it take for this to be the next default behavior? Musk thinks: <em>"What must be true for this to be inevitable?"</em></li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Peter Thiel's "secrets" lens: What do you believe is true that most people don't? What will compound in value and defensibility over time?</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Work from physics, not vibes — identify a constraint you can break (latency, cost per inference, regulatory bottleneck) and re-architect the stack around it.</li>
+            <li class="approach-blurb">Secrets + Aggregation Theory: look for markets where you can aggregate fragmented supply/demand with a superior UX and own the demand.</li>
+          </ol>
+          <p class="approach-blurb" style="margin-bottom:6px;font-weight:500;">PMF</p>
+          <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
+            <li class="approach-blurb" style="margin-bottom:6px;">You can't motivate a user — solve for existing behaviours. High-frequency chores a persona hates and is prone to errors → automate via LLMs. Make something people want.</li>
+            <li class="approach-blurb" style="margin-bottom:6px;">Solve for existing pains (world is full of inefficiencies — my job is to look at the right one and solve for it).</li>
+            <li class="approach-blurb">0 → 1: 100 users who absolutely love your product >>> thousands who like it (via Sam Altman, YCombinator).</li>
+          </ol>
+        </div>
+
+      </div>
+
+    </main><!-- /content -->
+  </div><!-- /shell -->
+</div><!-- /win -->
+
+<script>
+// ── Sidebar toggle ──
+function toggleSidebar() {
+  var sidebar = document.querySelector('.sidebar');
+  var btn = document.getElementById('sidebar-btn');
+  var collapsed = sidebar.classList.toggle('collapsed');
+  btn.textContent = collapsed ? '›' : '‹';
+}
+
+// ── Tab switching ──
+var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5, entrepreneurship: 6 };
+
+function setTab(el, id, pushState) {
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + id).classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+  if (pushState !== false) history.pushState({ id: id }, '', '/' + id);
+}
+
+function setTabByName(id, pushState) {
+  const ni = document.querySelectorAll('.ni')[TABS[id]];
+  if (ni) setTab(ni, id, pushState);
+}
+
+// ── Restore tab from URL on load ──
+(function() {
+  var path = window.location.pathname.replace('/', '').split('/')[0];
+  if (path && TABS.hasOwnProperty(path)) {
+    setTabByName(path, false);
+  }
+})();
+
+// ── Handle browser back/forward ──
+window.addEventListener('popstate', function(e) {
+  var id = (e.state && e.state.id) || 'about';
+  setTabByName(id, false);
+});
+
+// ── Toggles ──
+function tog(i) {
+  var body = document.getElementById('sec' + i);
+  var arrow = document.getElementById('ar' + i);
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+// ── Principles data ──
+var PRINCIPLES = [
+  { text: "Be you. Inside out. Authenticity brings you peace.", note: "No-one can compete with you on being you (via naval)" },
+  { text: "Have agency over your agency." },
+  { text: "Separation of task. Take ownership and focus only on your task." },
+  { text: "You can only control your actions + how you respond." },
+  { text: "You always have a choice on how you respond." },
+  { text: "Anger is hot coal you hold in your hands waiting to throw at someone else.", note: "via naval — via buddhist philosophy" },
+  { text: "Look at the bigger picture every once in a while — it's beautiful." },
+  { text: "Have courage to be disliked — it's okay, it frees you.", note: "via Alfred Adler" },
+  { text: "Self worth is an abstraction, has no meaning. Tying achievement to your worth is a self defeating concept — focus on what you find interesting, satisfying. Keep having fun." },
+  { text: "Show up and let the magic happen." },
+  { text: "Operate from your strengths." },
+  { text: "Decision quality >>> decision speed." },
+  { text: "Slow is smooth, smooth is fast." },
+  { text: "Outcomes are lagging indicators — focus on your inputs.", note: "Don't judge each day by harvest you reap, but the seeds you plant. Don't chase butterflies, build a garden, let butterflies come and chill." },
+  { text: "There are more parasites than parasitical organisms — optimise for symbiotes." },
+  { text: "Keep going." },
+  { text: "Compassion. Kindness — towards self and people around." },
+  { text: "Abundance. Positive sum games. There's no finite wealth. Make something people want." }
+];
+
+var pl = document.getElementById('principles-list');
+PRINCIPLES.forEach(function(p, i) {
+  var div = document.createElement('div');
+  div.style.cssText = 'padding: 2px 0; font-size: 13px; color: #1c1917; line-height: 1.6;';
+  div.innerHTML = (i + 1) + '. ' + p.text + (p.note ? ' ' + p.note : '');
+  pl.appendChild(div);
+});
+
+// ── Blog data ──
+var BLOG = [
+  { emoji: '✍️', title: 'Notes on Death — v1', type: 'Substack', url: 'https://open.substack.com/pub/yashyijaykar/p/notes-on-death-v1?r=1cy66g&utm_campaign=post&utm_medium=web' },
+  { emoji: '🧵', title: 'Belonging as a Core Need', type: 'Thread', url: 'https://x.com/yashgpt5/status/2019290185029283921' },
+  { emoji: '🌼', title: 'You Will Never Regret Investing Time in Yourself', type: 'Substack', url: 'https://open.substack.com/pub/yashyijaykar/p/you-will-never-regret-investing-time' },
+  { emoji: '🎮', title: 'How to Raise a Healthy Gamer', type: 'Thread', url: 'https://x.com/yashgpt5/status/1950630867216605270' },
+  { emoji: '🎨', title: 'Kids at Work — Short Film', type: 'Film', url: 'https://x.com/yashgpt5/status/1941856086027604255' },
+  { emoji: '🧵', title: 'I Came Out of Clinical Depression — Learnings', type: 'Thread', url: 'https://x.com/yashgpt4/status/1932112899708952873' },
+  { emoji: '🪞', title: 'Self Esteem vs Ego', type: 'Notion', url: 'https://yashgpt.notion.site/Self-esteem-vs-Ego-1c1562144cf5800fb814fd878634e8ee' },
+  { emoji: '🎂', title: 'Turned 26. Notes to Self', type: 'Thread', url: 'https://x.com/yashgpt4/status/1929781987809632389' },
+  { emoji: '🎥', title: 'Recovered from Clinical Depression — Personal Video Story', type: 'Video', url: 'https://www.youtube.com/watch?v=34HSGvs0VUY' },
+  { emoji: '🚀', title: 'Glimpse into 2 Years at a Sequoia-backed AI Startup', type: 'Thread', url: 'https://x.com/yashgpt4/status/1790422806267933157' },
+  { emoji: '🛠️', title: 'Nintee Buildbook — Things We Shipped & Killed', type: 'Thread', url: 'https://x.com/yashgpt4/status/1756597131295764866' },
+  { emoji: '☯️', title: 'Change is a Process, Not an Event', type: 'Thread', url: 'https://x.com/yashgpt4/status/1799678032166203615' },
+  { emoji: '📓', title: 'Notes on Clear Thinking by Shane Parrish', type: 'Thread', url: 'https://x.com/yashgpt4/status/1823675248442839378' },
+  { emoji: '💪', title: 'Best Hacks for Long-term Behaviour Change', type: 'Thread', url: 'https://x.com/yashgpt4/status/1738432852797292854' },
+  { emoji: '🏆', title: 'Escaping Competition — Standing Out Among 1500+ Applicants', type: 'Thread', url: 'https://x.com/yashgpt4/status/1814246649322955004' },
+  { emoji: '📒', title: 'Notes on Hooked by Nir Eyal — Build Habit Forming Products', type: 'Notion', url: 'https://yashgpt.notion.site/Hooked-d61c49bb44084f7f9b3ff3e59267056e' },
+  { emoji: '✅', title: 'Outside-in View — Avoid Biases to Get to Desired Outcome', type: 'Thread', url: 'https://x.com/yashgpt4/status/1792876465752809655' },
+  { emoji: '🤦', title: "You Don't Need to Monetise Every Hobby", type: 'Thread', url: 'https://x.com/yashgpt4/status/1753270149766164926' },
+];
+
+var bl = document.getElementById('blog-list');
+BLOG.forEach(function(b) {
+  var a = document.createElement('a');
+  a.className = 'blog-item';
+  a.href = b.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.innerHTML = '<span class="blog-emoji">' + b.emoji + '</span><div><div class="blog-title">' + b.title + '</div><div class="blog-type">' + b.type + '</div></div>';
+  bl.appendChild(a);
+});
+
+</script>
+
+<!-- Vercel Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+
+</body>
+</html>

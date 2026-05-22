@@ -11,18 +11,19 @@ const nextConfig = {
     ],
   },
 
-  // Rewrite tab-based routes to root so index.html JS can pick up the path.
-  // This is a fallback for when Vercel auto-detects and builds the Next.js app.
+  // beforeFiles rewrites run BEFORE Next.js checks any page or route handler.
+  // This ensures /portfolio, /about, etc. always get index.html from public/,
+  // regardless of what's in app/[...slug]/route.ts.
   async rewrites() {
     return {
-      fallback: [
-        { source: '/about', destination: '/' },
-        { source: '/portfolio', destination: '/' },
-        { source: '/principles', destination: '/' },
-        { source: '/blog', destination: '/' },
-        { source: '/sakura', destination: '/' },
-        { source: '/inspo', destination: '/' },
-        { source: '/entrepreneurship', destination: '/' },
+      beforeFiles: [
+        { source: '/about', destination: '/index.html' },
+        { source: '/portfolio', destination: '/index.html' },
+        { source: '/principles', destination: '/index.html' },
+        { source: '/blog', destination: '/index.html' },
+        { source: '/sakura', destination: '/index.html' },
+        { source: '/inspo', destination: '/index.html' },
+        { source: '/entrepreneurship', destination: '/index.html' },
       ],
     };
   },
