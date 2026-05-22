@@ -5,6 +5,13 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/portfolio", "destination": "/index.html" },
+    { "source": "/principles", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/sakura", "destination": "/index.html" },
+    { "source": "/inspo", "destination": "/index.html" },
+    { "source": "/entrepreneurship", "destination": "/index.html" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
