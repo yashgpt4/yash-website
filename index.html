@@ -26,19 +26,6 @@
 -->
 
 <meta charset="UTF-8" />
-<script>
-  // Restore path redirected by 404.html (GitHub Pages SPA trick)
-  // 404.html encodes /portfolio as /?/portfolio — we restore it here
-  // before any other JS runs, so the tab-switching logic sees the right path.
-  (function() {
-    var redirect = window.location.search.slice(1);
-    if (redirect.startsWith('/')) {
-      window.history.replaceState(null, null,
-        redirect + (window.location.hash || '')
-      );
-    }
-  })();
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yash Vijaykar</title>
 <link rel="icon"
