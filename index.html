@@ -1583,7 +1583,18 @@
 
     // ── Restore tab from URL on load ──
     (function () {
-      var path = window.location.pathname.replace('/', '').split('/')[0];
+      // GitHub Pages SPA redirect lands as /?/birds — detect and handle it
+      var search = window.location.search;
+      if (search && search.startsWith('?/')) {
+        var redirectPath = search.slice(2).split('&')[0].split('/')[0];
+        if (redirectPath && TABS.hasOwnProperty(redirectPath)) {
+          history.replaceState({ id: redirectPath }, '', '/' + redirectPath);
+          setTabByName(redirectPath, false);
+          return;
+        }
+      }
+      // Normal direct URL: /birds
+      var path = window.location.pathname.replace(/^\//, '').split('/')[0];
       if (path && TABS.hasOwnProperty(path)) {
         setTabByName(path, false);
       }
