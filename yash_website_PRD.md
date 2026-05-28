@@ -678,6 +678,90 @@ Dark mode is explicitly out of scope for MVP. The site is light mode only. Add a
 
 ---
 
+## 9A. As-Built Design System (v2.x — Single-File HTML)
+
+> This section documents the **actual implementation** as of May 2026. The original PRD (section 9) describes the planned Next.js/Tailwind build which was superseded. This section is the source of truth for the live site.
+
+### Stack
+
+Single-file HTML (`index.html`) with inline CSS and vanilla JS. No build step, no framework, no npm. Deployed via GitHub Pages.
+
+### Typeface
+
+System font stack — no web font loaded:
+
+```css
+font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+```
+
+Renders as SF Pro on macOS/iOS, Segoe UI on Windows, Inter if installed. Zero font loading time.
+
+### Colour Palette
+
+| Role | Hex | Notes |
+|---|---|---|
+| Primary text | `#1c1917` | stone-900 |
+| Sidebar / titlebar bg | `#f0efee` | warm off-white |
+| Page bg | `#f5f5f4` | stone-100 |
+| Content pane bg | `#ffffff` | pure white |
+| Borders / dividers | `#e7e5e4` | 0.5px, stone-200 |
+| Muted text | `#a8a29e` | stone-400, used for subtexts, section labels |
+| Secondary text | `#78716c` | stone-500, chips and icons |
+| Active sidebar item | `#FAD647` | yellow highlight |
+| Accent / links | `#E8855A` | warm terracotta, all interactive links |
+| Traffic light: red | `#FF5F57` | macOS dot |
+| Traffic light: yellow | `#FFBD2E` | macOS dot |
+| Traffic light: green | `#28C840` | macOS dot |
+
+### Type Scale
+
+| Element | Class | Size | Weight | Color |
+|---|---|---|---|---|
+| Page title | `.conviction` | 22px | 500 | `#1c1917` |
+| Body / sub-line | `.sub-line` | 14px | 400 | `#1c1917` |
+| Body blurb | `.approach-blurb` | 14px | 400 | `#1c1917` |
+| Toggle heading | `.tog-name` | 16px | 500 | `#1c1917` |
+| Toggle number | `.tog-num` | 11px | 600 | `#E8855A` |
+| Section label | `.section-label` | 10px uppercase | 600 | `#a8a29e` |
+| Sidebar item title | `.ni-title` | 13px | 500 | `#1c1917` |
+| Sidebar subtext | `.ni-sub` | 11px | 400 | `#a8a29e` |
+| Stat chips | `.chip` | 12px | 400 | `#78716c` |
+| Base root | `html` | 14px | — | — |
+
+### Spacing & Layout
+
+| Property | Value |
+|---|---|
+| Content pane padding | `32px 36px` |
+| Max content width | `700px` |
+| Sidebar width | `245px` |
+| Sidebar collapsed width | `32px` |
+| Sidebar collapse transition | `0.22s ease` |
+| Divider margin | `20px 0` |
+| Line height — titles | `1.35` |
+| Line height — sub-line | `1.5` |
+| Line height — body blurb | `1.65` |
+
+### Interactive Patterns
+
+- **Sidebar toggle:** ‹/› button, collapses to 32px strip. On mobile: swipe left collapses, tap collapsed sidebar expands.
+- **Tab switching:** `history.pushState` for clean URLs (`/about`, `/portfolio` etc). `popstate` handles browser back/forward.
+- **Toggles:** Accordion expand/collapse via `.open` class. Arrow rotates 90° when open.
+- **Scroll reset:** Content pane scrolls to top on every tab switch.
+
+### Known Issues / Best Practice Gaps
+
+| Issue | Severity | Notes |
+|---|---|---|
+| Missing `<html>`, `<head>`, `<body>` tags | Low | Browsers handle gracefully but HTML is technically malformed. Affects validators and some SEO crawlers. |
+| No heading hierarchy (`h1`–`h6`) | Medium | All headings use `<p>` with classes. Screen readers and SEO bots can't infer structure. Titles should be `<h1>`, sections `<h2>`. |
+| Supabase signed image URLs expire | High | Tokens baked into URLs expire in ~1 year. All images will break silently. Switch to public bucket URLs or build a refresh flow. |
+| No mobile breakpoints | Medium | Layout is fixed sidebar + content. Reflows poorly on narrow screens. Swipe gesture added but full mobile layout is pending. |
+| Single-file HTML (~1500+ lines) | Low | Maintainable now but will get unwieldy as pages grow. Consider splitting if file exceeds ~2500 lines. |
+| No `og:image` or structured metadata | Low | Missing Open Graph image means link previews are blank when shared on X/Slack/iMessage. |
+
+---
+
 ## 10. Routing & URL Structure
 
 | URL | What it renders |
