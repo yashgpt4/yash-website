@@ -684,6 +684,162 @@
       display: none;
     }
   }
+
+  /* ── Fortune Cookie ── */
+  @keyframes fc-bounce {
+    0%   { transform: translateY(0) scale(1, 1); }
+    28%  { transform: translateY(-18px) scale(1.04, 0.96); }
+    50%  { transform: translateY(0) scale(0.96, 1.06); }
+    72%  { transform: translateY(-9px) scale(1.02, 0.98); }
+    88%  { transform: translateY(0) scale(0.99, 1.02); }
+    100% { transform: translateY(0) scale(1, 1); }
+  }
+  @keyframes fc-crack {
+    0%   { transform: scale(1) rotate(0deg); }
+    18%  { transform: scale(1.25) rotate(-6deg); }
+    36%  { transform: scale(0.82) rotate(5deg); }
+    54%  { transform: scale(1.12) rotate(-3deg); }
+    72%  { transform: scale(0.92) rotate(2deg); }
+    88%  { transform: scale(1.05); }
+    100% { transform: scale(0) rotate(8deg); opacity: 0; }
+  }
+  @keyframes fc-in {
+    0%   { opacity: 0; transform: translateY(12px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes fc-like-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.45); }
+    70%  { transform: scale(0.88); }
+    100% { transform: scale(1); }
+  }
+  .fc-cookie {
+    font-size: 110px;
+    cursor: pointer;
+    display: inline-block;
+    animation: fc-bounce 1.1s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+    user-select: none;
+    line-height: 1;
+  }
+  .fc-cookie.cracking {
+    animation: fc-crack 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+  }
+  .fc-window {
+    background: #fffcf8;
+    border: 1px solid #e7e5e4;
+    border-radius: 18px;
+    padding: 48px 24px 40px;
+    text-align: center;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+  .fc-fortune-strip {
+    background: #fffdf0;
+    border: 1px solid #e8d89a;
+    border-top: 3px solid #c9a84c;
+    border-bottom: 3px solid #c9a84c;
+    border-radius: 2px;
+    padding: 22px 26px;
+    max-width: 380px;
+    font-size: 15px;
+    font-style: italic;
+    color: #3d2e00;
+    line-height: 1.7;
+    animation: fc-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-bottom: 28px;
+    position: relative;
+    text-align: center;
+  }
+  .fc-fortune-strip::before,
+  .fc-fortune-strip::after {
+    content: '· · ·';
+    display: block;
+    color: #c9a84c;
+    font-size: 11px;
+    font-style: normal;
+    letter-spacing: 4px;
+  }
+  .fc-fortune-strip::before { margin-bottom: 12px; }
+  .fc-fortune-strip::after  { margin-top: 12px; }
+  .fc-tier-header {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c1917;
+    margin-bottom: 18px;
+    line-height: 1.4;
+    animation: fc-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fc-btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    animation: fc-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .fc-action-btn {
+    background: none;
+    color: #44403c;
+    border: 1px solid #d6d3d1;
+    border-radius: 24px;
+    padding: 9px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .fc-action-btn:hover { background: #f0efee; transform: translateY(-1px); }
+  .fc-like-wrap {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .fc-like-btn {
+    background: none;
+    border: 1px solid #e7e5e4;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fc-like-btn:hover { background: #fef2f2; transform: scale(1.1); }
+  .fc-like-btn.pop   { animation: fc-like-pop 0.32s ease; }
+  .fc-like-count {
+    font-size: 13px;
+    color: #78716c;
+    min-width: 14px;
+  }
+  .fc-locked-msg {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #1c1917;
+    animation: fc-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes fc-wow-fade {
+    0%   { opacity: 0; transform: translateY(-6px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    70%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-4px); }
+  }
+  .fc-wow {
+    font-size: 13px;
+    color: #E8855A;
+    margin-top: 8px;
+    animation: fc-wow-fade 2.2s ease forwards;
+  }
 </style>
 </head>
 
@@ -744,6 +900,11 @@
           <div class="ni" onclick="setTab(this,'entrepreneurship')">
             <div class="ni-title">🫠 entrepreneurship (WIP)</div>
             <div class="ni-sub">notes to self</div>
+          </div>
+
+          <div class="ni" onclick="setTab(this,'fortune')">
+            <div class="ni-title">🍪 GenZ fortune cookie</div>
+            <div class="ni-sub">free good luck for you</div>
           </div>
 
           <div class="ni-locked">
@@ -1519,6 +1680,41 @@
 
       </div>
 
+        <!-- ══════════════ FORTUNE COOKIE ══════════════ -->
+        <div id="pane-fortune" class="pane">
+
+          <p class="conviction">🍪 GenZ fortune cookie</p>
+          <p class="sub-line" style="margin-bottom:20px;">break yo cookie and be delulu cause delulu is sometimes solulu</p>
+
+          <hr class="divider" />
+
+          <!-- Game window -->
+          <div class="fc-window">
+            <!-- Cookie stage -->
+            <div id="fc-stage">
+              <div id="fc-emoji" class="fc-cookie" onclick="fcBreak()">🍪</div>
+            </div>
+            <!-- Result stage -->
+            <div id="fc-result" style="display:none;">
+              <p id="fc-tier-header" class="fc-tier-header"></p>
+              <div id="fc-fortune-text" class="fc-fortune-strip"></div>
+              <div class="fc-btn-row">
+                <button class="fc-action-btn" onclick="fcAnother()">🔁 another cookie</button>
+                <div class="fc-like-wrap">
+                  <button class="fc-like-btn" id="fc-like-btn" onclick="fcLike()">💖</button>
+                  <span id="fc-like-count" class="fc-like-count"></span>
+                </div>
+              </div>
+              <div id="fc-wow" class="fc-wow" style="display:none;">wow so many likes 🤩</div>
+            </div>
+            <!-- Locked state (break 5 used up) -->
+            <div id="fc-locked" style="display:none;">
+              <p class="fc-locked-msg">🛑 No more cookies for you. Go touch grass and come back tomorrow.</p>
+            </div>
+          </div>
+
+        </div>
+
       </main><!-- /content -->
     </div><!-- /shell -->
   </div><!-- /win -->
@@ -1565,7 +1761,7 @@
     })();
 
     // ── Tab switching ──
-    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5, birds: 6, entrepreneurship: 7 };
+    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5, birds: 6, entrepreneurship: 7, fortune: 8 };
 
     function setTab(el, id, pushState) {
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
@@ -1677,6 +1873,175 @@
       a.innerHTML = '<span class="blog-emoji">' + b.emoji + '</span><div><div class="blog-title">' + b.title + '</div><div class="blog-type">' + b.type + '</div></div>';
       bl.appendChild(a);
     });
+
+  // ── Fortune Cookie ──
+  (function () {
+    var SOUND_URL = 'https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/sounds/soundreality-pop-423717.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzb3VuZHMvc291bmRyZWFsaXR5LXBvcC00MjM3MTcubXAzIiwiaWF0IjoxNzc5OTcyODQ4LCJleHAiOjE4MTE1MDg4NDh9.SopA1Nh_Jhglm_AfGohPyjAHxxzL_j3HSaCrCuE_vDo';
+
+    // Pre-load audio so it fires with zero lag on click
+    var fcAudio = new Audio(SOUND_URL);
+    fcAudio.load();
+
+    // ── 5-tier fortune system ──
+    // Tier headers: break 1 = blank, 2 = concerned, 3 = roast, 4 = blank, 5 = ban
+    var TIERS = [
+      {
+        header: '',   // Break 1 — no header, just the fortune
+        pool: [
+          "big things coming bro (source: vibes)",
+          "someone is stalking your linkedin rn",
+          "a random risky decision may actually cook",
+          "Your manifestation journal is working, but your screen time is still 11 hours.",
+          "The vibe is immaculate today. Do absolutely nothing to ruin it.",
+          "An unexpected text is coming. No, it's not your ex, it's Duolingo threatening your family."
+        ]
+      },
+      {
+        header: 'hmm another cookie... I get it you really need that good luck',
+        pool: [
+          "odds of success increased by 3%",
+          "You will survive every meeting that could have been an email today.",
+          "A massive plot twist is coming. Stay delusionally confident.",
+          "Sending you thoughts, prayers, and 5G corporate synergy."
+        ]
+      },
+      {
+        header: 'You need to do some real work also bro.',
+        pool: [
+          "The universe says: 'I'm literally doing my best, please hold'.",
+          "Your main character energy is currently blocked by your procrastination.",
+          "You will find a random $20 bill in your jacket, but you will immediately spend it on a silly little iced matcha.",
+          "your future self is begging for consistency"
+        ]
+      },
+      {
+        header: '',   // Break 4 — no header
+        pool: [
+          "The stars can't fix your sleep schedule, bestie.",
+          "Your guardian angel is tired of watching you scroll TikTok.",
+          "Become the corporate villain they think you are anyway.",
+          "Stop asking for signs and start causing problems on purpose."
+        ]
+      }
+      // Break 5 = ban hammer — no tier, no fortune
+    ];
+
+    var fcLock   = false;
+    var fcLikes  = 0;
+
+    // ── LocalStorage helpers (daily break count) ──
+    function fcKey() { return 'fc_' + new Date().toISOString().slice(0, 10); }
+    function fcGetCount()  { return parseInt(localStorage.getItem(fcKey()) || '0', 10); }
+    function fcIncrCount() {
+      var c = fcGetCount() + 1;
+      localStorage.setItem(fcKey(), c);
+      return c;
+    }
+
+    function fcRandFrom(pool) {
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function fcPlaySound() {
+      try { fcAudio.currentTime = 0; fcAudio.play().catch(function(){}); } catch(e) {}
+    }
+
+    // ── Show states ──
+    function fcShowCookie() {
+      document.getElementById('fc-stage').style.display  = '';
+      document.getElementById('fc-result').style.display = 'none';
+      document.getElementById('fc-locked').style.display = 'none';
+      var el = document.getElementById('fc-emoji');
+      el.className = 'fc-cookie';
+      void el.offsetWidth; // restart bounce
+    }
+
+    function fcShowResult(tier, fortune) {
+      document.getElementById('fc-stage').style.display  = 'none';
+      document.getElementById('fc-locked').style.display = 'none';
+      // Show header only when there's content
+      var hdr = document.getElementById('fc-tier-header');
+      hdr.textContent = tier.header;
+      hdr.style.display = tier.header ? '' : 'none';
+      document.getElementById('fc-fortune-text').textContent = fortune;
+      // Reset like state for this fortune
+      fcLikes = 0;
+      document.getElementById('fc-like-btn').textContent   = '💖';
+      document.getElementById('fc-like-count').textContent = '';
+      document.getElementById('fc-wow').style.display = 'none';
+      document.getElementById('fc-result').style.display = '';
+    }
+
+    function fcShowLocked() {
+      document.getElementById('fc-stage').style.display  = 'none';
+      document.getElementById('fc-result').style.display = 'none';
+      document.getElementById('fc-locked').style.display = '';
+    }
+
+    // ── Core actions ──
+    function fcBreak() {
+      if (fcLock) return;
+      var count = fcGetCount();
+      if (count >= 5) { fcShowLocked(); return; }
+
+      fcLock = true;
+      fcPlaySound(); // immediate — zero delay
+
+      var el = document.getElementById('fc-emoji');
+      el.classList.remove('cracking');
+      void el.offsetWidth;
+      el.classList.add('cracking');
+
+      var newCount = fcIncrCount(); // increment now so tier is accurate
+
+      setTimeout(function () {
+        if (newCount >= 5) {
+          fcShowLocked();
+        } else {
+          var tier    = TIERS[newCount - 1]; // 1-indexed → 0-indexed
+          var fortune = fcRandFrom(tier.pool);
+          fcShowResult(tier, fortune);
+        }
+        fcLock = false;
+      }, 370);
+    }
+
+    function fcAnother() {
+      if (fcGetCount() >= 5) { fcShowLocked(); return; }
+      fcShowCookie();
+    }
+
+    function fcLike() {
+      fcLikes++;
+      var btn   = document.getElementById('fc-like-btn');
+      var count = document.getElementById('fc-like-count');
+
+      btn.classList.remove('pop');
+      void btn.offsetWidth;
+      btn.classList.add('pop');
+      btn.textContent   = '❤️';
+      count.textContent = fcLikes > 0 ? fcLikes : '';
+
+      if (fcLikes === 3) {
+        var wow = document.getElementById('fc-wow');
+        wow.style.display = '';
+        void wow.offsetWidth;
+        // Re-trigger animation if already shown
+        wow.style.animation = 'none';
+        void wow.offsetWidth;
+        wow.style.animation = '';
+        setTimeout(function () { wow.style.display = 'none'; }, 2300);
+      }
+    }
+
+    // Expose to global scope
+    window.fcBreak   = fcBreak;
+    window.fcAnother = fcAnother;
+    window.fcLike    = fcLike;
+
+    // Init: if already used up today, show locked immediately
+    if (fcGetCount() >= 5) fcShowLocked();
+  })();
 
   </script>
 
