@@ -1973,10 +1973,10 @@
             <div class="controls-wrap">
 
               <!-- Rate -->
-              <div class="acc-section open" id="acc-rate">
+              <div class="acc-section" id="acc-rate">
                 <div class="acc-header" onclick="roiToggleAcc('rate')">
                   <span class="acc-title">Hooman time value</span>
-                  <span class="acc-value" id="val-rate">$100 / hr</span>
+                  <span class="acc-value" id="val-rate">$20 / hr</span>
                   <span class="acc-arrow">▶</span>
                 </div>
                 <div class="acc-body">
@@ -2410,7 +2410,7 @@
   const ROI_FREQS = [1, 5, 10, 25, 50];
 
   const roiS = {
-    rate:  100,
+    rate:  20,
     model: 'sonnet46',
     tasks: new Set(['coldmail','meetnotes','support','debug','investor']),
     freq:  10,
