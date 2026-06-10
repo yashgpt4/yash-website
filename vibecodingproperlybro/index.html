@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="31 best practices for vibecoding with Claude — ranked by priority. Built by YashGPT.">
+<meta property="og:title" content="Vibecoding with Claude — Master Checklist">
+<meta property="og:description" content="31 best practices ranked by priority: token efficiency, project design, prompting, workflow, and output quality.">
+<meta property="og:type" content="website">
+<title>Vibecoding with Claude — Master Checklist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --border: #e8e4de;
+    --text: #1a1916;
+    --muted: #6b6760;
+    --faint: #f2ede8;
+    --accent: #1a1916;
+    --check: #16a37f;
+    --c-critical-bg: #fff0ec;
+    --c-critical: #c04a22;
+    --c-high-bg: #fff8ec;
+    --c-high: #9a5c0a;
+    --c-medium-bg: #eef4ff;
+    --c-medium: #2563a8;
+    --c-low-bg: #edfaf3;
+    --c-low: #1a7a4a;
+    --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  html.dark {
+    --bg: #111110;
+    --surface: #1c1b19;
+    --border: #2e2c28;
+    --text: #f0ede8;
+    --muted: #8a857d;
+    --faint: #232220;
+    --accent: #f0ede8;
+    --c-critical-bg: #2a1810;
+    --c-critical: #f4886a;
+    --c-high-bg: #251d0e;
+    --c-high: #e8a84a;
+    --c-medium-bg: #0e1a2e;
+    --c-medium: #72a8f0;
+    --c-low-bg: #0d221a;
+    --c-low: #5cc99a;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* header */
+  .header { margin-bottom: 3rem; }
+
+  .byline {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .desc {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  /* progress */
+  .progress-wrap { margin-bottom: 0.5rem; }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--check);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  /* filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter {
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .filter:hover { border-color: var(--text); color: var(--text); }
+
+  .filter.on {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  /* section */
+  .section { margin-bottom: 2.5rem; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .section-label span { font-variant-numeric: tabular-nums; }
+
+  /* item */
+  .item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    transition: opacity 0.15s;
+  }
+
+  .item:last-child { border-bottom: none; }
+
+  .item.done { opacity: 0.45; }
+
+  .item.hidden { display: none; }
+
+  /* checkbox */
+  .cb {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    background: var(--surface);
+  }
+
+  .cb:hover { border-color: var(--check); }
+
+  .item.done .cb {
+    background: var(--check);
+    border-color: var(--check);
+  }
+
+  .cb svg { display: none; }
+  .item.done .cb svg { display: block; }
+
+  /* content */
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-top {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .rank {
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+
+  .item-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .item.done .item-title {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-critical { background: var(--c-critical-bg); color: var(--c-critical); }
+  .badge-high     { background: var(--c-high-bg);     color: var(--c-high); }
+  .badge-medium   { background: var(--c-medium-bg);   color: var(--c-medium); }
+  .badge-low      { background: var(--c-low-bg);      color: var(--c-low); }
+
+  .item-reason {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 28px;
+  }
+
+  .item-reason strong { color: var(--text); font-weight: 500; }
+
+  /* footer */
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  footer a:hover { color: var(--text); }
+
+  /* theme toggle */
+  .theme-btn {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+    z-index: 99;
+  }
+  .theme-btn:hover { border-color: var(--text); color: var(--text); }
+  .theme-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-sun { display: none; }
+  .icon-moon { display: block; }
+  html.dark .icon-sun { display: block; }
+  html.dark .icon-moon { display: none; }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 2rem 1rem 4rem; }
+    .item-reason { padding-left: 0; margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode">
+  <!-- sun icon (shown in dark mode) -->
+  <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  <!-- moon icon (shown in light mode) -->
+  <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+<div class="wrap">
+
+  <header class="header">
+    <p class="byline">By <a href="https://yashvijaykar.com/" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline;text-underline-offset:3px;">YashGPT</a> &nbsp;·&nbsp; 10th June 2026</p>
+    <h1>Vibecoding with Claude — master checklist</h1>
+    <p class="desc">31 practices ranked by priority. Optimised for smart token usage, sane project design, and consistent output quality.</p>
+
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="prog-label">0 of 31 checked</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+
+    <div class="filters">
+      <button class="filter on" data-f="all">All</button>
+      <button class="filter" data-f="critical">Critical</button>
+      <button class="filter" data-f="high">High</button>
+      <button class="filter" data-f="medium">Medium</button>
+      <button class="filter" data-f="low">Low</button>
+      <button class="filter" data-f="tokens">Token efficiency</button>
+      <button class="filter" data-f="project">Project design</button>
+      <button class="filter" data-f="prompting">Prompting</button>
+      <button class="filter" data-f="workflow">Workflow</button>
+      <button class="filter" data-f="quality">Output quality</button>
+    </div>
+  </header>
+
+  <main id="main"></main>
+
+  <footer>
+    <span>Built by <a href="https://yashvijaykar.com/" target="_blank" rel="noopener">YashGPT</a></span>
+    <span>Research: Anthropic docs, roadmap.sh, producttalk.org</span>
+  </footer>
+
+</div>
+
+<script>
+const items = [
+  {id:1,rank:1,title:"Use Claude Projects — never work in plain chat",priority:"critical",cat:"tokens",reason:"<strong>Project knowledge is cached and doesn't eat your per-message context.</strong> Every new chat within a Project still reads your PRD/CLAUDE.md files, but those tokens are not re-charged each turn. Single biggest structural win for token efficiency."},
+  {id:2,rank:2,title:"Store your PRD as a single Project knowledge file",priority:"critical",cat:"project",reason:"<strong>One canonical .md file in Project Knowledge = the ground truth Claude reads every session.</strong> New chats stay cheap because the file is cached, not re-attached. Update it as your product evolves — it replaces re-pasting requirements every conversation."},
+  {id:3,rank:3,title:"Keep CLAUDE.md / Project instructions under 50 lines",priority:"critical",cat:"tokens",reason:"<strong>Context files balloon fast and Claude starts ignoring buried rules.</strong> Every line must pass: 'Would removing this cause a mistake?' If not, cut it. Link to external docs instead of pasting them inline."},
+  {id:4,rank:4,title:"Start a new chat for every discrete task",priority:"critical",cat:"tokens",reason:"<strong>Token cost grows quasi-quadratically as conversation history accumulates.</strong> The sweet spot is 15–20 exchanges. Beyond that you're paying heavy context tax and Claude's recall degrades. A fresh chat + PRD in Project Knowledge resets cleanly."},
+  {id:5,rank:5,title:"Write a 200-token handoff note at the end of each session",priority:"critical",cat:"tokens",reason:"<strong>A 5-line handoff (current state, next step, key decisions, files touched) replaces 10,000+ tokens of conversation history.</strong> Paste it as the first message in the next chat. Core of the 'start fresh, stay fast' loop."},
+  {id:6,rank:6,title:"Always plan before coding — use Plan Mode",priority:"critical",cat:"prompting",reason:"<strong>Unplanned implementation causes Claude to make mid-stream architectural decisions, rename conventions, and create unwanted files.</strong> Ask 'propose a plan, no code yet'. Review the plan, approve it, then execute. Skip only for trivial one-liners."},
+  {id:7,rank:7,title:"Write scoped, constrained prompts with explicit off-limits",priority:"critical",cat:"prompting",reason:"<strong>Open-ended prompts cause Claude to change files you didn't expect.</strong> Every prompt needs: Goal, Constraints, Files to touch, Files to never touch, Success criteria. Eliminates most debugging sessions before they start."},
+  {id:8,rank:8,title:"Always give Claude a verifiable check to run",priority:"critical",cat:"quality",reason:"<strong>Without a test or build command, Claude stops when things 'look done' — and you become the verification loop.</strong> End implementation prompts with 'run the tests / lint / build and fix any failures.' The loop closes automatically."},
+  {id:9,rank:9,title:"Commit early and often with descriptive messages",priority:"critical",cat:"workflow",reason:"<strong>Granular commits are your escape hatch.</strong> If Claude makes a wrong turn, you can revert to any checkpoint. In Claude Code: 'commit with a descriptive message after each task step.' The only reliable undo in agentic coding."},
+  {id:10,rank:10,title:"Use an about-me.md + voice-profile.md in Project Knowledge",priority:"high",cat:"project",reason:"<strong>Claude starts every session knowing who you are, your priorities, and decisions already made.</strong> Two files: about-me.md (role, current focus, decided constraints) and voice-profile.md (tone, banned words, style). Build the voice profile by having Claude interview you."},
+  {id:11,rank:11,title:"Use XML tags for multi-part complex prompts",priority:"high",cat:"prompting",reason:"<strong>Structured prompts get structured outputs.</strong> Wrap context, task, constraints, and examples in &lt;context&gt; &lt;task&gt; &lt;constraints&gt; &lt;examples&gt; tags. Claude processes each section cleanly and output consistency rises significantly."},
+  {id:12,rank:12,title:"Explore codebase in Plan Mode before writing any code",priority:"high",cat:"workflow",reason:"<strong>Jumping straight to implementation solves the wrong problem.</strong> Use plan mode to read relevant files first, then ask for a plan, then approve, then implement. This 4-step sequence prevents building on wrong assumptions."},
+  {id:13,rank:13,title:"Point Claude to a reference file — don't describe style abstractly",priority:"high",cat:"prompting",reason:"<strong>'Read src/routes/users.ts — that's the pattern. Match it exactly.'</strong> One real file beats a hundred words of stylistic description. Claude replicates patterns it can see far better than patterns described in prose."},
+  {id:14,rank:14,title:"Use /compact or checkpoint summaries before context fills",priority:"high",cat:"tokens",reason:"<strong>Auto-compact at 95% context is messy — Claude rushes and may miss crucial decisions.</strong> Manual /compact mid-session cuts accumulated history by 80–95% while preserving continuity. In plain chat: ask Claude to 'summarise this conversation into a 500-word handoff'."},
+  {id:15,rank:15,title:"Build custom slash commands for repeated workflows",priority:"high",cat:"workflow",reason:"<strong>Every time you re-explain your PRD format or output template, you burn tokens and introduce variance.</strong> In Claude Code: save templates in .claude/commands/. In Cowork: save as Skills. One setup, zero re-explanation after."},
+  {id:16,rank:16,title:"Maintain a living CHANGELOG or decisions log",priority:"high",cat:"project",reason:"<strong>Reversed decisions must not linger in CLAUDE.md.</strong> A separate CHANGELOG.md documents what changed and why. Claude can reference it on demand without bloating every session's context."},
+  {id:17,rank:17,title:"Use Socratic prompting for ambiguous or large tasks",priority:"high",cat:"prompting",reason:"<strong>Asking Claude what questions it needs answered surfaces assumptions you didn't know you were making.</strong> Template: 'I want to [TASK]. First, ask me any questions you need. Refine the approach with me before executing.'"},
+  {id:18,rank:18,title:"Declare off-limits zones in CLAUDE.md and every task prompt",priority:"high",cat:"project",reason:"<strong>Auth flows, payment logic, and schema migrations are where unreviewed AI changes are most dangerous.</strong> List them in CLAUDE.md and repeat in task prompts. Belt and suspenders."},
+  {id:19,rank:19,title:"Structure your Cowork folder before prompting",priority:"medium",cat:"workflow",reason:"<strong>Cowork out of the box is generic. Cowork with a structured folder is a different tool.</strong> Four folders: ABOUT-ME/, PROJECTS/, TEMPLATES/, CLAUDE-OUTPUTS/. All outputs go to one known location."},
+  {id:20,rank:20,title:"Feed Claude a context-restore prompt, not conversation history",priority:"medium",cat:"tokens",reason:"<strong>Never paste prior conversation into a new chat — that re-pays the token cost of everything said before.</strong> Paste only: current state, next step, key decisions, constraint stack. 200 tokens vs 20,000."},
+  {id:21,rank:21,title:"Use subagents for research — keep main context clean",priority:"medium",cat:"tokens",reason:"<strong>In Claude Code, use 'Use subagents to investigate X' so codebase exploration happens in a sub-context.</strong> The subagent reports findings in summary form. Main session stays focused."},
+  {id:22,rank:22,title:"Require migration plans before any schema change",priority:"medium",cat:"quality",reason:"<strong>Schema changes have the highest rollback cost.</strong> Before generating any migration code: 'Summarise the schema change, the rollback plan, and the data risk. Wait for approval before generating code.'"},
+  {id:23,rank:23,title:"Add 'List your assumptions' to every plan prompt",priority:"medium",cat:"prompting",reason:"<strong>Claude's assumptions are where mismatches happen — and they're invisible unless you ask.</strong> Review the assumptions before approving the plan. One addition that prevents most wrong-direction implementations."},
+  {id:24,rank:24,title:"Review every diff before accepting — especially deletions",priority:"medium",cat:"quality",reason:"<strong>Deleted lines are the most dangerous part of any AI-generated change.</strong> Scan for: unexpected deletions, new dependencies, public API renames, changes to off-limits files."},
+  {id:25,rank:25,title:"Provide rich context via @ references, screenshots, piped data",priority:"medium",cat:"prompting",reason:"<strong>Claude works far better with concrete artefacts than with descriptions of them.</strong> In Claude Code: use @ to reference files. Paste screenshots for UI tasks. Pipe error logs with cat error.log | claude."},
+  {id:26,rank:26,title:"Set Global Instructions in Cowork — run once, benefit forever",priority:"medium",cat:"workflow",reason:"<strong>Cowork has no memory between sessions without Global Instructions.</strong> Set rules like 'Always read ABOUT-ME/ before starting' and 'Deliver outputs only to CLAUDE-OUTPUTS/'. 30 minutes of setup. Permanent payoff."},
+  {id:27,rank:27,title:"Stack connectors for cross-app context in Cowork",priority:"medium",cat:"workflow",reason:"<strong>Connectors (Gmail, Drive, Notion, Calendar) give Claude read access to your actual data instead of requiring uploads.</strong> Each connector multiplies value when combined with others."},
+  {id:28,rank:28,title:"Run a fresh plan-reviewer on completed plans",priority:"low",cat:"quality",reason:"<strong>By the end of a long planning session, you and Claude share the same blind spots.</strong> Run the plan through a fresh Claude context with the role of a critical reviewer before a single line of code is written."},
+  {id:29,rank:29,title:"Run tests + typecheck + lint after every accepted change",priority:"low",cat:"quality",reason:"<strong>The discipline of always running the verification suite catches regressions immediately, when they're cheap to fix.</strong> Never accumulate multiple unverified changes. Always: typecheck && test && lint."},
+  {id:30,rank:30,title:"Use /rewind or start-over as valid strategies",priority:"low",cat:"workflow",reason:"<strong>When Claude has gone in the wrong direction for several steps, patching forward costs more than rewinding.</strong> /rewind to the last clean checkpoint. In vibe coding apps, starting over is often the fastest path — not a failure."},
+  {id:31,rank:31,title:"Tell Claude the stakes and who will see the output",priority:"low",cat:"prompting",reason:"<strong>Framing shapes how carefully Claude reasons.</strong> 'This goes to investors tomorrow' produces more rigorous output than an identical prompt without that context. For important deliverables, tell Claude what failure looks like."}
+];
+
+const sections = [
+  { key: "tokens",   label: "Token efficiency" },
+  { key: "project",  label: "Project & system design" },
+  { key: "prompting",label: "Prompting craft" },
+  { key: "workflow", label: "Workflow & tooling" },
+  { key: "quality",  label: "Output quality & safety" }
+];
+
+const checked = new Set(JSON.parse(localStorage.getItem("vc-checked") || "[]"));
+let activeFilter = "all";
+
+function save() {
+  try { localStorage.setItem("vc-checked", JSON.stringify([...checked])); } catch(e) {}
+}
+
+function badgeClass(p) {
+  return { critical:"badge-critical", high:"badge-high", medium:"badge-medium", low:"badge-low" }[p];
+}
+
+function priorityFilters() {
+  return ["all","critical","high","medium","low"];
+}
+
+function catFilters() {
+  return ["tokens","project","prompting","workflow","quality"];
+}
+
+function matchesFilter(item, f) {
+  if (f === "all") return true;
+  if (priorityFilters().includes(f)) return item.priority === f;
+  if (catFilters().includes(f)) return item.cat === f;
+  return true;
+}
+
+function render() {
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  const visible = items.filter(it => matchesFilter(it, activeFilter));
+  const doneCount = visible.filter(it => checked.has(it.id)).length;
+  const pct = visible.length ? Math.round(doneCount / visible.length * 100) : 0;
+
+  document.getElementById("prog-label").textContent = `${doneCount} of ${visible.length} checked`;
+  document.getElementById("prog-pct").textContent = pct + "%";
+  document.getElementById("prog-fill").style.width = pct + "%";
+
+  sections.forEach(sec => {
+    const secItems = visible.filter(it => it.cat === sec.key);
+    if (!secItems.length) return;
+
+    const secDone = secItems.filter(it => checked.has(it.id)).length;
+
+    const div = document.createElement("div");
+    div.className = "section";
+
+    const header = document.createElement("div");
+    header.className = "section-label";
+    header.innerHTML = `<span>${sec.label}</span><span>${secDone}/${secItems.length}</span>`;
+    div.appendChild(header);
+
+    secItems.forEach(it => {
+      const row = document.createElement("div");
+      row.className = "item" + (checked.has(it.id) ? " done" : "");
+      row.innerHTML = `
+        <div class="cb" role="checkbox" aria-checked="${checked.has(it.id)}" tabindex="0" aria-label="${it.title}">
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+            <path d="M1 3.5L3.8 6L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="item-body">
+          <div class="item-top">
+            <span class="rank">#${it.rank}</span>
+            <span class="item-title">${it.title}</span>
+            <span class="badge ${badgeClass(it.priority)}">${it.priority.charAt(0).toUpperCase() + it.priority.slice(1)}</span>
+          </div>
+          <p class="item-reason">${it.reason}</p>
+        </div>`;
+
+      const cb = row.querySelector(".cb");
+      const toggle = () => {
+        if (checked.has(it.id)) checked.delete(it.id); else checked.add(it.id);
+        save();
+        render();
+      };
+      cb.addEventListener("click", toggle);
+      cb.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+
+      div.appendChild(row);
+    });
+
+    main.appendChild(div);
+  });
+}
+
+document.querySelectorAll(".filter").forEach(btn => {
+  btn.addEventListener("click", () => {
+    activeFilter = btn.dataset.f;
+    document.querySelectorAll(".filter").forEach(b => b.classList.remove("on"));
+    btn.classList.add("on");
+    render();
+  });
+});
+
+// theme
+const html = document.documentElement;
+const savedTheme = localStorage.getItem("vc-theme");
+if (savedTheme === "dark") html.classList.add("dark");
+
+document.getElementById("theme-btn").addEventListener("click", () => {
+  html.classList.toggle("dark");
+  localStorage.setItem("vc-theme", html.classList.contains("dark") ? "dark" : "light");
+});
+
+render();
+</script>
+</body>
+</html>
