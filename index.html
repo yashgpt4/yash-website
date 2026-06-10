@@ -31,6 +31,23 @@
 <link rel="icon"
   href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧃</text></svg>" />
 <style>
+  /* ── CSS Variables ── */
+  :root {
+    --bg:        #f5f5f4;
+    --white:     #ffffff;
+    --text:      #1c1917;
+    --text2:     #44403c;
+    --muted:     #78716c;
+    --tertiary:  #a8a29e;
+    --border:    #e7e5e4;
+    --accent:    #E8855A;
+    --accent-bg: #fff8f5;
+    --green:     #059669;
+    --red:       #c2410c;
+    --blue:      #2563eb;
+    --sans:      -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  }
+
   /* ── Reset ── */
   *,
   *::before,
@@ -264,6 +281,10 @@
     display: none;
     padding: 32px 36px;
     max-width: 700px;
+  }
+
+  .pane.pane-wide {
+    max-width: 900px;
   }
 
   .pane.active {
@@ -842,7 +863,7 @@
   }
 
   /* ── ROI CALCULATOR PAGE ── */
-  .calc-wrap { padding: 24px 28px 52px; }
+  .calc-wrap { padding: 0 0 52px; }
   .manifesto-row {
     display: flex; align-items: center;
     justify-content: space-between; gap: 20px;
@@ -1043,6 +1064,20 @@
   }
   .roi-empty { text-align: center; padding: 48px 24px; color: var(--tertiary); font-size: 14px; }
   .roi-empty-icon { font-size: 32px; opacity: 0.35; margin-bottom: 8px; }
+
+  @keyframes roiGradientBreath {
+    0%   { background-position: 0% center; }
+    50%  { background-position: 100% center; }
+    100% { background-position: 0% center; }
+  }
+  .roi-gradient-text {
+    background: linear-gradient(90deg, #E8855A, #1c1917, #E8855A);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: roiGradientBreath 7s ease-in-out infinite;
+  }
 </style>
 </head>
 
@@ -1090,9 +1125,14 @@
             <div class="ni-sub">#mentalhealthultrapromax</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'inspo')">
-            <div class="ni-title">🌟 inspo</div>
-            <div class="ni-sub">collection of inspiration</div>
+          <div class="ni" onclick="setTab(this,'AI_ROI')">
+            <div class="ni-title">📈 AI vs Hooman ROI</div>
+            <div class="ni-sub">exploit machines, not hoomans</div>
+          </div>
+
+          <div class="ni" onclick="setTab(this,'fortune')">
+            <div class="ni-title">🍪 GenZ fortune cookie</div>
+            <div class="ni-sub">free good luck for you</div>
           </div>
 
           <div class="ni" onclick="setTab(this,'birds')">
@@ -1105,14 +1145,9 @@
             <div class="ni-sub">notes to self</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'fortune')">
-            <div class="ni-title">🍪 GenZ fortune cookie</div>
-            <div class="ni-sub">free good luck for you</div>
-          </div>
-
-          <div class="ni" onclick="setTab(this,'AI_ROI')">
-            <div class="ni-title">📈 AI vs Hooman ROI</div>
-            <div class="ni-sub">exploit machines, not hoomans</div>
+          <div class="ni" onclick="setTab(this,'inspo')">
+            <div class="ni-title">🌟 inspo</div>
+            <div class="ni-sub">collection of inspiration</div>
           </div>
 
           <div class="ni-locked">
@@ -1924,13 +1959,13 @@
         </div>
 
         <!-- ══════════════ AI ROI CALCULATOR ══════════════ -->
-        <div id="pane-AI_ROI" class="pane">
+        <div id="pane-AI_ROI" class="pane pane-wide">
 
           <div class="calc-wrap">
 
             <p class="conviction">📈 AI vs Hooman ROI</p>
             <div class="manifesto-row">
-              <h1 class="manifesto-h1">hooman time expensive. machine time cheap.</h1>
+              <p class="sub-line roi-gradient-text" style="margin-bottom:0;">hooman time expensive. machine time cheap.</p>
               <div class="formula-pill">ROI = <span class="hi">(Time Saved × $/hr)</span> ÷ <span class="hi">AI Cost</span></div>
             </div>
 
@@ -1998,7 +2033,7 @@
             <img
               src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/cat_overlooking.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvY2F0X292ZXJsb29raW5nLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODEwNjk5NjEsImV4cCI6MTgxMjYwNTk2MX0.9ggVTkMAkpn7g8Fus5-WBT6phiD9OpsNUmlXt0vbOnE"
               alt="cat overlooking"
-              style="width:25%;border-radius:8px;display:block;"
+              style="max-width:350px;width:100%;border-radius:8px;display:block;"
             >
 
           </div>
@@ -2051,7 +2086,7 @@
     })();
 
     // ── Tab switching ──
-    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, inspo: 5, birds: 6, entrepreneurship: 7, fortune: 8, AI_ROI: 9 };
+    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, AI_ROI: 5, fortune: 6, birds: 7, entrepreneurship: 8, inspo: 9 };
 
     function setTab(el, id, pushState) {
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
