@@ -782,7 +782,49 @@
     .mobile-back:active { opacity: 0.6; }
 
     .pane {
-      padding: 20px 18px 40px;
+      padding: 20px 20px 60px;
+      max-width: 100% !important;
+    }
+
+    /* All images fluid on mobile */
+    .pane img {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto;
+    }
+
+    /* Wide tables scroll horizontally */
+    .pane table, .btable {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Stat cards stack on mobile */
+    .stats-row {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* ROI task grid single column */
+    .task-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Model grid 2 cols on mobile */
+    .model-btn-row {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Savings grid 1 col */
+    .savings-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Formula pill wraps */
+    .manifesto-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
     }
 
     .tog-tag { display: none; }
@@ -2212,6 +2254,9 @@
       var path = window.location.pathname.replace(/^\//, '').split('/')[0];
       if (path && TABS.hasOwnProperty(path)) {
         setTabByName(path, false);
+      } else if (window.innerWidth <= 640) {
+        // Mobile default: collapse sidebar and show about page
+        document.querySelector('.sidebar').classList.add('collapsed');
       }
     })();
 
