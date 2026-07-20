@@ -690,20 +690,102 @@
     margin-top: 2px;
   }
 
+  /* ── Mobile back button (hidden on desktop) ── */
+  .mobile-back {
+    display: none;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 640px) {
+
+    /* Hide macOS titlebar */
+    .titlebar { display: none; }
+
+    /* Shell fills full viewport */
+    .shell { position: relative; overflow: hidden; height: 100vh; }
+
+    /* Sidebar = full-screen list view */
     .sidebar {
-      width: 185px;
-      min-width: 185px;
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      min-width: 100% !important;
+      border-right: none;
+      z-index: 10;
+      transition: transform 0.25s ease;
+      transform: translateX(0);
     }
+
+    /* Collapsed = slide out left → content visible */
+    .sidebar.collapsed {
+      transform: translateX(-100%);
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+
+    /* Sidebar header — bigger on mobile */
+    .sidebar-header {
+      height: 52px;
+      padding: 0 18px;
+    }
+
+    .sidebar-header-label {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1c1917;
+      letter-spacing: 0;
+      text-transform: none;
+      opacity: 1 !important;
+      display: block !important;
+    }
+
+    /* Hide the desktop collapse toggle on mobile */
+    .sidebar-toggle { display: none; }
+
+    /* Sidebar list items — bigger touch targets */
+    .sidebar-list { padding: 8px 12px 24px; }
+
+    .ni {
+      padding: 12px 12px;
+      margin-bottom: 4px;
+    }
+
+    .ni .ni-title { font-size: 15px; }
+    .ni .ni-sub   { font-size: 13px; margin-top: 2px; }
+
+    /* Content = full screen, behind sidebar initially */
+    .content {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+    }
+
+    /* Mobile back button — visible on mobile */
+    .mobile-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 18px 10px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #E8855A;
+      cursor: pointer;
+      border-bottom: 0.5px solid #e7e5e4;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .mobile-back:active { opacity: 0.6; }
 
     .pane {
-      padding: 20px 18px;
+      padding: 20px 18px 40px;
     }
 
-    .tog-tag {
-      display: none;
-    }
+    .tog-tag { display: none; }
   }
 
   /* ── Fortune Cookie ── */
@@ -1165,6 +1247,9 @@
 
       <!-- Content -->
       <main class="content">
+
+        <!-- Mobile back button -->
+        <div class="mobile-back" onclick="mobileBack()">← &nbsp;Notes</div>
 
         <!-- ══════════════ ABOUT ══════════════ -->
         <div id="pane-about" class="pane active">
@@ -2095,6 +2180,15 @@
       document.getElementById('pane-' + id).classList.add('active');
       document.querySelector('.content').scrollTop = 0;
       if (pushState !== false) history.pushState({ id: id }, '', '/' + id);
+      // Mobile: collapse sidebar to reveal content
+      if (window.innerWidth <= 640) {
+        document.querySelector('.sidebar').classList.add('collapsed');
+      }
+    }
+
+    function mobileBack() {
+      document.querySelector('.sidebar').classList.remove('collapsed');
+      document.querySelector('.content').scrollTop = 0;
     }
 
     function setTabByName(id, pushState) {
