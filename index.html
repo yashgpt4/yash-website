@@ -86,16 +86,52 @@
     background: #f5f5f4;
   }
 
-  .titlebar {
+  /* Dots now live inside the sidebar titlebar */
+  .sidebar-titlebar {
     height: 38px;
     background: #f0efee;
     border-bottom: 0.5px solid #e7e5e4;
     display: flex;
     align-items: center;
-    padding: 0 14px;
-    gap: 8px;
+    padding: 0 10px;
+    gap: 7px;
     flex-shrink: 0;
   }
+
+  .sidebar-titlebar .sidebar-toggle {
+    margin-left: auto;
+  }
+
+  .sidebar.collapsed .sidebar-titlebar {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .sidebar.collapsed .sidebar-titlebar .sidebar-toggle {
+    margin-left: 0;
+  }
+
+  /* Hide dots when collapsed, keep only the toggle */
+  .sidebar.collapsed .sidebar-titlebar .dot {
+    display: none;
+  }
+
+  /* Collapsed toggle — bigger tap target, centered */
+  .sidebar.collapsed .sidebar-toggle {
+    width: 28px;
+    height: 28px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 8px;
+    color: #78716c;
+  }
+
+  .sidebar.collapsed .sidebar-toggle:hover {
+    background: rgba(0,0,0,0.1);
+    color: #1c1917;
+  }
+
+  /* Standalone titlebar removed */
+  .titlebar { display: none; }
 
   .dot {
     width: 12px;
@@ -136,24 +172,21 @@
   }
 
   .sidebar.collapsed {
-    width: 32px;
-    min-width: 32px;
+    width: 36px;
+    min-width: 36px;
   }
 
   .sidebar-header {
-    height: 38px;
+    height: 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 12px;
     flex-shrink: 0;
     border-bottom: 0.5px solid #e7e5e4;
-    transition: padding 0.22s ease;
   }
 
   .sidebar.collapsed .sidebar-header {
-    padding: 0;
-    justify-content: center;
+    display: none;
   }
 
   .sidebar-header-label {
@@ -710,8 +743,8 @@
   /* ── Responsive ── */
   @media (max-width: 640px) {
 
-    /* Hide macOS titlebar */
-    .titlebar { display: none; }
+    /* Hide sidebar titlebar (dots) on mobile */
+    .sidebar-titlebar { display: none; }
 
     /* Shell fills full viewport */
     .shell { position: relative; overflow: hidden; height: 100%; }
@@ -1226,19 +1259,17 @@
 <body>
 
   <div class="win">
-    <!-- Title bar -->
-    <div class="titlebar">
-      <div class="dot d-r"></div>
-      <div class="dot d-y"></div>
-      <div class="dot d-g"></div>
-    </div>
-
     <div class="shell">
       <!-- Sidebar -->
       <nav class="sidebar">
+        <div class="sidebar-titlebar">
+          <div class="dot d-r"></div>
+          <div class="dot d-y"></div>
+          <div class="dot d-g"></div>
+          <button class="sidebar-toggle" id="sidebar-btn" onclick="toggleSidebar()" title="Toggle sidebar">‹</button>
+        </div>
         <div class="sidebar-header">
           <span class="sidebar-header-label">Notes</span>
-          <button class="sidebar-toggle" id="sidebar-btn" onclick="toggleSidebar()" title="Toggle sidebar">‹</button>
         </div>
         <div class="sidebar-list">
 
