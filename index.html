@@ -556,6 +556,53 @@
     border: 0.5px solid #e7e5e4;
   }
 
+  /* ── Image carousel ── */
+  .img-carousel {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    margin: 10px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 0.5px solid #e7e5e4;
+    background: #fafaf9;
+  }
+
+  .img-carousel img {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .img-carousel img.active {
+    display: block;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0 10px;
+  }
+
+  .carousel-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d6d3d1;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .carousel-dots span:hover {
+    background: #a8a29e;
+  }
+
+  .carousel-dots span.active {
+    background: #E8855A;
+  }
+
   /* ── Past work ── */
   .past-head {
     font-size: 16px;
@@ -1719,11 +1766,23 @@
           <p class="past-meta">Product · <a href="https://x.com/paraschopra" target="_blank">Paras Chopra</a> ·
             Sequoia-backed · Bengaluru · Jun 2022 – Apr 2024</p>
           <p class="past-blurb">1st hire and founding PM. Worked directly with Paras Chopra ($200M SaaS exit). Shipped
-            12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming. No playbook, no senior PM, full
-            ownership every sprint.</p>
-          <img class="co-img"
-            src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwiaWF0IjoxNzc4ODMzNDc5LCJleHAiOjE4MTAzNjk0Nzl9._4UsEoWcqjHC7EUup1VfZE8ruZ1jqu5XcxONtQRE9v8"
-            alt="Nintee" style="max-width:100%" />
+            12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming.</p>
+          <div class="img-carousel" id="nintee-carousel">
+            <img class="active"
+              src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/ninteewrapup.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVld3JhcHVwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODU4MTkwMzYsImV4cCI6MTgxNzM1NTAzNn0.BUt2lA_fFEw_ZPw0e2twx36UEDNzQmYvNQ-p7F-zA-s"
+              alt="Nintee wrap-up" />
+            <img
+              src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_meme.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX21lbWUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NTgxOTA5OSwiZXhwIjoxODE3MzU1MDk5fQ.AAxKsqadyH40OEo4dLShk_ZNL8XkckhXHd2YdvPOUmM"
+              alt="Nintee meme" />
+            <img
+              src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/nintee_og_team_photo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbmludGVlX29nX3RlYW1fcGhvdG8ucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NTgxOTE0NywiZXhwIjoxODE3MzU1MTQ3fQ.MB2Kc_GtFN1KALa8qW2_EvyS0EVZHkr9XCTW0Q_NoFE"
+              alt="Nintee original team photo" />
+          </div>
+          <div class="carousel-dots" data-for="nintee-carousel">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+          </div>
           <ul class="co-list" style="margin:8px 0 10px">
             <li>WordRally (mobile word game) — 3 MVPs + 25 alpha builds in one month; D1 retention 25%; avg session 1.5
               min → 8 min</li>
@@ -2261,6 +2320,24 @@
   </div><!-- /win -->
 
   <script>
+    // ── Image carousels (click dot to select) ──
+    (function() {
+      document.querySelectorAll('.img-carousel').forEach(function(carousel) {
+        var imgs = carousel.querySelectorAll('img');
+        var dots = document.querySelectorAll('.carousel-dots[data-for="' + carousel.id + '"] span');
+        if (imgs.length < 2) return;
+
+        dots.forEach(function(dot, i) {
+          dot.addEventListener('click', function() {
+            imgs.forEach(function(img) { img.classList.remove('active'); });
+            dots.forEach(function(d) { d.classList.remove('active'); });
+            imgs[i].classList.add('active');
+            dot.classList.add('active');
+          });
+        });
+      });
+    })();
+
     // ── Sidebar toggle ──
     function toggleSidebar() {
       var sidebar = document.querySelector('.sidebar');
