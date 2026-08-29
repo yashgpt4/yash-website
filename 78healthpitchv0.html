@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primary — For physicians</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17183b;
+    --ink-soft:#565986;
+    --violet:#6d28d9;
+    --violet-bright:#8b5cf6;
+    --violet-haze:#f4f1fd;
+    --violet-line:#e6ddfa;
+    --mint:#0f9e8f;
+    --mint-haze:#e7f7f4;
+    --paper:#fcfbff;
+    --white:#ffffff;
+    --amber:#e8a33d;
+    --shadow:0 24px 60px -28px rgba(35,20,80,.32);
+    --shadow-sm:0 8px 24px -12px rgba(35,20,80,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.04;letter-spacing:-.015em;font-weight:700}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--violet);
+    display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--violet);display:inline-block}
+  .eyebrow.mint{color:var(--mint)} .eyebrow.mint::before{background:var(--mint)}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(252,251,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--violet-line)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{display:flex;align-items:center;gap:2px;font-family:'Bricolage Grotesque';font-weight:700;font-size:22px;color:var(--ink);text-decoration:none}
+  .logo .ring{position:relative;display:inline-block;width:16px;height:16px}
+  .logo .ring::after{content:"";position:absolute;inset:0;border:3px solid var(--violet-bright);border-radius:50%}
+  .tagline{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase}
+  .btn{
+    font-family:'Inter';font-weight:600;font-size:15px;
+    background:var(--violet);color:#fff;border:none;border-radius:999px;
+    padding:12px 22px;cursor:pointer;text-decoration:none;display:inline-block;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    box-shadow:0 10px 22px -12px rgba(109,40,217,.7);
+  }
+  .btn:hover{background:#5c1fc4;transform:translateY(-2px);box-shadow:0 16px 28px -12px rgba(109,40,217,.7)}
+  .btn.ghost{background:transparent;color:var(--violet);box-shadow:none;border:1.5px solid var(--violet-line)}
+  .btn.ghost:hover{background:var(--violet-haze);transform:translateY(-2px)}
+  .topbar .btn{padding:10px 18px;font-size:14px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:96px 0 72px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-160px;right:-140px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #efe7fe, transparent 62%);z-index:0}
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+  .hero h1{font-size:clamp(38px,5.4vw,62px);font-weight:800;margin:20px 0 22px}
+  .hero h1 .u{color:var(--violet);position:relative}
+  .hero p.lede{font-size:19px;color:var(--ink-soft);max-width:34ch;margin-bottom:30px}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero .micro{font-family:'IBM Plex Mono';font-size:12px;color:var(--ink-soft);margin-top:20px;letter-spacing:.02em}
+
+  /* floating nudge card in hero */
+  .nudge-float{
+    background:var(--ink);color:#fff;border-radius:22px;padding:22px 22px 20px;box-shadow:var(--shadow);
+    position:relative;transform:rotate(1.4deg);
+  }
+  .nudge-float .bell{width:34px;height:34px;border-radius:10px;background:rgba(139,92,246,.24);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .nudge-float .t{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet-bright);margin-bottom:8px}
+  .nudge-float .msg{font-size:15.5px;line-height:1.5;color:#f3f1fb}
+  .nudge-float .who{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:13px;color:#b9b6d6;display:flex;align-items:center;gap:8px}
+  .avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#0f9e8f);display:inline-block}
+
+  /* ---------- reframe strip ---------- */
+  .reframe{padding:26px 0 8px}
+  .reframe .wrap{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;
+    border:1px solid var(--violet-line);border-radius:22px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+  .rf{padding:30px 32px}
+  .rf .lbl{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+  .rf.old{background:#faf9fc}
+  .rf.old .lbl{color:var(--ink-soft)}
+  .rf.old ul li{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:#c9c6dd}
+  .rf.new .lbl{color:var(--violet)}
+  .rf ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .rf ul li{font-size:16px;font-weight:500;display:flex;gap:10px;align-items:flex-start}
+  .rf.new ul li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--mint-haze);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230f9e8f' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+  .rf.old ul li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;border:1.5px solid #d8d5e6}
+  .rf-arrow{display:flex;align-items:center;justify-content:center;background:var(--violet);color:#fff;padding:0 20px;font-family:'Bricolage Grotesque';font-weight:700}
+
+  /* ---------- section scaffold ---------- */
+  section.blk{padding:78px 0}
+  .head{max-width:60ch;margin-bottom:44px}
+  .head h2{font-size:clamp(28px,3.8vw,40px);margin:16px 0 14px;font-weight:700}
+  .head p{font-size:18px;color:var(--ink-soft)}
+
+  /* two fear-killers */
+  .killers{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .killer{border-radius:24px;padding:34px;position:relative;overflow:hidden}
+  .killer.build{background:var(--violet-haze);border:1px solid var(--violet-line)}
+  .killer.bring{background:var(--mint-haze);border:1px solid #cfeae5}
+  .killer .k-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+  .killer.build .k-ico{background:#fff;color:var(--violet)}
+  .killer.bring .k-ico{background:#fff;color:var(--mint)}
+  .killer h3{font-size:24px;margin-bottom:10px}
+  .killer h3 .em{color:var(--violet)} .killer.bring h3 .em{color:var(--mint)}
+  .killer p{font-size:16px;color:var(--ink-soft);max-width:38ch}
+  .killer .tags{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.04em;background:#fff;border-radius:8px;padding:7px 11px;color:var(--ink);border:1px solid rgba(0,0,0,.05)}
+
+  /* your job: 2 steps */
+  .job{background:var(--ink);border-radius:28px;padding:52px 48px;color:#fff;position:relative;overflow:hidden}
+  .job::after{content:"";position:absolute;right:-90px;bottom:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#2a2670,transparent 68%)}
+  .job .eyebrow{color:var(--violet-bright)} .job .eyebrow::before{background:var(--violet-bright)}
+  .job h2{color:#fff;font-size:clamp(26px,3.4vw,36px);margin:16px 0 30px;position:relative}
+  .job-steps{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative}
+  .step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:26px}
+  .step .n{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.14em;color:var(--violet-bright);margin-bottom:14px}
+  .step h3{color:#fff;font-size:21px;margin-bottom:8px}
+  .step p{color:#c3c1de;font-size:15px}
+  .step .doit{margin-top:18px}
+  .approve-btn,.post-btn{font-family:'Inter';font-weight:600;font-size:14px;border:none;border-radius:999px;padding:10px 20px;cursor:pointer;transition:all .2s ease}
+  .approve-btn{background:var(--mint);color:#062e2a}
+  .approve-btn.done{background:rgba(15,158,143,.2);color:var(--mint)}
+  .post-btn{background:var(--violet-bright);color:#1a0f3d}
+  .post-btn.done{background:rgba(139,92,246,.22);color:var(--violet-bright)}
+  .job .foot{margin-top:26px;font-size:15px;color:#a9a7cc;position:relative}
+  .job .foot b{color:#fff;font-weight:600}
+
+  /* ---------- signature: the program / phone ---------- */
+  .program .wrap{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center}
+  .prog-copy h2{font-size:clamp(28px,3.8vw,40px);margin:16px 0 16px}
+  .prog-copy p{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+  .prog-facts{display:flex;flex-direction:column;gap:2px;border-left:2px solid var(--violet-line);padding-left:20px;margin-top:8px}
+  .prog-facts div{font-size:15px;padding:7px 0}
+  .prog-facts .k{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-right:8px}
+  .byline{display:inline-flex;align-items:center;gap:9px;margin-top:22px;font-size:14px;color:var(--ink-soft)}
+  .byline .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#0f9e8f)}
+
+  /* phone */
+  .phone{width:330px;justify-self:center;background:#0f1030;border-radius:42px;padding:12px;box-shadow:var(--shadow);position:relative}
+  .phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:96px;height:6px;background:#2a2b52;border-radius:99px;z-index:3}
+  .screen{background:#fbfaff;border-radius:32px;overflow:hidden;height:640px;position:relative;display:flex;flex-direction:column}
+  .app-top{padding:30px 20px 14px;background:#fff;border-bottom:1px solid #eee}
+  .app-top .row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .app-logo{display:flex;align-items:center;gap:2px;font-family:'Bricolage Grotesque';font-weight:700;font-size:16px;color:var(--ink)}
+  .app-logo .ring{position:relative;width:12px;height:12px;display:inline-block}
+  .app-logo .ring::after{content:"";position:absolute;inset:0;border:2.4px solid var(--violet-bright);border-radius:50%}
+  .day-chip{font-family:'IBM Plex Mono';font-size:11px;font-weight:500;color:var(--violet);background:var(--violet-haze);border-radius:999px;padding:5px 11px}
+  .app-top h4{font-family:'Bricolage Grotesque';font-size:19px;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+  .app-top .with{font-size:12.5px;color:var(--ink-soft);margin-top:3px}
+  .focus{margin:12px 20px 0;background:var(--mint-haze);color:#0a6b60;border-radius:12px;padding:9px 13px;font-size:12.5px;font-weight:600;font-family:'IBM Plex Mono';letter-spacing:.02em}
+  .feed{flex:1;overflow:hidden;padding:14px 16px 0;display:flex;flex-direction:column;gap:9px}
+  .item{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #efedf6;border-radius:14px;padding:11px 12px}
+  .item .ico{flex:none;width:30px;height:30px;border-radius:9px;background:var(--violet-haze);display:flex;align-items:center;justify-content:center;color:var(--violet)}
+  .item .ico.mint{background:var(--mint-haze);color:var(--mint)}
+  .item .txt strong{font-size:13.5px;color:var(--ink);font-weight:600;display:block;line-height:1.3}
+  .item .txt span{font-size:12px;color:var(--ink-soft);line-height:1.35;display:block;margin-top:1px}
+  .nudge-in{background:var(--ink);border-radius:14px;padding:12px 13px;display:flex;gap:11px;align-items:flex-start}
+  .nudge-in .ico{flex:none;width:30px;height:30px;border-radius:9px;background:rgba(139,92,246,.26);display:flex;align-items:center;justify-content:center;color:var(--violet-bright)}
+  .nudge-in .t{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet-bright);margin-bottom:3px}
+  .nudge-in .m{font-size:12.5px;color:#eceafa;line-height:1.4}
+  .logbar{padding:12px 16px 18px;background:linear-gradient(transparent,#fbfaff 34%)}
+  .logbtn{width:100%;background:var(--violet);color:#fff;border:none;border-radius:13px;padding:13px;font-family:'Inter';font-weight:600;font-size:14px}
+
+  /* ---------- we bring patients ---------- */
+  .bring-sec{background:var(--violet-haze)}
+  .bflow{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+  .bstep{background:#fff;border:1px solid var(--violet-line);border-radius:20px;padding:28px;position:relative}
+  .bstep .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:15px;color:#fff;background:var(--violet);width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .bstep h3{font-size:19px;margin-bottom:8px}
+  .bstep p{font-size:14.5px;color:var(--ink-soft)}
+  .bstep .who{margin-top:14px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+  .bring-note{margin-top:26px;text-align:center;font-size:16px;color:var(--ink);font-weight:500}
+  .bring-note b{color:var(--violet)}
+
+  /* ---------- proof ---------- */
+  .proof .wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:26px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--violet-line)}
+  .p-in,.p-out{padding:46px 44px}
+  .p-in{background:#fff}
+  .p-out{background:var(--ink);color:#fff}
+  .p-lab{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:22px}
+  .p-in .p-lab{color:var(--violet)} .p-out .p-lab{color:var(--violet-bright)}
+  .p-big{font-family:'Bricolage Grotesque';font-weight:800;letter-spacing:-.03em;line-height:1}
+  .p-in .p-big{font-size:62px;color:var(--ink)}
+  .p-out .p-big{font-size:62px;color:#fff}
+  .p-sub{font-size:15px;margin-top:6px}
+  .p-in .p-sub{color:var(--ink-soft)} .p-out .p-sub{color:#b9b6d6}
+  .p-list{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+  .p-list div{font-size:14.5px;display:flex;gap:10px;align-items:center}
+  .p-in .p-list div{color:var(--ink)} .p-out .p-list div{color:#d9d7ee}
+  .p-dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .p-in .p-dot{background:var(--violet)} .p-out .p-dot{background:var(--mint)}
+  .proof-cap{text-align:center;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--ink-soft);margin-top:18px;letter-spacing:.03em}
+
+  /* ---------- already on primary / roster ---------- */
+  .roster{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .rcard{background:#fff;border:1px solid var(--violet-line);border-radius:18px;padding:22px 20px;transition:transform .2s ease,box-shadow .2s ease;display:flex;flex-direction:column;min-height:168px}
+  .rcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm)}
+  .rcard .spec{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-bottom:12px}
+  .rcard h3{font-size:17px;line-height:1.16;margin-bottom:auto;font-weight:700}
+  .rfoot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:8px}
+  .rfoot .doc{font-size:12.5px;color:var(--ink);font-weight:600}
+  .rfoot .live{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mint);flex:none}
+  .rfoot .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px var(--mint-haze)}
+  .roster-more{text-align:center;font-family:'IBM Plex Mono';font-size:12px;color:var(--ink-soft);margin-top:18px;letter-spacing:.02em}
+  .impact{margin-top:26px;background:var(--ink);border-radius:20px;padding:30px 24px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .impact .stat{text-align:center}
+  .impact .stat b{font-family:'Bricolage Grotesque';font-weight:800;font-size:27px;color:#fff;display:block;letter-spacing:-.02em;line-height:1}
+  .impact .stat span{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet-bright);margin-top:7px;display:block}
+  @media(max-width:900px){.roster{grid-template-columns:1fr 1fr}}
+  @media(max-width:700px){.impact{grid-template-columns:repeat(2,1fr);gap:24px}}
+  @media(max-width:560px){.roster{grid-template-columns:1fr}}
+
+  /* ---------- ask ---------- */
+  .ask{padding:88px 0}
+  .ask .card{background:linear-gradient(135deg,#6d28d9,#4b1ba6);border-radius:30px;padding:60px 52px;color:#fff;position:relative;overflow:hidden}
+  .ask .card::after{content:"";position:absolute;right:-100px;top:-100px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 66%)}
+  .ask h2{color:#fff;font-size:clamp(30px,4.4vw,50px);font-weight:800;max-width:20ch;margin-bottom:18px;position:relative}
+  .ask p{color:#e5ddfa;font-size:19px;max-width:46ch;margin-bottom:32px;position:relative}
+  .ask .cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;position:relative}
+  .ask .btn{background:#fff;color:var(--violet);box-shadow:0 14px 30px -14px rgba(0,0,0,.5)}
+  .ask .btn:hover{background:#f3efff}
+  .ask .contact{position:relative;margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,.16);display:flex;gap:34px;flex-wrap:wrap;font-size:15px}
+  .ask .contact .cl{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c9bdf3;display:block;margin-bottom:4px}
+  .ask .contact b{color:#fff;font-weight:600}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--violet-line);padding:34px 0;background:#fff}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .guard{font-size:12.5px;color:var(--ink-soft);max-width:60ch}
+  footer .cr{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-soft);letter-spacing:.04em}
+
+  /* ---------- social proof / roster ---------- */
+  .roster{background:var(--violet-haze)}
+  .prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pcard{background:#fff;border:1px solid var(--violet-line);border-radius:16px;padding:18px}
+  .pc-spec{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);margin-bottom:10px}
+  .pcard h4{font-family:'Bricolage Grotesque';font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+  .pc-doc{font-size:13.5px;color:var(--ink-soft);margin-top:5px}
+  .stat-strip{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px;background:var(--ink);border-radius:18px;padding:26px 10px;justify-content:space-around;text-align:center}
+  .stat-strip div{padding:4px 18px}
+  .stat-strip b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-size:32px;color:#fff;letter-spacing:-.02em}
+  .stat-strip span{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet-bright)}
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+  .quote{background:#fff;border:1.5px dashed var(--violet-line);border-radius:18px;padding:26px}
+  .quote .fillnote{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--violet);display:block;margin-bottom:12px}
+  .quote p{font-family:'Bricolage Grotesque';font-size:18px;line-height:1.42;color:var(--ink-soft);font-weight:500}
+  .quote footer{margin-top:18px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink);font-weight:600}
+  .qav{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#0f9e8f);flex:none}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* responsive */
+  @media(max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:40px}
+    .nudge-float{max-width:360px}
+    .reframe .wrap{grid-template-columns:1fr;align-items:normal}
+    .rf-arrow{padding:0;transform:rotate(90deg);align-self:center;justify-self:center;
+      width:40px;height:40px;flex:none;border-radius:50%;margin:10px auto}
+    .killers{grid-template-columns:1fr}
+    .job-steps{grid-template-columns:1fr}
+    .program .wrap{grid-template-columns:1fr;gap:40px}
+    .bflow{grid-template-columns:1fr}
+    .proof .wrap{grid-template-columns:1fr}
+    .p-in .p-big,.p-out .p-big{font-size:52px}
+    .prog-grid{grid-template-columns:1fr 1fr}
+    .quotes{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 20px}
+    .tagline{display:none}
+    .job,.ask .card{padding:38px 26px}
+    .phone{width:290px}
+    .prog-grid{grid-template-columns:1fr}
+    .stat-strip{gap:6px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+    .btn:hover,.btn.ghost:hover{transform:none}
+  }
+  :focus-visible{outline:3px solid var(--violet-bright);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- top bar -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="#top">Prim<span class="ring"></span>ry</a>
+    <span class="tagline">Continuous, Proactive Healthcare for All</span>
+    <a class="btn" href="#program">Start your pilot</a>
+  </div>
+</div>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="reveal in">
+      <span class="eyebrow">For physicians</span>
+      <h1>You already do the work between visits — for free.<br><span class="u">Get paid for it, without the extra work.</span></h1>
+      <p class="lede">Primary turns your protocol into a daily program your patients follow — built by us, under your name.</p>
+      <p class="micro">You approve it. You post once. We bring the patients.</p>
+    </div>
+    <div class="reveal in" style="transition-delay:.12s">
+      <div class="nudge-float">
+        <div class="bell">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b79bf5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div class="t">Primary reaches out first</div>
+        <div class="msg">"It's 9 PM — magnesium time. Take it now for deeper sleep tonight, ahead of tomorrow's session."</div>
+        <div class="who"><span class="avatar"></span> Holistic Perimenopause Relief · Dr. Amy Day</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- reframe -->
+<div class="reframe">
+  <div class="wrap reveal">
+    <div class="rf old">
+      <div class="lbl">The reason you haven't started</div>
+      <ul>
+        <li>You design the program</li>
+        <li>You pitch it to patients</li>
+        <li>You chase enrolment</li>
+        <li>You run the day-to-day</li>
+      </ul>
+    </div>
+    <div class="rf-arrow">→</div>
+    <div class="rf new">
+      <div class="lbl">The Primary way</div>
+      <ul>
+        <li>We build the program</li>
+        <li>We write the launch</li>
+        <li>We enrol &amp; onboard</li>
+        <li>You approve &amp; post</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- two fear-killers -->
+<section class="blk">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Two things stop every physician</span>
+      <h2>So we took both off your plate.</h2>
+      <p>Creating a program feels like work. Selling it to patients feels worse. Neither is your job anymore.</p>
+    </div>
+    <div class="killers">
+      <div class="killer build reveal">
+        <div class="k-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <h3>We build your program. <span class="em">You approve it.</span></h3>
+        <p>We research your protocol and your content, then draft the full day-by-day program in your voice. You edit anything, remove anything, and approve. It ships under your name.</p>
+        <div class="tags"><span class="tag">Drafted from your protocol</span><span class="tag">Your name &amp; face</span><span class="tag">Final say is yours</span></div>
+      </div>
+      <div class="killer bring reveal" style="transition-delay:.1s">
+        <div class="k-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>We bring your first patients. <span class="em">You don't sell.</span></h3>
+        <p>We write the launch and run enrolment. You post once — or hand a card at the visit. The program is prescribed, not sold. Your first cohort arrives paying, and you never sent an invoice.</p>
+        <div class="tags"><span class="tag">We write the launch</span><span class="tag">We enrol &amp; onboard</span><span class="tag">Prescribed, not sold</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- your job: 2 steps -->
+<section class="blk" style="padding-top:0">
+  <div class="wrap">
+    <div class="job reveal">
+      <span class="eyebrow">Your whole job</span>
+      <h2>Two steps. That's the integration.</h2>
+      <div class="job-steps">
+        <div class="step">
+          <div class="n">STEP 01</div>
+          <h3>Approve</h3>
+          <p>Open the program we drafted under your name. Change what you like. Tap approve.</p>
+          <div class="doit"><button class="approve-btn" id="approveBtn">Approve program</button></div>
+        </div>
+        <div class="step">
+          <div class="n">STEP 02</div>
+          <h3>Post</h3>
+          <p>Share the message we wrote with your patients or your audience. Once.</p>
+          <div class="doit"><button class="post-btn" id="postBtn">Post to patients</button></div>
+        </div>
+      </div>
+      <p class="foot">No new software to learn. No scheduling changes. No extra staff. <b>You create + sell &nbsp;→&nbsp; we build + bring, you approve.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- signature: the real program -->
+<section class="blk program" id="program" style="background:#fff">
+  <div class="wrap">
+    <div class="prog-copy reveal">
+      <span class="eyebrow mint">A real program, built from one protocol</span>
+      <h2>This is what we'd hand you — already done.</h2>
+      <p>We generated <b>Holistic Perimenopause Relief</b> from Dr. Amy Day's protocol: 90 days, personalised to each patient's body, labs and food. Here's one real day inside it — the same thing her patient opens every morning.</p>
+      <div class="prog-facts">
+        <div><span class="k">Goal</span> Fewer hot flashes, deeper sleep, steadier energy — tracked daily</div>
+        <div><span class="k">Length</span> 90 days, named &amp; finite</div>
+        <div><span class="k">Adapts to</span> Age · weight · labs · symptoms · food preferences</div>
+        <div><span class="k">Reaches out</span> At the moments patients forget — no app-prompting needed</div>
+      </div>
+      <span class="byline"><span class="av"></span> Authored under Dr. Amy Day · she approved it in one call</span>
+    </div>
+
+    <div class="phone reveal" style="transition-delay:.12s" aria-label="Sample day inside the Primary app">
+      <div class="screen">
+        <div class="app-top">
+          <div class="row1">
+            <span class="app-logo">Prim<span class="ring"></span>ry</span>
+            <span class="day-chip">Day 12 of 90</span>
+          </div>
+          <h4>Holistic Perimenopause Relief</h4>
+          <div class="with">with Dr. Amy Day</div>
+        </div>
+        <div class="focus">TODAY · Blood sugar steady, sleep deeper</div>
+        <div class="feed">
+          <div class="item">
+            <div class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></div>
+            <div class="txt"><strong>Breakfast — Greek yogurt, flaxseed &amp; berries</strong><span>Protein + phytoestrogens. Vitamin D3 2000 IU with this meal.</span></div>
+          </div>
+          <div class="item">
+            <div class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg></div>
+            <div class="txt"><strong>Move — Lower-body strength, 30 min</strong><span>Protects bone density. Goblet squats, glute bridges, step-ups · 3×12.</span></div>
+          </div>
+          <div class="item">
+            <div class="ico mint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg></div>
+            <div class="txt"><strong>Magnesium glycinate — 1 hr before bed</strong><span>Eases sleep. Skip alcohol tonight; it worsens night sweats.</span></div>
+          </div>
+          <div class="item">
+            <div class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <div class="txt"><strong>9:00 session — Why perimenopause wrecks sleep</strong><span>8 min with Dr. Amy Day · 3 fixes to try tonight.</span></div>
+          </div>
+          <div class="nudge-in">
+            <div class="ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b79bf5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+            <div><div class="t">12:00 PM · Primary</div><div class="m">Switch to decaf from here — caffeine after noon is a top hot-flash trigger for you.</div></div>
+          </div>
+        </div>
+        <div class="logbar"><button class="logbtn">Log today</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- we bring patients -->
+<section class="blk bring-sec">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">The part physicians fear most</span>
+      <h2>How your first patients arrive — without you selling.</h2>
+      <p>You have people who already trust you. We turn that into a paying cohort. Here's the whole motion.</p>
+    </div>
+    <div class="bflow">
+      <div class="bstep reveal">
+        <div class="n">1</div>
+        <h3>You post once</h3>
+        <p>We write the announcement for your audience — or a card to hand out at the visit. You approve and send it a single time.</p>
+        <div class="who">2 minutes of your time</div>
+      </div>
+      <div class="bstep reveal" style="transition-delay:.08s">
+        <div class="n">2</div>
+        <h3>We enrol &amp; onboard</h3>
+        <p>Interested patients join a waitlist. We handle sign-up, payment and every question, and start them as a cohort.</p>
+        <div class="who">Done by Primary</div>
+      </div>
+      <div class="bstep reveal" style="transition-delay:.16s">
+        <div class="n">3</div>
+        <h3>Your cohort is live</h3>
+        <p>Your first paying patients are following the program under your name. You never pitched, chased, or invoiced anyone.</p>
+        <div class="who">Paying, from day one</div>
+      </div>
+    </div>
+    <p class="bring-note reveal">Patients don't buy a subscription. They follow <b>their doctor's program</b> — prescribed, not sold.</p>
+  </div>
+</section>
+
+<!-- proof -->
+<section class="blk proof">
+  <div class="wrap-head wrap" style="max-width:1080px">
+    <div class="head reveal" style="margin-bottom:34px">
+      <span class="eyebrow">One physician, real trajectory</span>
+      <h2>Hours in versus money out.</h2>
+    </div>
+  </div>
+  <div class="wrap reveal">
+    <div class="p-in">
+      <div class="p-lab">What Dr. Amy Day put in</div>
+      <div class="p-big">≈ 1 hr</div>
+      <div class="p-sub">of her time, once, to launch</div>
+      <div class="p-list">
+        <div><span class="p-dot"></span> One 40-minute authoring call</div>
+        <div><span class="p-dot"></span> One 20-second intro video</div>
+        <div><span class="p-dot"></span> One post to her audience</div>
+      </div>
+    </div>
+    <div class="p-out">
+      <div class="p-lab">What came back</div>
+      <div class="p-big">$2,400+ <span style="font-size:26px;font-weight:600;">/mo</span></div>
+      <div class="p-sub">recurring, from her first cohort — and growing</div>
+      <div class="p-list">
+        <div><span class="p-dot"></span> 84 patients enrolled in two weeks</div>
+        <div><span class="p-dot"></span> $29/mo each · prescribed, not sold</div>
+        <div><span class="p-dot"></span> Then it compounds every cohort after</div>
+      </div>
+    </div>
+  </div>
+  <p class="proof-cap reveal">Illustrative of a single perimenopause pilot · your numbers depend on your audience and price.</p>
+</section>
+
+<!-- already on Primary -->
+<section class="blk">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Already on Primary</span>
+      <h2>You wouldn't be the first.</h2>
+      <p>Physicians across seven specialties already run their protocol as a Primary program — earning from capacity they always had, and reaching patients every day between visits.</p>
+    </div>
+    <div class="roster">
+      <div class="rcard reveal"><div class="spec">Women's health</div><h3>Holistic Perimenopause Relief</h3><div class="rfoot"><span class="doc">Dr. Amy Day · SF</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Orthopaedics</div><h3>Non-Surgical ACL Healing</h3><div class="rfoot"><span class="doc">Dr. Manu Bora</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Gastroenterology</div><h3>Fatty Liver Improvement</h3><div class="rfoot"><span class="doc">Dr. Prince Shah · CA</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Urology</div><h3>FLOW · Prostate Symptoms</h3><div class="rfoot"><span class="doc">Dr. Vinay Rai</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Clinical nutrition</div><h3>21-Day Gut Restoration</h3><div class="rfoot"><span class="doc">Dr. Geetika Chopra</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Diabetology</div><h3>Diabetes Care</h3><div class="rfoot"><span class="doc">Dr. Amit Beniwal</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Orthopaedics</div><h3>Osteoporosis Care</h3><div class="rfoot"><span class="doc">Dr. Manu Bora</span><span class="live">Live</span></div></div>
+      <div class="rcard reveal"><div class="spec">Women's health</div><h3>PCOS / PMOS Recalibration</h3><div class="rfoot"><span class="doc">N. Vijayashree · Chennai</span><span class="live">Live</span></div></div>
+    </div>
+    <p class="roster-more">+ Colonoscopy Prep, Gut Health Optimization, Functional Strength and more — the library grows with every expert.</p>
+    <div class="impact reveal">
+      <div class="stat"><b>8</b><span>Programs live</span></div>
+      <div class="stat"><b>7</b><span>Physicians</span></div>
+      <div class="stat"><b>2</b><span>Countries</span></div>
+      <div class="stat"><b>~5&times;</b><span>App opens / day</span></div>
+      <div class="stat"><b>40-day</b><span>Usage streaks</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- social proof / roster -->
+<section class="blk roster">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Not a pilot of one</span>
+      <h2>Physicians across 7 specialties already run programs on Primary.</h2>
+      <p>Each one authored by a practising expert and live under their own name — from colonoscopy prep to ACL recovery to perimenopause.</p>
+    </div>
+
+    <div class="prog-grid reveal">
+      <div class="pcard"><div class="pc-spec">Women's health</div><h4>Holistic Perimenopause Relief</h4><div class="pc-doc">Dr. Amy Day</div></div>
+      <div class="pcard"><div class="pc-spec">Orthopaedics</div><h4>Non-Surgical ACL Healing</h4><div class="pc-doc">Dr. Manu Bora</div></div>
+      <div class="pcard"><div class="pc-spec">Orthopaedics</div><h4>Osteoporosis Care</h4><div class="pc-doc">Dr. Manu Bora</div></div>
+      <div class="pcard"><div class="pc-spec">Gastroenterology</div><h4>Colonoscopy Preparation</h4><div class="pc-doc">Dr. Prince Shah</div></div>
+      <div class="pcard"><div class="pc-spec">Gastroenterology</div><h4>Fatty Liver Improvement</h4><div class="pc-doc">Dr. Prince Shah</div></div>
+      <div class="pcard"><div class="pc-spec">Clinical nutrition</div><h4>21-Day Gut Restoration</h4><div class="pc-doc">Dr. Geetika Chopra</div></div>
+      <div class="pcard"><div class="pc-spec">Urology</div><h4>FLOW: Prostate Symptoms</h4><div class="pc-doc">Dr. Vinay Rai</div></div>
+      <div class="pcard"><div class="pc-spec">Diabetology</div><h4>Diabetes Care</h4><div class="pc-doc">Dr. Amit Beniwal</div></div>
+      <div class="pcard"><div class="pc-spec">Women's health</div><h4>PCOS / PMOS Recalibration</h4><div class="pc-doc">N. Vijayashree</div></div>
+      <div class="pcard"><div class="pc-spec">Cardio-metabolic</div><h4>Cardio Metabolic Health</h4><div class="pc-doc">Dr. Kishore Khankari</div></div>
+      <div class="pcard"><div class="pc-spec">Sports science</div><h4>Functional Strength Foundations</h4><div class="pc-doc">Karamjeet Singh</div></div>
+    </div>
+
+    <div class="stat-strip reveal">
+      <div><b>~5×</b><span>app opens / day</span></div>
+      <div><b>40-day</b><span>usage streaks</span></div>
+      <div><b>310+</b><span>engagements / 30 days</span></div>
+      <div><b>7</b><span>specialties live</span></div>
+    </div>
+
+    <div class="quotes reveal">
+      <blockquote class="quote">
+        <span class="fillnote">Physician quote — to add</span>
+        <p>[ Dr. Bora's own words — e.g. on adherence holding up between visits, or the follow-up arriving with real data. ]</p>
+        <footer><span class="qav"></span> Dr. Manu Bora · Orthopaedics &amp; sports injury</footer>
+      </blockquote>
+      <blockquote class="quote">
+        <span class="fillnote">Physician quote — to add</span>
+        <p>[ Dr. Day's own words — e.g. on reaching more patients, or earning from work she was already doing for free. ]</p>
+        <footer><span class="qav"></span> Dr. Amy Day · Women's health</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="guard">Primary is an expert-directed platform. It supports clinical care; it does not diagnose, prescribe, or replace clinical judgement.</span>
+    <span class="cr">© 2026 78Health · Confidential — for clinical partners</span>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // approve / post micro-interaction — reinforces "your whole job is this small"
+  const a = document.getElementById('approveBtn');
+  const p = document.getElementById('postBtn');
+  a.addEventListener('click',()=>{
+    if(a.classList.contains('done')) return;
+    a.classList.add('done'); a.textContent='✓ Approved';
+  });
+  p.addEventListener('click',()=>{
+    if(p.classList.contains('done')) return;
+    p.classList.add('done'); p.textContent='✓ Posted — patients enrolling';
+  });
+</script>
+</body>
+</html>
