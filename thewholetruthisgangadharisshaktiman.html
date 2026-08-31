@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Whole Truth — Website & Growth Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#171310;
+    --paper:#ffffff;
+    --mustard:#f5b301;
+    --soft:#f4efe8;
+    --good:#1d6b3c;
+    --warn:#b3540e;
+    --crit:#a4211f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Libre Franklin',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;font-size:16px}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:'Archivo',sans-serif}
+
+  header{border-bottom:6px solid var(--ink)}
+  .mast{padding:52px 0 38px}
+  .kicker{font-family:'Archivo';font-weight:700;font-stretch:75%;font-size:15px;letter-spacing:.04em;margin-bottom:18px}
+  .kicker span{background:var(--mustard);padding:2px 8px}
+  .kicker em{font-style:normal;border:2px solid var(--ink);padding:2px 8px;margin-left:8px}
+  h1{font-weight:900;font-stretch:80%;font-size:clamp(38px,6.5vw,68px);line-height:.98;letter-spacing:-.01em;max-width:16ch}
+  .mast p.sub{margin-top:20px;max-width:64ch;font-size:17px}
+  .mast .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 26px;font-size:13.5px;color:#4a4440}
+  .mast .meta b{color:var(--ink);font-weight:600}
+
+  section{padding:48px 0}
+  section + section{border-top:2px solid var(--ink)}
+  h2{font-weight:900;font-stretch:82%;font-size:clamp(25px,3.8vw,36px);line-height:1.05;margin-bottom:10px}
+  .lede{max-width:66ch;color:#3a352f;margin-bottom:26px}
+
+  /* label panel */
+  .label{border:3px solid var(--ink);margin:24px 0;background:var(--paper)}
+  .label .lhead{padding:14px 18px 10px;border-bottom:10px solid var(--ink)}
+  .label .lhead h3{font-weight:900;font-stretch:78%;font-size:23px;line-height:1.05}
+  .label .lhead .serving{font-size:13px;margin-top:4px;color:#4a4440}
+  .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start;padding:13px 18px;border-bottom:1px solid #c9c2b8}
+  .row:last-child{border-bottom:none}
+  .row.thick{border-bottom:4px solid var(--ink)}
+  .row .name{font-weight:600}
+  .row .name small{display:block;font-weight:400;color:#4a4440;margin-top:3px;font-size:14px;max-width:62ch}
+  .amt{font-family:'Archivo';font-weight:800;font-stretch:80%;font-size:13px;letter-spacing:.03em;white-space:nowrap;padding:3px 10px;border:2px solid currentColor;align-self:start;margin-top:2px}
+  .amt.good{color:var(--good)}
+  .amt.warn{color:var(--warn)}
+  .amt.crit{color:var(--crit)}
+  .amt.fill-crit{color:#fff;background:var(--crit);border-color:var(--crit)}
+  .amt.fill-warn{color:#fff;background:var(--warn);border-color:var(--warn)}
+
+  /* bets */
+  .bet{border:3px solid var(--ink);margin:28px 0}
+  .bet-head{display:flex;align-items:baseline;gap:16px;padding:16px 20px 12px;border-bottom:8px solid var(--ink)}
+  .bet-no{font-family:'Archivo';font-weight:900;font-stretch:75%;font-size:46px;line-height:1;background:var(--mustard);padding:2px 12px}
+  .bet-head h3{font-weight:900;font-stretch:80%;font-size:clamp(20px,3vw,27px);line-height:1.08}
+  .bet-body{padding:18px 20px}
+  .bet-body p{max-width:70ch;margin-bottom:12px}
+  .bet-body p:last-child{margin-bottom:0}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;border:2px solid var(--ink);margin:14px 0}
+  .facts div{padding:12px 14px;border-right:1px solid #c9c2b8}
+  .facts div:last-child{border-right:none}
+  .facts .num{font-family:'Archivo';font-weight:900;font-stretch:80%;font-size:26px;line-height:1.1}
+  .facts .lab{font-size:12.5px;margin-top:4px;color:#4a4440}
+  .sizing{background:var(--soft);border-left:8px solid var(--mustard);padding:14px 18px;margin-top:14px;font-size:14.5px;max-width:72ch}
+  .sizing b{font-weight:700}
+
+  table{width:100%;border-collapse:collapse;border:3px solid var(--ink);font-size:14.5px}
+  th{font-family:'Archivo';font-weight:800;font-stretch:80%;font-size:12.5px;letter-spacing:.04em;text-align:left;border-bottom:4px solid var(--ink);padding:11px 13px;background:var(--soft)}
+  td{padding:11px 13px;border-bottom:1px solid #c9c2b8;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.pri{font-family:'Archivo';font-weight:800;font-stretch:80%;white-space:nowrap}
+
+  .qbox{border:3px solid var(--ink);padding:18px 22px;margin:20px 0;max-width:76ch}
+  .qbox h4{font-family:'Archivo';font-weight:900;font-stretch:80%;font-size:17px;margin-bottom:6px}
+  .qbox p{font-size:15px;color:#3a352f}
+
+  code{background:var(--soft);padding:1px 6px;font-size:.9em;border:1px solid #d8d0c4}
+  .method{font-size:14px;color:#4a4440;max-width:72ch}
+  footer{border-top:6px solid var(--ink);padding:32px 0 54px;font-size:14px;color:#4a4440}
+
+  @media(max-width:640px){
+    .row{grid-template-columns:1fr}
+    .amt{justify-self:start}
+    .bet-head{flex-direction:column;gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap mast">
+    <div class="kicker"><span>WEBSITE &amp; GROWTH AUDIT</span>&nbsp; thewholetruthfoods.com</div>
+    <h1>The Whole Truth about our own website.</h1>
+    <p class="sub">We ask every food brand to declare everything on the front of the pack. This audit does the same to our storefront — every ingredient of the funnel, the good and the flawed, declared upfront. No fine print, no asterisks.</p>
+    <div class="meta">
+      <span><b>Prepared by:</b> AI Agent for my lord human Yash Vijaykar</span>
+      <span><b>Date:</b> 31 Aug 2026</span>
+      <span><b>Evidence base:</b> 6 live pages + full <code>llmFeed.json</code> catalogue (~150 variant rows) + subdomain check</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ================= THE THREE BETS ================= -->
+<section id="bets">
+  <h2>The three bets I'd fund this quarter</h2>
+  <p class="lede">Not thirteen findings — three decisions. Each with the evidence, the effort, and honest sizing logic. Everything else lives in the appendix.</p>
+
+  <!-- BET 1 -->
+  <div class="bet">
+    <div class="bet-head"><div class="bet-no">1</div><h3>The stock-out problem is bigger than any website problem.</h3></div>
+    <div class="bet-body">
+      <p>This started as a website audit and surfaced a likely supply issue worth verifying fast. Reading the full live catalogue feed: roughly <b>a third of all ~150 variants are marked OutOfStock</b>. Not long-tail SKUs — whole lines. Every muesli variant reads as dark. The flavoured protein powders — mango, strawberry, pista badaam, ragi, both plant-protein cocoa variants — are almost entirely out of stock. On the Next Gen launch category, 4 of ~15 products show "Notify me" — and that one I confirmed live on the page, not just in the feed.</p>
+      <div class="facts">
+        <div><div class="num">~1 in 3</div><div class="lab">variants OutOfStock in the live feed</div></div>
+        <div><div class="num">100%</div><div class="lab">of muesli variants unavailable — a category earning ₹0</div></div>
+        <div><div class="num">4 / ~15</div><div class="lab">Next Gen launch SKUs showing "Notify me" (confirmed live)</div></div>
+      </div>
+      <p>Muesli still holds a homepage category tile and a footer link — so we may be routing paid and organic traffic onto empty shelves. And every "Notify me" click is demand data that should already be flowing into the forecasting model.</p>
+      <div class="sizing"><b>Verify before acting:</b> the feed header is current (30 Aug 2026) but some individual rows — muesli among them — carry older timestamps, so the availability flags need a 10-minute check against live inventory before we treat this as fact. If it holds, the sizing is stark: <b>(assumptions labelled)</b> if muesli + flavoured powders historically contributed even 10–15% of D2C revenue, that share is currently earning near-zero, making this plausibly the single largest revenue item in this memo — and no CRO experiment competes with restocking it. <b>Ask:</b> a same-day inventory check, a "Notify me" volume report by SKU (the demand signal already exists), and a rule that fully-dark categories get demoted from nav until stocked.</div>
+    </div>
+  </div>
+
+  <!-- BET 2 -->
+  <div class="bet">
+    <div class="bet-head"><div class="bet-no">2</div><h3>Fix the shareability layer — days of work, referral channel at stake.</h3></div>
+    <div class="bet-body">
+      <p>Verified across multiple PDPs: product links shared on WhatsApp, Instagram DMs or X render with <b>no preview image</b> (<code>og:image</code> resolves to a literal <code>/null</code>) and a generic "Order online… delivery within 2-7 days" description identical on every product. Root cause is confirmed as dozens of null <code>image_url</code> records on migrated SKUs plus a meta template with no fallback. Two dead primary-nav links ("B.Y.O.B.", "New Launches" → <code>#</code>) belong in the same fix batch.</p>
+      <div class="facts">
+        <div><div class="num">/null</div><div class="lab">share image on affected PDPs — verified on 2, dozens of SKUs affected</div></div>
+        <div><div class="num">2 of 6</div><div class="lab">header nav slots leading nowhere</div></div>
+        <div><div class="num">Days</div><div class="lab">total engineering effort, no dependencies</div></div>
+      </div>
+      <div class="sizing"><b>Sizing logic (illustrative, assumptions labelled):</b> for a brand whose stated growth engine is word-of-mouth over paid social, shared links are a primary PDP entry path. Published link-preview research consistently shows rich previews lifting click-through 20–40% vs bare links. If shared links drive even 8% of PDP sessions, restoring previews is worth roughly a 2–3% lift in PDP traffic at zero media cost — recurring, forever. At any realistic D2C revenue base, that pays for the fix within the first day. Treat the percentages as hypotheses; the direction and the cost-benefit asymmetry are not in doubt. <b>Ask:</b> one sprint: image backfill, meta fallback, per-SKU title/description templates, nav links repaired.</div>
+    </div>
+  </div>
+
+  <!-- BET 3 -->
+  <div class="bet">
+    <div class="bet-head"><div class="bet-no">3</div><h3>Finish the migration — one punch-list, three payoffs.</h3></div>
+    <div class="bet-body">
+      <p>The evidence says we're mid-way between platforms: old numeric SKU ids coexist with new <code>variant_</code> ids, homepage assets still load from the previous vendor's CDN, footer links route via the legacy subdomain, and product pages ship with almost no server-rendered body — no name, price, ingredients or reviews in the HTML a crawler (or a slow Android connection) receives first. None of these is individually urgent since canonicals are set correctly; together they're a tax on every future initiative.</p>
+      <div class="facts">
+        <div><div class="num">0</div><div class="lab">product facts in server-rendered PDP HTML today</div></div>
+        <div><div class="num">100%</div><div class="lab">of feed rows missing category; dozens missing descriptions</div></div>
+        <div><div class="num">3</div><div class="lab">payoffs from one punch-list: SEO, speed, AI-agent readiness</div></div>
+      </div>
+      <div class="sizing"><b>Why one bet, not three:</b> SSR/ISR for PDPs with Product schema, catalogue data hygiene (categories, descriptions, images), and legacy cleanup share the same root — completing the platform move. Done together, we get product rich results in Google (stars + price, currently forfeited to marketplaces reselling us), faster first paint on mid-range Android (our majority device class), and an llmFeed that actually makes us the most machine-readable food brand in India — a claim worth owning as commerce shifts to AI agents. <b>Ask:</b> a scoped 3–4 sprint epic with a written punch-list, sequenced after Bet 2's quick wins.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOUNDER QUESTIONS ================= -->
+<section id="questions">
+  <h2>Two questions before I touch anything</h2>
+  <p class="lede">Two things I could call defects — but the right answer depends on intent I don't have, and guessing would send the roadmap the wrong way.</p>
+
+  <div class="qbox">
+    <h4>1. "Shop" in the header routes to the Next Gen kids' category. Deliberate bet, or leftover?</h4>
+    <p>If it's a conscious launch-quarter decision to point the whole store at Next Gen, I'll support it with better cross-sell into the adult range and we measure the trade-off explicitly. If it's a default nobody revisited, the majority of intent (protein powders and bars — our ₹2,799–4,499 highest-ticket SKUs) is paying an extra hop, and I'd A/B "Shop → all categories" within a week. Either way it becomes a measured choice instead of an accident.</p>
+  </div>
+  <div class="qbox">
+    <h4>2. Is there already a migration punch-list, and who owns it?</h4>
+    <p>If the Dukaan remnants, subdomain footer links, null image records and empty catalogue fields are on a tracked list, Bet 3 is mostly prioritisation and I'll fold into the existing plan. If there's no list, that's the real finding — the migration is "done" in the way a half-labelled pack is done, and it needs an owner and an end date.</p>
+  </div>
+</section>
+
+<!-- ================= WHAT'S WORKING ================= -->
+<section id="works">
+  <h2>What's working — protect these while we fix the rest</h2>
+  <div class="label">
+    <div class="lhead"><h3>Working Facts</h3><div class="serving">Serving size: 1 storefront · % of daily trust requirement</div></div>
+    <div class="row">
+      <div class="name">Conversion hygiene most D2C brands lack
+        <small>Auto-applied "CLEANEST" discount shown on-card (kills coupon-hunt exits) · full India payment stack incl. UPI, wallets, COD · "Notify me" capture on OOS · <code>/reorder</code> route and loyalty points · protein-gram filters and honest per-flavour ratings on the main bars category.</small></div>
+      <div class="amt good">KEEP</div>
+    </div>
+    <div class="row">
+      <div class="name">A trust moat no competitor can copy quickly
+        <small>Public lab test reports, FSSC-certified facility in 3D, "Why Prices Change" page, unauthorized-sellers registry, and B.Y.O.B. boxes whose pick data doubles as free flavour demand-signal.</small></div>
+      <div class="amt good">KEEP</div>
+    </div>
+    <div class="row">
+      <div class="name">Owned top-of-funnel at near-zero CAC
+        <small>Truth Be Told (50,000+ readers), TWT Academy, ChemX and a heavyweight press room — content assets competitors rent from Meta, we own outright.</small></div>
+      <div class="amt good">KEEP</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APPENDIX ================= -->
+<section id="appendix">
+  <h2>Appendix — full defect register</h2>
+  <p class="lede">Everything found, verified against live responses, mapped to the bets. Nothing here needs a founder decision; it needs an owner and a sprint.</p>
+  <table>
+    <thead><tr><th>#</th><th>Finding (all verified on live pages / feed)</th><th>Bet</th><th>Severity</th></tr></thead>
+    <tbody>
+      <tr><td class="pri">A1</td><td><code>og:image → /null</code> on PDPs; root cause: dozens of null <code>image_url</code> catalogue records on migrated SKUs</td><td>2</td><td>P0</td></tr>
+      <tr><td class="pri">A2</td><td>"B.Y.O.B." and "New Launches" header links point to <code>#</code></td><td>2</td><td>P0</td></tr>
+      <tr><td class="pri">A3</td><td>Boilerplate meta titles/descriptions duplicated across all PDPs; homepage titled "Online Store"</td><td>2</td><td>P0</td></tr>
+      <tr><td class="pri">A4</td><td>~⅓ of variants OutOfStock incl. 100% of muesli and most powder flavours; dark categories still in nav</td><td>1</td><td>P0 (ops)</td></tr>
+      <tr><td class="pri">A5</td><td>PDP body fully client-rendered — no product content, schema, or reviews in server HTML</td><td>3</td><td>P1</td></tr>
+      <tr><td class="pri">A6</td><td>Catalogue data: <code>category</code> null on every feed row; dozens of null/<code>&amp;nbsp;</code> descriptions; internal notes and platform defaults leaking into public product names</td><td>3</td><td>P1</td></tr>
+      <tr><td class="pri">A7</td><td>Legacy remnants: Dukaan CDN assets on homepage; footer links routed via subdomain (canonicals correct, so hygiene not emergency)</td><td>3</td><td>P2</td></tr>
+      <tr><td class="pri">A8</td><td><code>maximum-scale=1</code> blocks pinch-zoom (WCAG 1.4.4) — on a brand telling people to read ingredient labels</td><td>2</td><td>P1</td></tr>
+      <tr><td class="pri">A9</td><td>Social proof shipped as images with alt text like "Image"/"Banner"; logo alt reads "Whole The Truth"</td><td>3</td><td>P2</td></tr>
+      <tr><td class="pri">A10</td><td>Next Gen category renders its product grid twice on one page</td><td>—</td><td>P2</td></tr>
+      <tr><td class="pri">A11</td><td>2★-rated product (Mixed Fruit Snackbar) live in launch-category grid</td><td>1</td><td>P2</td></tr>
+      <tr><td class="pri">A12</td><td>High-intent flows off-domain: test reports on Notion, international orders &amp; corporate gifting via Google Forms</td><td>—</td><td>P2</td></tr>
+      <tr><td class="pri">A13</td><td>Search buried below the fold in page structure; query log not feeding demand planning</td><td>—</td><td>P2</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= INSTRUMENTATION & METHOD ================= -->
+<section id="method">
+  <h2>Instrumentation &amp; method</h2>
+  <p class="method"><b>Before any experiment ships:</b> full-funnel events (view → ATC → checkout → payment success/failure by method), Core Web Vitals RUM segmented by device tier, payment-failure recovery tracking (UPI failure recovery alone typically recovers 1–2% of revenue in Indian D2C), and a weekly "Notify me" demand report by SKU.</p>
+  <p class="method" style="margin-top:14px"><b>Method:</b> direct inspection of served HTML and metadata on the homepage, two category pages, two PDPs, the shop subdomain, and the complete <code>llmFeed.json</code> catalogue (~150 variant rows, feed dated 30 Aug 2026), on 31 Aug 2026. Every defect cited was observed in live responses. <b>What outside-in couldn't see:</b> checkout internals (client-rendered, requires session), real conversion rates, RUM performance, payment failure rates, and cohort behaviour — exactly what the instrumentation above unlocks. All revenue sizing is explicitly labelled as hypothesis with stated assumptions; the direction of each bet does not depend on the exact numbers.</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">Website &amp; growth audit · thewholetruthfoods.com · prepared for founder &amp; leadership review · #nothingtohide — including from ourselves</div>
+</footer>
+
+</body>
+</html>
