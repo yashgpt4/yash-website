@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Ads Manager for Indian Startups & Brands | Yash Vijaykar</title>
+<meta name="description" content="ChatGPT's self-serve Ads Manager opens Sept 4 in India. I set up, target, and run ChatGPT Ads campaigns for founders and growth teams who want in before the platform saturates.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="ChatGPT Ads Manager for Indian Startups & Brands">
+<meta property="og:description" content="Self-serve ChatGPT Ads opens Sept 4 in India. I'll set up and run your campaigns from day one.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15131f;
+    --ink-soft:#5c5871;
+    --violet:#6d28d9;
+    --violet-bright:#8b5cf6;
+    --violet-haze:#f5f2fe;
+    --violet-line:#e5ddf9;
+    --mint:#0f9e8f;
+    --mint-haze:#e7f7f4;
+    --amber:#e8a33d;
+    --amber-haze:#fdf3e3;
+    --paper:#fcfbff;
+    --shadow:0 24px 60px -28px rgba(30,15,70,.32);
+    --shadow-sm:0 8px 24px -12px rgba(30,15,70,.24);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.06;letter-spacing:-.015em;font-weight:700}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  img{max-width:100%;display:block}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);display:inline-flex;align-items:center;gap:8px}
+  .eyebrow::before{content:"";width:20px;height:1.5px;background:var(--violet);display:inline-block}
+
+  /* top bar */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(252,251,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--violet-line)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
+  .logo span{color:var(--violet)}
+  .btn{font-family:'Inter';font-weight:600;font-size:14.5px;background:var(--violet);color:#fff;border:none;border-radius:999px;padding:11px 20px;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;box-shadow:0 10px 22px -12px rgba(109,40,217,.65)}
+  .btn:hover{background:#5c1fc4;transform:translateY(-2px)}
+
+  /* hero */
+  .hero{position:relative;padding:70px 0 44px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-160px;right:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#efe7fe,transparent 62%);z-index:0}
+  .hero .wrap{position:relative;z-index:1;max-width:760px}
+  .hero .datechip{display:inline-flex;align-items:center;gap:8px;background:var(--amber-haze);color:#8a5a10;font-family:'IBM Plex Mono';font-size:12px;font-weight:600;letter-spacing:.05em;border-radius:999px;padding:7px 14px;margin-bottom:20px}
+  .hero .datechip .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none}
+  .hero h1{font-size:clamp(32px,4.6vw,48px);font-weight:800;margin-bottom:18px}
+  .hero h1 .u{color:var(--violet)}
+  .hero p.lede{font-size:18px;color:var(--ink-soft);max-width:52ch;margin-bottom:26px}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .hero .micro{font-family:'IBM Plex Mono';font-size:12px;color:var(--ink-soft);letter-spacing:.02em}
+
+  /* section scaffold */
+  section.blk{padding:60px 0}
+  .head{max-width:62ch;margin-bottom:32px}
+  .head h2{font-size:clamp(24px,3.2vw,32px);margin:14px 0 12px;font-weight:700}
+  .head p{font-size:16.5px;color:var(--ink-soft)}
+
+  /* image-with-copy blocks */
+  .proof-block{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .proof-block.rev{direction:rtl}
+  .proof-block.rev > *{direction:ltr}
+  .proof-block figure{border-radius:18px;overflow:hidden;border:1px solid var(--violet-line);box-shadow:var(--shadow-sm);background:#fff}
+  .proof-block figure img{width:100%}
+  .proof-block .copy h3{font-size:22px;margin-bottom:10px}
+  .proof-block .copy p{font-size:15.5px;color:var(--ink-soft)}
+  .proof-block .stat{font-family:'Bricolage Grotesque';font-weight:800;font-size:40px;color:var(--violet);letter-spacing:-.02em;margin:12px 0 4px}
+  .funnel-list{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+  .funnel-list div{display:flex;justify-content:space-between;font-size:14px;color:var(--ink);border-bottom:1px dashed var(--violet-line);padding:5px 0}
+  .funnel-list b{color:var(--violet);font-family:'IBM Plex Mono';font-weight:600}
+
+  @media(max-width:820px){
+    .proof-block, .proof-block.rev{grid-template-columns:1fr;direction:ltr}
+  }
+
+  /* prompt-intent cards */
+  .intent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .intent-card{background:#fff;border:1px solid var(--violet-line);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+  .intent-card .stage{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);font-weight:600}
+  .intent-card .persona{font-weight:700;font-size:14.5px}
+  .intent-card .prompt{background:var(--violet-haze);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink);font-style:italic}
+  .intent-card .opp{font-size:13px;color:var(--ink-soft)}
+  @media(max-width:900px){.intent-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.intent-grid{grid-template-columns:1fr}}
+
+  /* services */
+  .services{background:var(--ink);border-radius:26px;padding:44px 40px;color:#fff}
+  .services .eyebrow{color:var(--violet-bright)}.services .eyebrow::before{background:var(--violet-bright)}
+  .services h2{color:#fff;font-size:clamp(24px,3.2vw,32px);margin:14px 0 26px}
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .svc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px}
+  .svc .n{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;color:var(--violet-bright);margin-bottom:8px}
+  .svc h3{color:#fff;font-size:17px;margin-bottom:6px}
+  .svc p{color:#c3c1de;font-size:14px}
+  @media(max-width:700px){.svc-grid{grid-template-columns:1fr}.services{padding:34px 24px}}
+
+  /* credibility */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{font-family:'IBM Plex Mono';font-size:12px;background:#fff;border:1px solid var(--violet-line);border-radius:999px;padding:8px 14px;color:var(--ink)}
+  .cred-copy p{font-size:16px;color:var(--ink-soft);margin-bottom:14px;max-width:66ch}
+  .cred-link{font-size:14px;color:var(--violet);text-decoration:none;font-weight:600}
+  .cred-link:hover{text-decoration:underline}
+
+  /* ask / form */
+  .ask{padding:70px 0 90px}
+  .ask .card{background:linear-gradient(135deg,#6d28d9,#4a19a3);border-radius:28px;padding:48px 44px;color:#fff;position:relative;overflow:hidden}
+  .ask .card::after{content:"";position:absolute;right:-100px;top:-100px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 66%)}
+  .ask h2{color:#fff;font-size:clamp(26px,3.6vw,38px);max-width:22ch;margin-bottom:14px;position:relative}
+  .ask > .card > p{color:#e5ddfa;font-size:16.5px;max-width:52ch;margin-bottom:30px;position:relative}
+  .form-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-grid .full{grid-column:1/-1}
+  .form-grid label{display:block;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#d9d0f7;margin-bottom:6px}
+  .form-grid input,.form-grid select,.form-grid textarea{width:100%;border:none;border-radius:12px;padding:12px 14px;font-family:'Inter';font-size:14.5px;background:rgba(255,255,255,.94);color:var(--ink)}
+  .form-grid textarea{min-height:88px;resize:vertical}
+  .form-actions{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin-top:6px;flex-wrap:wrap}
+  .submit-btn{font-family:'Inter';font-weight:700;font-size:15px;background:#fff;color:var(--violet);border:none;border-radius:999px;padding:13px 26px;cursor:pointer;box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
+  .submit-btn:hover{background:#f3efff}
+  .form-note{font-size:12.5px;color:#d9d0f7}
+  #formMsg{grid-column:1/-1;font-size:14px;font-weight:600;display:none}
+  #formMsg.ok{color:#d7f7ef}
+  #formMsg.err{color:#ffd9d9}
+  @media(max-width:700px){.form-grid{grid-template-columns:1fr}.ask .card{padding:34px 24px}}
+
+  footer{border-top:1px solid var(--violet-line);padding:28px 0;background:#fff}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .guard{font-size:12px;color:var(--ink-soft);max-width:60ch}
+  footer a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:600}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  :focus-visible{outline:3px solid var(--violet-bright);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="#top">Yash <span>Vijaykar</span></a>
+    <a class="btn" href="#inquire">Get my ads set up</a>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="wrap reveal in">
+    <span class="datechip"><span class="dot"></span> Self-serve ChatGPT Ads Manager opens Sept 4 in India</span>
+    <h1>Your customers are already asking ChatGPT for what you sell. <span class="u">Be the answer before your competitors even see the dashboard.</span></h1>
+    <p class="lede">I'm Yash — a product & growth guy who mapped exactly how ChatGPT Ads works within a day of the announcement. I'll set up, target, and run your campaigns from the morning self-serve access opens, not the week after.</p>
+    <div class="cta-row">
+      <a class="btn" href="#inquire">Get my ChatGPT Ads set up →</a>
+    </div>
+    <p class="micro">No retainer talk needed yet — tell me what you sell, I'll tell you if this is worth doing on day one.</p>
+  </div>
+</header>
+
+<!-- why now -->
+<section class="blk">
+  <div class="wrap">
+    <div class="proof-block reveal">
+      <figure><img src="assets/chatgpt-ads/adoption-stat.jpg" alt="55% of people across surveyed markets use generative AI platforms like ChatGPT, rising to 74% for ages 18-28" loading="lazy"></figure>
+      <div class="copy">
+        <span class="eyebrow">Why this matters right now</span>
+        <h3>Your buyers already moved. The ad inventory hasn't caught up yet.</h3>
+        <div class="stat">55%</div>
+        <p>of people across surveyed global markets already use GenAI platforms like ChatGPT — and it's 74% among 18–28 year-olds, the exact demographic most D2C and app-first brands are chasing on Meta and Google right now, where CPMs are already crowded.</p>
+        <p>Self-serve ChatGPT Ads is brand new inventory. Same story as early Google Ads or early Meta Ads — whoever shows up first pays less to be seen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- funnel -->
+<section class="blk" style="background:var(--violet-haze)">
+  <div class="wrap">
+    <div class="proof-block rev reveal">
+      <figure><img src="assets/chatgpt-ads/funnel.jpg" alt="Funnel showing percent of commerce-related activity in ChatGPT across problem framing, product discovery, comparison, evaluation, purchase and post-purchase" loading="lazy"></figure>
+      <div class="copy">
+        <span class="eyebrow">Where the money already is</span>
+        <h3>81% of commerce activity happens before anyone buys anything.</h3>
+        <p>Most brands only think about the "purchase" moment. Inside ChatGPT, that's just 13% of the activity. The real volume — and the real opportunity to get discovered — is upstream:</p>
+        <div class="funnel-list">
+          <div>Product discovery <b>31%</b></div>
+          <div>Single-product evaluation <b>23%</b></div>
+          <div>Problem comparison <b>22%</b></div>
+          <div>Post-purchase <b>16%</b></div>
+          <div>Purchase <b>13%</b></div>
+          <div>Problem framing <b>5%</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- journey -->
+<section class="blk">
+  <div class="wrap">
+    <div class="proof-block reveal">
+      <figure><img src="assets/chatgpt-ads/journey.jpg" alt="Example of a hiking boots buying journey collapsing from discover to research to compare to evaluate to decide to purchase, all inside one ChatGPT thread" loading="lazy"></figure>
+      <div class="copy">
+        <span class="eyebrow">The whole journey, one thread</span>
+        <h3>"What boot do I need" to "is this worth $140" — without leaving the chat.</h3>
+        <p>A buyer researching hiking boots goes through six distinct decision moments in a single conversation. Every one of those moments is a place your brand can show up — if your targeting and copy are built for how people actually phrase things in a chat, not a search box.</p>
+        <p>That mapping — persona to prompt to funnel stage — is the actual work. It's what I do before we ever spend a rupee on media.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- prompt-intent examples -->
+<section class="blk" style="background:var(--violet-haze)">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Persona → prompt → ad opportunity</span>
+      <h2>This is what "targeting" actually means inside ChatGPT.</h2>
+      <p>Not keywords. Not demographics alone — the actual sentence someone types, mapped to where they are in the decision, mapped to what your ad should say.</p>
+    </div>
+    <div class="intent-grid reveal">
+      <div class="intent-card">
+        <span class="stage">Discover</span>
+        <span class="persona">First-time buyer</span>
+        <span class="prompt">"best budget wireless earbuds for the gym"</span>
+        <span class="opp">Product discovery placement — you're the first name they hear.</span>
+      </div>
+      <div class="intent-card">
+        <span class="stage">Compare</span>
+        <span class="persona">Comparison shopper</span>
+        <span class="prompt">"sony wh-1000xm5 vs bose qc45 for long flights"</span>
+        <span class="opp">Comparison callout — win the "vs" moment directly.</span>
+      </div>
+      <div class="intent-card">
+        <span class="stage">Decide</span>
+        <span class="persona">Ready-to-buy</span>
+        <span class="prompt">"where to buy [product] with cash on delivery in Mumbai"</span>
+        <span class="opp">High-intent purchase placement — closest to checkout.</span>
+      </div>
+      <div class="intent-card">
+        <span class="stage">Retain</span>
+        <span class="persona">Existing customer</span>
+        <span class="prompt">"how to clean my [product]"</span>
+        <span class="opp">Post-purchase nudge — upsell or referral, cheapest funnel stage.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- targeting -->
+<section class="blk">
+  <div class="wrap">
+    <div class="proof-block rev reveal">
+      <figure><img src="assets/chatgpt-ads/targeting.jpg" alt="ChatGPT Ads audience controls showing custom audiences, geo targeting by country state DMA and zip code, and platform targeting across iOS Android and web" loading="lazy"></figure>
+      <div class="copy">
+        <span class="eyebrow">Controls you already understand</span>
+        <h3>It works like the performance marketing you already know.</h3>
+        <p>Upload your own customer or prospect list and target (or exclude) them directly. Go hyperlocal — country, state, DMA, even zip code. Choose exactly where the ad can run: iOS app, Android app, or web.</p>
+        <p>The mechanics are familiar. What's new is the surface — and getting the setup right before it gets crowded.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- services -->
+<section class="blk">
+  <div class="wrap">
+    <div class="services reveal">
+      <span class="eyebrow">What I actually do for you</span>
+      <h2>Six things, done in order, starting day one of self-serve access.</h2>
+      <div class="svc-grid">
+        <div class="svc"><div class="n">01</div><h3>Account & campaign setup</h3><p>Done right the first time inside ChatGPT Ads Manager — no wasted spend re-learning the platform on your budget.</p></div>
+        <div class="svc"><div class="n">02</div><h3>Persona-to-prompt mapping</h3><p>Figuring out exactly what your buyers type into ChatGPT at each stage — discover, compare, decide, retain.</p></div>
+        <div class="svc"><div class="n">03</div><h3>Audience, geo & platform targeting</h3><p>Set up using your existing customer and prospect lists — not starting cold.</p></div>
+        <div class="svc"><div class="n">04</div><h3>Copy built for chat, not search</h3><p>Written for how people actually phrase things in a conversation — not repurposed Google Ads copy.</p></div>
+        <div class="svc"><div class="n">05</div><h3>Weekly optimization & reporting</h3><p>Cut what doesn't convert, scale what does — plain-language reporting, no agency jargon.</p></div>
+        <div class="svc"><div class="n">06</div><h3>First-mover read</h3><p>Because I'm in this from week one of the India launch, you get to learn what's working before it's public knowledge.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- credibility -->
+<section class="blk">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Why trust me with this</span>
+      <h2>I build the case before anyone asks — this is the same instinct.</h2>
+    </div>
+    <div class="cred-copy reveal">
+      <p>1st hire and founding PM at a Sequoia-backed AI startup. Shipped 12+ products 0→1 in two years — across healthcare, GenAI, and mobile gaming — with no playbook and no senior PM to lean on. I've built fermi-level ROI models for Series A health-tech founders before a single call happened.</p>
+      <p>Same approach here: I mapped how ChatGPT Ads actually works — the funnel, the targeting controls, the prompt-intent mechanics — before self-serve access even opens, so your campaign isn't the one still figuring out the platform in week two.</p>
+      <div class="chips">
+        <span class="chip">Sequoia-backed startup · 1st PM hire</span>
+        <span class="chip">12+ products shipped 0→1</span>
+        <span class="chip">Fermi-modeled ROI cases for founders</span>
+      </div>
+      <p style="margin-top:20px"><a class="cred-link" href="https://yashvijaykar.com" target="_blank">See the full track record on yashvijaykar.com →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ask -->
+<section class="ask" id="inquire">
+  <div class="wrap">
+    <div class="card reveal">
+      <span class="eyebrow" style="color:#d9c9fb"><span style="display:inline-block;width:20px;height:1.5px;background:#d9c9fb;margin-right:8px;vertical-align:middle"></span>Self-serve opens Sept 4</span>
+      <h2>Tell me what you sell. I'll tell you if day-one is worth it for you.</h2>
+      <p>Takes two minutes. I read every one of these myself and reply within a day — usually faster this week.</p>
+
+      <form id="adsForm" class="form-grid" action="https://formsubmit.co/ajax/yashvijaykar98@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New ChatGPT Ads inquiry — landing page">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_captcha" value="false">
+
+        <div>
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="Name" required>
+        </div>
+        <div>
+          <label for="company">Company / startup</label>
+          <input type="text" id="company" name="Company" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="Email" required>
+        </div>
+        <div>
+          <label for="website">Website (optional)</label>
+          <input type="url" id="website" name="Website" placeholder="https://">
+        </div>
+        <div class="full">
+          <label for="budget">Monthly ad/marketing budget</label>
+          <select id="budget" name="Monthly budget">
+            <option>Under ₹50k</option>
+            <option>₹50k – ₹2L</option>
+            <option>₹2L – ₹10L</option>
+            <option>₹10L+</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="goal">What are you hoping to solve?</label>
+          <textarea id="goal" name="What they want to solve" placeholder="e.g. we want to be first into ChatGPT Ads before our category gets crowded" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="submit-btn" type="submit">Send it →</button>
+          <span class="form-note">Or email me directly: yashvijaykar98@gmail.com</span>
+        </div>
+        <div id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="guard">Independent growth consulting. Not affiliated with or endorsed by OpenAI. Screenshots used are from OpenAI's public advertiser materials, shown for reference only.</span>
+    <a href="https://yashvijaykar.com" target="_blank">yashvijaykar.com →</a>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // AJAX form submit via FormSubmit
+  const form = document.getElementById('adsForm');
+  const msg = document.getElementById('formMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    }).then(res => {
+      if(res.ok){
+        msg.textContent = "Got it — I'll reply within a day.";
+        msg.className = 'ok';
+        msg.style.display = 'block';
+        form.reset();
+      } else {
+        throw new Error('bad response');
+      }
+    }).catch(() => {
+      msg.textContent = "Something didn't send — please email yashvijaykar98@gmail.com directly.";
+      msg.className = 'err';
+      msg.style.display = 'block';
+    }).finally(() => {
+      btn.disabled = false; btn.textContent = 'Send it →';
+    });
+  });
+</script>
+</body>
+</html>
