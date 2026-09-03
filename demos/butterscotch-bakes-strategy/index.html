@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Butterscotch Bakes — Strategy for Balaji A.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4EFE6;
+    --paper:#FFFFFF;
+    --ink:#2A211A;
+    --soft:#6A5E50;
+    --line:#DED3BF;
+    --amber:#C6841E;
+    --green:#2E5D4B;
+    --rose:#A23A2E;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    line-height:1.62;-webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------------- shared shell ---------------- */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:rgba(244,239,230,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .bar-inner{
+    max-width:900px;margin:0 auto;padding:14px 22px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .brand{display:flex;flex-direction:column;gap:2px;line-height:1.25}
+  .brand .name{font-family:"Fraunces",serif;font-weight:600;font-size:18px;letter-spacing:-.01em}
+  .brand .meta{font-size:12.5px;color:var(--soft)}
+  .brand .meta b{color:var(--ink);font-weight:600}
+
+  .toggle{
+    display:inline-flex;background:#EBE3D4;border:1px solid var(--line);
+    border-radius:999px;padding:4px;gap:4px;
+  }
+  .seg{
+    appearance:none;border:none;cursor:pointer;background:transparent;
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;color:var(--soft);
+    padding:8px 16px;border-radius:999px;transition:background .18s,color .18s;
+    letter-spacing:.01em;
+  }
+  .seg:hover{color:var(--ink)}
+  .seg[aria-selected="true"]{background:var(--ink);color:#fff}
+  .seg:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+  .stage{max-width:900px;margin:0 auto;padding:0 22px 90px}
+  .view[hidden]{display:none}
+
+  /* shared, applies to BOTH views (kept low-specificity so each view can override) */
+  .view p, .view li{max-width:64ch}
+  .view strong{font-weight:600}
+  .view em{font-style:italic}
+  .view h1,.view h2,.view h3{font-family:"Fraunces",Georgia,serif;line-height:1.12;letter-spacing:-.01em;margin:0}
+
+  /* ================================================
+     VIEW: OVERVIEW
+     ================================================ */
+  .view-overview{padding-top:44px;max-width:860px;margin:0 auto}
+  .view-overview .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    padding:36px;margin-bottom:24px;box-shadow:0 8px 30px rgba(42,33,26,.05);
+  }
+  .view-overview h1{font-size:clamp(34px,6vw,46px);font-weight:700;margin:0}
+  .view-overview h2{font-size:clamp(22px,3.6vw,28px);font-weight:600;color:#6b4a32;margin:0 0 6px}
+  .view-overview h3{font-size:19px;font-weight:600;margin:26px 0 4px}
+  .view-overview .subtitle{color:var(--soft);font-size:19px;margin-top:12px;max-width:60ch}
+  .view-overview .quote{
+    border-left:4px solid var(--amber);background:#FBF5EC;border-radius:0 10px 10px 0;
+    padding:18px 22px;margin:24px 0;font-size:17.5px;
+  }
+  .view-overview .quote p{margin:10px 0;max-width:none}
+  .view-overview .quote :first-child{margin-top:0}
+  .view-overview .quote :last-child{margin-bottom:0}
+  .view-overview table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+  .view-overview td,.view-overview th{padding:13px 14px;border-bottom:1px solid #ECE4D6;text-align:left;vertical-align:top}
+  .view-overview th{background:#FAF6EF;font-family:"Fraunces",serif;font-weight:600;font-size:15px}
+  .view-overview tr:last-child td{border-bottom:none}
+  .view-overview ul{padding-left:20px}
+  .view-overview ul li{margin-bottom:9px}
+  .view-overview ol{padding-left:20px}
+  .view-overview ol li{margin-bottom:9px}
+  .view-overview hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+  .view-overview .tag{
+    display:inline-block;padding:6px 14px;background:#F1E9DC;color:var(--soft);
+    border-radius:100px;font-size:12.5px;font-weight:600;margin-bottom:18px;letter-spacing:.02em;
+  }
+  .view-overview .footer{color:var(--soft);font-size:13.5px;margin-top:26px;max-width:70ch}
+
+  /* ================================================
+     VIEW: GROWTH MODEL EXAMPLE  (detailed plan, self-scoped)
+     ================================================ */
+  .view-growth{
+    --kraft:#EDE6D8;--paper:#FFFCF5;--ink:#23190F;--ink-soft:#5C4E3E;--rule:#CFC2A9;
+    --butter:#E5A72C;--caramel:#7A3E12;--leaf:#2F5C45;--oxide:#9E2B25;--gmeasure:68ch;
+    color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:18px;line-height:1.62;
+    font-variant-numeric:tabular-nums;max-width:1000px;margin:0 auto;padding-top:8px;
+  }
+  .view-growth a{color:var(--caramel)}
+  .view-growth p{max-width:var(--gmeasure)}
+  .view-growth li{max-width:var(--gmeasure)}
+  .view-growth h1,.view-growth h2,.view-growth h3,.view-growth h4,.view-growth .disp{
+    font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+    font-weight:800;letter-spacing:-0.02em;line-height:1.06;margin:0;
+  }
+  .view-growth .mast{padding:40px 0 8px}
+  .view-growth .kicker{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.04em;color:var(--ink-soft);margin:0 0 22px}
+  .view-growth h1{font-size:clamp(34px,6vw,60px);max-width:16ch}
+  .view-growth .standfirst{font-size:21px;margin:22px 0 0;color:var(--ink-soft);max-width:58ch}
+
+  .view-growth .lam{height:9px;margin:56px 0 26px;
+    background:
+      linear-gradient(var(--ink),var(--ink)) 0 0/100% 2px no-repeat,
+      linear-gradient(var(--rule),var(--rule)) 0 4px/100% 1px no-repeat,
+      linear-gradient(var(--rule),var(--rule)) 0 8px/100% 1px no-repeat;}
+  .view-growth section > h2{font-size:clamp(25px,3.4vw,34px);max-width:24ch;margin-bottom:14px}
+  .view-growth section > h2 + p{margin-top:0}
+  .view-growth h3{font-size:21px;margin:38px 0 8px}
+  .view-growth h4{font-size:16px;font-weight:600;letter-spacing:0;margin:24px 0 6px}
+
+  .view-growth .receipt{
+    background:var(--paper);border:1px solid var(--rule);padding:30px 30px 24px;max-width:430px;
+    font-family:"IBM Plex Mono",monospace;font-size:14px;line-height:1.85;margin:36px 0 0;
+    box-shadow:0 1px 0 var(--rule),6px 6px 0 rgba(35,25,15,.06);}
+  .view-growth .receipt .rrow{display:flex;justify-content:space-between;gap:16px}
+  .view-growth .receipt .dash{border-top:1px dashed var(--rule);margin:12px 0}
+  .view-growth .receipt .big{font-size:26px;font-weight:600;line-height:1.2}
+  .view-growth .receipt .note{color:var(--ink-soft);font-size:12.5px;line-height:1.5;margin-top:14px;max-width:none}
+  .view-growth .verdict{color:var(--oxide);font-weight:600}
+
+  .view-growth .card{background:var(--paper);border:1px solid var(--rule);border-top:3px solid var(--ink);padding:24px 26px}
+  .view-growth .grid{display:grid;gap:18px}
+  .view-growth .card p,.view-growth .card li{max-width:none}
+  .view-growth .card p:last-child{margin-bottom:0}
+
+  .view-growth .tag{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.02em;
+    padding:3px 9px;border:1px solid var(--rule);background:#fff;margin:0 6px 6px 0;color:var(--ink);border-radius:0;}
+  .view-growth .tag.go{border-color:var(--leaf);color:var(--leaf)}
+  .view-growth .tag.stop{border-color:var(--oxide);color:var(--oxide)}
+  .view-growth .tag.hold{border-color:var(--butter);color:var(--caramel)}
+
+  .view-growth .tablewrap{overflow-x:auto;margin:22px 0 8px;border:1px solid var(--rule);background:var(--paper)}
+  .view-growth table{border-collapse:collapse;width:100%;min-width:600px;font-size:15.5px}
+  .view-growth th,.view-growth td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+  .view-growth thead th{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:14px;letter-spacing:-.01em;background:#F4EEE0;border-bottom:2px solid var(--ink)}
+  .view-growth tbody tr:last-child td{border-bottom:none}
+  .view-growth td.num,.view-growth th.num{font-family:"IBM Plex Mono",monospace;font-size:14px;white-space:nowrap}
+  .view-growth tfoot td{font-weight:600;background:#F4EEE0;border-top:2px solid var(--ink)}
+  .view-growth caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13.5px;color:var(--ink-soft);border-top:1px solid var(--rule)}
+
+  .view-growth .scn{margin:30px 0 0;border:1px solid var(--rule);background:var(--paper)}
+  .view-growth .scn > header{padding:20px 26px 16px;border-bottom:1px solid var(--rule);background:#F8F3E8}
+  .view-growth .scn h3{margin:0;font-size:23px}
+  .view-growth .scn .sub{font-size:15.5px;color:var(--ink-soft);margin:6px 0 0;max-width:60ch}
+  .view-growth .scn .body{padding:6px 26px 24px}
+  .view-growth .scn.pick{border:2px solid var(--ink)}
+  .view-growth .scn.pick > header{background:var(--butter)}
+  .view-growth .scn.pick .sub{color:#4a3512}
+  .view-growth .meter{display:flex;flex-wrap:wrap;gap:22px;padding:14px 26px;border-bottom:1px solid var(--rule);font-size:14px}
+  .view-growth .meter div{min-width:120px}
+  .view-growth .meter span{display:block;font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;color:var(--ink)}
+  .view-growth .meter em{font-style:normal;color:var(--ink-soft);font-size:13px}
+
+  .view-growth .pro,.view-growth .con{margin:0;padding:0;list-style:none}
+  .view-growth .pro li,.view-growth .con li{padding-left:22px;position:relative;margin:7px 0;max-width:none}
+  .view-growth .pro li::before{content:"+";position:absolute;left:0;color:var(--leaf);font-weight:600}
+  .view-growth .con li::before{content:"\2212";position:absolute;left:0;color:var(--oxide);font-weight:600}
+
+  .view-growth .phase{border-left:2px solid var(--ink);padding:2px 0 26px 22px;margin-left:6px;position:relative}
+  .view-growth .phase::before{content:"";position:absolute;left:-7px;top:8px;width:12px;height:12px;background:var(--butter);border:2px solid var(--ink);border-radius:50%}
+  .view-growth .phase h3{margin-top:0}
+  .view-growth .phase:last-child{border-left-color:transparent}
+
+  .view-growth .callout{border-left:5px solid var(--butter);background:var(--paper);padding:18px 22px;margin:26px 0}
+  .view-growth .callout p{margin:0;max-width:62ch}
+  .view-growth .foot{margin-top:56px;font-size:14.5px;color:var(--ink-soft)}
+  .view-growth .foot p{max-width:72ch}
+
+  .view-growth ul.plain{padding-left:20px}
+  .view-growth ul.plain li{margin:6px 0}
+
+  @media(min-width:760px){
+    .view-growth .g2{grid-template-columns:1fr 1fr}
+    .view-growth .g3{grid-template-columns:repeat(3,1fr)}
+  }
+
+  @media(max-width:560px){
+    .view-overview .card{padding:26px}
+    .view-growth .receipt .rrow{flex-wrap:wrap}
+    .bar-inner{padding:12px 18px}
+    .seg{padding:7px 12px;font-size:12.5px}
+  }
+  @media print{
+    .view-growth{font-size:11pt}
+    .view-growth .scn,.view-growth .card,.view-growth .tablewrap{break-inside:avoid}
+    .view-growth .lam{margin-top:30px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== SHELL / TOP BAR ===================== -->
+<div class="topbar">
+  <div class="bar-inner">
+    <div class="brand">
+      <span class="name">Butterscotch Bakes</span>
+      <span class="meta">Prepared for <b>Balaji A.</b> · Created by <b>Yash Vijaykar</b></span>
+    </div>
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button class="seg" id="tab-overview" role="tab" aria-selected="true" aria-controls="view-overview">Overview</button>
+      <button class="seg" id="tab-growth" role="tab" aria-selected="false" aria-controls="view-growth">Growth Model Example</button>
+    </div>
+  </div>
+</div>
+
+<div class="stage">
+
+<!-- ===================== VIEW 1: OVERVIEW ===================== -->
+<div class="view view-overview" id="view-overview" role="tabpanel" aria-labelledby="tab-overview">
+
+  <div class="card">
+    <div class="tag">Founder Note</div>
+    <h1>Butterscotch Bakes</h1>
+    <div class="subtitle">Thoughts on getting from ₹2L MRR → ₹7L MRR while building a business that can eventually become a memorable consumer brand.</div>
+    <div class="quote">
+      <p>The goal isn't simply to increase revenue.</p>
+      <p>It's to discover a growth engine that gets to ₹7L MRR today, ₹20L tomorrow, and can eventually support a much larger brand.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Ground truth — what we actually know</h2>
+    <ul>
+      <li>Current monthly revenue is approximately <strong>₹2L MRR</strong>.</li>
+      <li>The immediate milestone is reaching <strong>₹7L MRR</strong>.</li>
+      <li>You ultimately want to build a <strong>consumer brand</strong>, not just another bakery.</li>
+      <li>The biggest open question is whether the least-resistant path to ₹7L comes from <strong>B2B, B2C, or a combination</strong>.</li>
+      <li>The brand itself still needs clarity around positioning, customer, pricing and identity.</li>
+    </ul>
+    <p>Everything below is a framework for making those decisions — not an assumption that the answers already exist.</p>
+  </div>
+
+  <div class="card">
+    <h2>The first decision</h2>
+    <p>Before discussing logos, interiors or expansion, answer one question:</p>
+    <div class="quote"><p>What business are we actually trying to build?</p></div>
+    <table>
+      <tr><th>Option</th><th>What success looks like</th><th>Trade-off</th></tr>
+      <tr><td><strong>B2B-first</strong></td><td>Predictable recurring revenue through cafés, offices, hotels and other businesses.</td><td>Fast growth, but the customer may never know your brand.</td></tr>
+      <tr><td><strong>B2C-first</strong></td><td>A memorable neighbourhood bakery people actively seek out.</td><td>Higher marketing, rent and execution risk.</td></tr>
+      <tr><td><strong>Hybrid</strong></td><td>B2B funds the business while B2C builds the brand.</td><td>Requires balancing two very different operating models.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>A useful example</h2>
+    <p>One reason a business like <strong>Suchali's Artisan Bakehouse</strong> became interesting is that it didn't try to win everything at once.</p>
+    <p>By supplying premium baked goods to cafés such as Blue Tokai, it built production capability and recurring revenue before aggressively expanding its own consumer retail.</p>
+    <p>The lesson isn't to copy that exact path.</p>
+    <div class="quote">
+      <p>The cheapest path to building a brand isn't always opening more customer-facing stores.</p>
+      <p>Sometimes another channel quietly funds the dream.</p>
+    </div>
+    <p style="margin-bottom:0">The <strong>Growth Model Example</strong> tab shows what that could look like, concretely, for Butterscotch.</p>
+  </div>
+
+  <div class="card">
+    <h2>Brand questions worth answering</h2>
+    <p>Instead of starting with colours or interiors, define the business first.</p>
+    <ul>
+      <li>Who is the ideal customer, and what occasion are they buying for — morning ritual, coffee break, celebration, takeaway?</li>
+      <li>What should people remember Butterscotch for?</li>
+      <li>If customers could describe the brand in one sentence, what should that sentence be?</li>
+      <li>Why should someone choose Butterscotch over another boutique bakery?</li>
+      <li>What can Butterscotch become genuinely famous for over the next five years?</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Questions before spending more capital</h2>
+    <ul>
+      <li>Which channel currently generates the healthiest economics?</li>
+      <li>Where does repeat business naturally come from, and which products drive it?</li>
+      <li>What part of today's business is genuinely differentiated?</li>
+      <li>What capabilities already exist that competitors would find hard to replicate?</li>
+      <li>If ₹20L were available tomorrow, where would deploying it create the highest long-term return?</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Recommended next steps</h2>
+
+    <h3>1. Get clarity before committing capital</h3>
+    <p>Before large investments into more consumer retail, validate where growth naturally wants to come from. An experienced F&amp;B consultant with expertise in menu engineering, unit economics and retail strategy can prevent far larger mistakes later.</p>
+    <hr>
+    <h3>2. Understand where ₹7L actually comes from</h3>
+    <p>Instead of treating ₹7L as one target, break it into possible engines: additional B2B customers, higher revenue from existing customers, new consumer acquisition, better repeat purchases, higher average order value. The answer may be one of these — or a combination.</p>
+    <hr>
+    <h3>3. Define the brand before scaling it</h3>
+    <p>Growth amplifies whatever already exists. A clear position today is far easier than repositioning five stores later.</p>
+    <hr>
+    <h3>4. Delay irreversible decisions</h3>
+    <p>Large leases, expensive interiors and rapid expansion should ideally come only after there's confidence in both the business model and the brand direction.</p>
+  </div>
+
+  <div class="card">
+    <h2>Direction for the next 90 days</h2>
+    <ol>
+      <li>Understand exactly where growth can come from fastest.</li>
+      <li>Choose whether B2B, B2C or Hybrid becomes the primary engine.</li>
+      <li>Clearly define the brand's customer, positioning and promise.</li>
+      <li>Validate the model with measurable results before increasing fixed costs.</li>
+      <li>Only then begin investing heavily into consumer brand building.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Final thought</h2>
+    <div class="quote">
+      <p>The question isn't <strong>"How do we reach ₹7L MRR?"</strong></p>
+      <p>The better question is <strong>"What engine gets us to ₹7L, then ₹20L, then ₹1Cr/month without reinventing the business every time?"</strong></p>
+    </div>
+    <p>Once that engine is identified, everything else — brand, stores, marketing, expansion — becomes much easier to decide.</p>
+    <div class="footer">Prepared as a strategic discussion document based on the information available today. Recommendations are meant to guide decision-making, not replace validation with actual business data.</div>
+  </div>
+
+</div>
+
+<!-- ===================== VIEW 2: GROWTH MODEL EXAMPLE (detailed plan) ===================== -->
+<div class="view view-growth" id="view-growth" role="tabpanel" aria-labelledby="tab-growth" hidden>
+
+  <header class="mast">
+    <p class="kicker">Worked example · prepared for Balaji A. · Butterscotch Bakes, New Tippasandra · Sept 2026</p>
+    <h1>You don't have a growth problem yet. You have a maths problem.</h1>
+    <p class="standfirst">Getting from ₹2L to ₹7L a month is very doable. But three shops doing ₹2L between them is not a small business — it is three loss-making sites being carried by a wholesale line you haven't named yet. Fix the shape first, then pour fuel.</p>
+
+    <div class="receipt" role="figure" aria-label="Per-shop daily revenue calculation">
+      <div class="rrow"><span>Monthly revenue</span><span>₹2,00,000</span></div>
+      <div class="rrow"><span>Shops</span><span>÷ 3</span></div>
+      <div class="rrow"><span>Days</span><span>÷ 30</span></div>
+      <div class="dash"></div>
+      <div class="rrow"><span>Per shop, per day</span><span class="big">₹2,222</span></div>
+      <div class="dash"></div>
+      <div class="rrow"><span>Rough break-even/shop/day</span><span>₹6,000–7,500</span></div>
+      <div class="rrow verdict"><span>Status</span><span>~30% of break-even</span></div>
+      <p class="note">Break-even assumes ₹45k–90k rent, 2–3 staff, power and gas, at a 60% gross margin. Replace with your actuals — but you already know which way the sign points.</p>
+    </div>
+  </header>
+
+  <div class="lam"></div>
+
+  <section id="read">
+    <h2>How to read this note</h2>
+    <p>Every rupee figure here is a benchmark range for a Bangalore bakery in the Indiranagar–Domlur–HAL belt, not a claim about your books. I've flagged the ten numbers I'd need to replace them at the end. Where I'm guessing, I say so.</p>
+    <p>One assumption I've carried through from your brief: the ₹2L is <em>revenue</em>, most of it B2B, and the three shops are small counters rather than seated cafés. If any of that is wrong, Scenario D changes shape — tell me and I'll redo the bridge.</p>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="diagnosis">
+    <h2>The diagnosis: retail is a cost centre pretending to be a business</h2>
+    <p>Three counters at ~₹67,000 a month each cannot cover their own rent, staff and power in that part of Bangalore. So one of two things is true. Either B2B is quietly subsidising three shopfronts, or all four lines are underwater and the runway is personal savings. Both are fixable this quarter; neither is fixed by "doing more marketing".</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Indicative monthly P&amp;L for one small bakery counter in the Indiranagar belt. Ranges, not your numbers.</caption>
+        <thead><tr><th>Line</th><th class="num">Typical range</th><th>What it means for you</th></tr></thead>
+        <tbody>
+          <tr><td>Rent + maintenance</td><td class="num">₹45,000–90,000</td><td>Your single biggest lever. Renegotiate or exit.</td></tr>
+          <tr><td>Staff (2–3 heads)</td><td class="num">₹35,000–60,000</td><td>Counter staff at a ₹2,200/day shop is pure waste.</td></tr>
+          <tr><td>Power, gas, water</td><td class="num">₹12,000–22,000</td><td>Display chillers run whether you sell or not.</td></tr>
+          <tr><td>COGS on retail</td><td class="num">30–35% of sales</td><td>Fine if lamination is in-house and butter is bought well.</td></tr>
+          <tr><td>Wastage / unsold bakes</td><td class="num">8–18% of production</td><td>The silent killer at low footfall. Measure it daily.</td></tr>
+        </tbody>
+        <tfoot><tr><td>Break-even revenue</td><td class="num">₹1.8L–2.6L / shop</td><td>Each shop needs to do 3× today's number to stop bleeding.</td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p><strong>Move zero, this month:</strong> rank the three shops by contribution margin — sales minus COGS minus that site's rent, staff and power. Keep the best one and back it hard. Convert or exit the other two. Everything below assumes you've done this; without it, you'll just scale a leak.</p>
+    </div>
+
+    <h3>Why "get to ₹7L" is the right target and the wrong first question</h3>
+    <p>₹7L a month at a 50% blended gross margin gives you ~₹3.5L to cover a central kitchen, a flagship, a small team and yourself. That's the first level where the business pays its own salaries and you stop being the working capital. So the target is sound. But ₹7L of the wrong revenue — heavily discounted delivery, or one wholesale account at 22% margin — leaves you exactly as fragile at ₹7L as you are at ₹2L, with more staff to pay.</p>
+    <p>Optimise for <em>gross profit per unit of your attention</em>, not top line. That single reframe changes which of the scenarios below you pick.</p>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="engines">
+    <h2>The four engines you can actually pull</h2>
+    <p>There are only four ways revenue enters a bakery like yours. They have very different margins, cash cycles and brand consequences — and founders usually pick the one that feels busiest rather than the one that pays.</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Channel economics, Bangalore benchmarks. "Net realisation" is what actually reaches your bank per ₹100 of menu price.</caption>
+        <thead>
+          <tr><th>Engine</th><th class="num">Gross margin</th><th class="num">Net realisation</th><th class="num">Cash cycle</th><th>Brand effect</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>B2B wholesale — fresh daily supply to cafés</td><td class="num">28–38%</td><td class="num">₹100</td><td class="num">30–60 days</td><td>Invisible. Someone else's logo.</td></tr>
+          <tr><td>B2B frozen — par-baked / raw laminated dough</td><td class="num">38–50%</td><td class="num">₹100</td><td class="num">30–45 days</td><td>Invisible, but defensible and sticky.</td></tr>
+          <tr><td>Own retail — counter and café</td><td class="num">62–72%</td><td class="num">₹100</td><td class="num">Same day</td><td>This is the brand. Nothing else is.</td></tr>
+          <tr><td>Delivery aggregators</td><td class="num">62–72%</td><td class="num">₹52–62</td><td class="num">7–15 days</td><td>Discovery, but trains price-shoppers.</td></tr>
+          <tr><td>Quick commerce (packaged SKUs)</td><td class="num">45–60%</td><td class="num">₹58–68</td><td class="num">45–75 days</td><td>Reach without relationship.</td></tr>
+          <tr><td>Corporate, events, festive gifting</td><td class="num">55–68%</td><td class="num">₹100</td><td class="num">Prepaid–30 days</td><td>High-trust, word of mouth in offices.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The one most bakeries miss</h3>
+    <p>Frozen laminated dough. You are already running lamination for your own puffs — sheeting, folding, resting, proofing. Every specialty café in Bangalore wants a croissant and a puff on the counter, and almost none of them wants to hire a pastry chef, buy a sheeter, and manage butter at 26°C. Today they either import frozen French dough at a painful landed cost or serve something mediocre from a local supplier.</p>
+    <p>Selling blast-frozen, par-baked or raw laminated dough to those cafés is higher margin than fresh wholesale, has a 90-day shelf life instead of 12 hours, kills your wastage problem, and makes you the picks-and-shovels supplier to a category that keeps growing whether or not any single café survives. It is also the only line here that a strategic acquirer or a VC will call a real asset in year seven.</p>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="scenarios">
+    <h2>Four scenarios, with the arithmetic</h2>
+    <p>Each of these gets you to ₹7L. They cost very different amounts of money, time and optionality. I've put my recommendation last.</p>
+
+    <article class="scn">
+      <header>
+        <h3>A. The wholesale sprint</h3>
+        <p class="sub">Go all-in on supplying cafés, cloud kitchens and office pantries. Treat retail as a showroom you barely staff.</p>
+      </header>
+      <div class="meter">
+        <div><em>Time to ₹7L</em><span>4–6 months</span></div>
+        <div><em>Capex</em><span>₹6–12L</span></div>
+        <div><em>Blended GM</em><span>~35%</span></div>
+        <div><em>Risk</em><span>Concentration</span></div>
+      </div>
+      <div class="body">
+        <p>Twenty-two accounts at an average ₹25,000 a month gets you ₹5.5L of new revenue. That is roughly one new account closed every four working days — hard but ordinary for a founder-led sales push in a city this dense with cafés.</p>
+        <div class="grid g2" style="margin-top:18px">
+          <div><h4>Why it can work</h4>
+            <ul class="pro">
+              <li>Fastest path. No new site, no interiors, no landlord.</li>
+              <li>Near-zero customer acquisition cost — it's you, a sample box and a scooter.</li>
+              <li>Production planning gets easy: you bake to confirmed orders, wastage collapses.</li>
+              <li>Uses capacity you're already paying for at 2am.</li>
+            </ul>
+          </div>
+          <div><h4>What it costs you</h4>
+            <ul class="con">
+              <li>35% margin means ₹7L only throws off ₹2.45L of gross profit. Thin.</li>
+              <li>30–60 day payment terms — growth eats cash, and you fund the butter.</li>
+              <li>If three accounts are 40% of revenue, they own your pricing.</li>
+              <li>You build no consumer brand. Goal 2 stalls for a year.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="scn">
+      <header>
+        <h3>B. The flagship café</h3>
+        <p class="sub">Build one proper 500–700 sq ft café with serious coffee. Make it the thing people photograph.</p>
+      </header>
+      <div class="meter">
+        <div><em>Time to ₹7L</em><span>9–15 months</span></div>
+        <div><em>Capex</em><span>₹25–45L</span></div>
+        <div><em>Blended GM</em><span>~68%</span></div>
+        <div><em>Risk</em><span>Single-site bet</span></div>
+      </div>
+      <div class="body">
+        <p>A good Indiranagar café does 90–130 bills a day at a ₹280–350 average. At 110 bills × ₹310, that's ₹34,000 a day — ₹10L a month from one address. The upside is real. So is the failure rate: a third of new cafés in that belt don't see year three, and you'd be putting the entire company on one lease.</p>
+        <div class="grid g2" style="margin-top:18px">
+          <div><h4>Why it can work</h4>
+            <ul class="pro">
+              <li>Coffee is the margin engine: 78–85% gross on every cup, and it's what makes people come four times a week instead of once.</li>
+              <li>It's the only asset that builds goal 2 — the consumer brand — directly.</li>
+              <li>Cash the same evening. No receivables.</li>
+              <li>A working flagship is the unit you'd later replicate or franchise.</li>
+            </ul>
+          </div>
+          <div><h4>What it costs you</h4>
+            <ul class="con">
+              <li>₹25–45L you probably don't have, plus 10 months' deposit locked up.</li>
+              <li>Nine to fifteen months before it matters. Your ₹2L problem is now.</li>
+              <li>Wrong street, wrong side of the street, wrong frontage — and the money is gone.</li>
+              <li>Demands your full attention at exactly the moment wholesale needs selling.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="scn">
+      <header>
+        <h3>C. The channel blitz</h3>
+        <p class="sub">List everything on Swiggy and Zomato, push into quick commerce with packaged bakes, buy visibility.</p>
+      </header>
+      <div class="meter">
+        <div><em>Time to ₹7L</em><span>3–5 months</span></div>
+        <div><em>Capex</em><span>₹2–5L</span></div>
+        <div><em>Blended GM</em><span>~22% net</span></div>
+        <div><em>Risk</em><span>Margin collapse</span></div>
+      </div>
+      <div class="body">
+        <p>The fastest top-line number on this page, and the most dangerous. Commission of 22–30%, ads at 5–8%, discounts at 10–20%: a ₹60 puff nets you about ₹33 before you've bought the butter. You can hit ₹7L of "revenue" here and lose money doing it.</p>
+        <div class="grid g2" style="margin-top:18px">
+          <div><h4>Why it can work</h4>
+            <ul class="pro">
+              <li>Genuine discovery in a 4km radius you can't reach any other way.</li>
+              <li>Ratings and review volume become real proof for the brand.</li>
+              <li>Works honestly on ₹450+ baskets — croissant boxes, cakes, brownie slabs — where the fixed platform cut is diluted.</li>
+            </ul>
+          </div>
+          <div><h4>What it costs you</h4>
+            <ul class="con">
+              <li>Laminated pastry travels badly. A soggy croissant at 40 minutes is a one-star review of your core product.</li>
+              <li>You train customers to only buy at 40% off, forever.</li>
+              <li>Q-commerce needs 5–7 day shelf-life SKUs — cookies, rusks, tea cakes — which is a different business from lamination.</li>
+              <li>Platform economics change without your consent.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="scn pick">
+      <header>
+        <h3>D. The barbell — what I'd do</h3>
+        <p class="sub">Wholesale pays the bills and funds the kitchen. One flagship builds the brand. Nothing in the middle.</p>
+      </header>
+      <div class="meter">
+        <div><em>Time to ₹7L</em><span>6–9 months</span></div>
+        <div><em>Capex</em><span>₹10–18L</span></div>
+        <div><em>Blended GM</em><span>~50%</span></div>
+        <div><em>Risk</em><span>Founder bandwidth</span></div>
+      </div>
+      <div class="body">
+        <p>The mistake would be choosing between cash and brand. B2B gives you cash but no future; retail gives you a future but not this quarter's rent. Run both ends and refuse the mushy middle — which is exactly what three under-performing counters are.</p>
+
+        <div class="tablewrap">
+          <table>
+            <caption>Revenue bridge to ₹7L. Month 8–9 exit rate, assuming move zero is done in month 1.</caption>
+            <thead><tr><th>Line</th><th class="num">Today</th><th class="num">Target</th><th class="num">GM</th><th>How</th></tr></thead>
+            <tbody>
+              <tr><td>B2B fresh supply to cafés</td><td class="num">₹1.4L</td><td class="num">₹2.0L</td><td class="num">32%</td><td>Deepen existing accounts, fix pricing.</td></tr>
+              <tr><td>B2B frozen laminated dough</td><td class="num">₹0</td><td class="num">₹1.2L</td><td class="num">45%</td><td>Blast freezer + 8–10 café accounts.</td></tr>
+              <tr><td>Flagship café (best existing site, upgraded)</td><td class="num">₹0.4L</td><td class="num">₹2.2L</td><td class="num">68%</td><td>Espresso bar, seating, 7:30am open.</td></tr>
+              <tr><td>Second counter (pickup + pre-order only)</td><td class="num">₹0.2L</td><td class="num">₹0.6L</td><td class="num">65%</td><td>One staff, no seating, WhatsApp orders.</td></tr>
+              <tr><td>Corporate pantry + gifting + events</td><td class="num">₹0</td><td class="num">₹0.7L</td><td class="num">60%</td><td>Offices within 3km. Prepaid monthly.</td></tr>
+              <tr><td>Delivery (boxes and cakes only)</td><td class="num">₹0</td><td class="num">₹0.3L</td><td class="num">40%</td><td>No single pastries. ₹450 minimum.</td></tr>
+            </tbody>
+            <tfoot><tr><td>Total</td><td class="num">₹2.0L</td><td class="num">₹7.0L</td><td class="num">~50%</td><td>≈₹3.5L gross profit a month.</td></tr></tfoot>
+          </table>
+        </div>
+
+        <div class="grid g2" style="margin-top:18px">
+          <div><h4>Why this is the pick</h4>
+            <ul class="pro">
+              <li>Wholesale cash flow funds the flagship, so you don't need outside money to start.</li>
+              <li>The same lamination line feeds both ends — one kitchen, one skill, two customers.</li>
+              <li>Every engine is a hedge on the others. Losing one account doesn't end you.</li>
+              <li>In year 7, you own two sellable things: a consumer brand and a supply business.</li>
+            </ul>
+          </div>
+          <div><h4>What you're trading away</h4>
+            <ul class="con">
+              <li>It is slower to ₹7L than pure wholesale by 2–3 months.</li>
+              <li>Two businesses means two operating rhythms — you cannot run both. Hire the B2B seller or the café manager by month 3.</li>
+              <li>Blended 50% margin is worse than a pure café's 68%. You're buying resilience with margin.</li>
+              <li>Closing two shops means writing off deposits and having a hard conversation with staff.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="brand">
+    <h2>The brand: own the puff, and let coffee do the maths</h2>
+    <p>You've named the two things you want to be known for. One of them is a crowded fight and one is an open goal, and I don't think they're the ones you'd guess.</p>
+
+    <h3>The wedge</h3>
+    <p>The croissant war in Bangalore is already loud, expensive and won on Instagram by people with better funding. The puff is different. Every Indian adult has eaten a hundred of them — at the Iyengar bakery, at the darshini, from a warm glass case at 5pm for ₹20. It carries enormous nostalgia and zero prestige. Nobody has made the premium version a national brand.</p>
+    <p>An all-butter, properly laminated, hot-from-the-oven puff at ₹60 needs no education. People already know what a puff is; they've just never had a good one. That is the cheapest category position available to you, and it happens to be the exact thing your production line is built to make.</p>
+    <p>Coffee is not the wedge. Coffee is the economics: 80%+ gross margin, and the reason someone comes four mornings a week instead of once a fortnight. Pastry brings them in; coffee is why they stay and why the unit works. So: <strong>famous for puffs, profitable on coffee.</strong></p>
+
+    <h3>Who you're actually for</h3>
+    <div class="grid g3">
+      <div class="card">
+        <span class="tag">Primary</span>
+        <h4>The 9:40 commuter</h4>
+        <p>26–38, works in Indiranagar, Domlur or Old Airport Road. Buys a puff and a cortado three or four mornings a week. Spends ₹190–260. Wants a breakfast better than the office pantry and faster than a sit-down café.</p>
+        <p><em>Win them with:</em> being open and fully baked by 7:30am, a two-minute queue, and a bag they can carry into a meeting.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Secondary</span>
+        <h4>The Saturday household</h4>
+        <p>Families in New Tippasandra, Jeevan Bhima Nagar and HAL — old cantonment residents and young renters both. Buys a ₹700–1,200 box on weekends, plus cakes for birthdays and Christmas.</p>
+        <p><em>Win them with:</em> a weekend-only box, pre-order on WhatsApp, and being the neighbourhood's default celebration cake.</p>
+      </div>
+      <div class="card">
+        <span class="tag">B2B</span>
+        <h4>The café owner without a pastry chef</h4>
+        <p>30–120 seat specialty cafés, cloud kitchens, corporate pantry vendors. Needs consistent laminated goods, daily or frozen, at a price that survives a 3× markup.</p>
+        <p><em>Win them with:</em> consistency, 6am delivery windows, and a frozen SKU that lets them bake to demand.</p>
+      </div>
+    </div>
+
+    <h3>Price ladder</h3>
+    <div class="tablewrap">
+      <table>
+        <caption>Anchor at the ₹60 puff so the ₹150 coffee feels like the indulgence, not the entry fee.</caption>
+        <thead><tr><th>Item</th><th class="num">Price</th><th class="num">Target GM</th><th>Job on the menu</th></tr></thead>
+        <tbody>
+          <tr><td>All-butter veg puff</td><td class="num">₹60</td><td class="num">68%</td><td>The hook. Every review mentions it.</td></tr>
+          <tr><td>Chicken or keema puff</td><td class="num">₹95</td><td class="num">64%</td><td>Trades the hook up by ₹35.</td></tr>
+          <tr><td>Butter croissant</td><td class="num">₹140</td><td class="num">70%</td><td>Proves you can bake. Not the hero.</td></tr>
+          <tr><td>Almond croissant / pain au chocolat</td><td class="num">₹185</td><td class="num">68%</td><td>Weekend indulgence.</td></tr>
+          <tr><td>Danish of the week</td><td class="num">₹190</td><td class="num">66%</td><td>Reason to come back and to post.</td></tr>
+          <tr><td>Espresso / cortado / cappuccino</td><td class="num">₹110 / 150 / 170</td><td class="num">82%</td><td>The profit. Push attach rate to 45%.</td></tr>
+          <tr><td>Filter-style house coffee</td><td class="num">₹90</td><td class="num">85%</td><td>Local, honest, high-frequency.</td></tr>
+          <tr><td>Box of four croissants</td><td class="num">₹520</td><td class="num">67%</td><td>Delivery and gifting workhorse.</td></tr>
+          <tr><td>Weekend bake box</td><td class="num">₹899</td><td class="num">64%</td><td>Pre-ordered, zero wastage, high AOV.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Target averages: ₹150 at the counter, ₹310 dine-in, ₹520 on delivery. If dine-in average sits below ₹260, your coffee attach rate is broken — that's a training and menu-layout fix, not a pricing one.</p>
+
+    <h3>The vibe</h3>
+    <p>Don't do the Parisian bakery. It's been done on every second street in Indiranagar and it makes you compete on a story you can't own. Do the Bangalore cantonment bakery instead — which is what New Tippasandra actually is, and which nobody has made beautiful yet.</p>
+    <p>Red oxide floor. Kadappa stone counter. Steel bakery trays as display, not props. Butter paper and twine. Hand-painted signage in the old cantonment lettering. Bench seating for eight, standing room for more. Racks visible from the street so people see the trays come out hot. The whole brief is: a 1950s Bangalore bakery run by someone who takes lamination and espresso extraction seriously in 2026.</p>
+
+    <h4>On the name</h4>
+    <p>"Butterscotch Bakes" reads as a 1990s cake shop — pineapple cream, cherries on top, ₹450 birthday cakes. That's a real category, but it's not the one you're describing, and it will quietly cap what you can charge for a ₹185 almond croissant. Three options:</p>
+    <ul class="plain">
+      <li><strong>Keep and reframe.</strong> Cheapest. Lean into the retro cantonment reading and let the product do the repositioning. Works if your existing B2B accounts and neighbourhood already know you.</li>
+      <li><strong>Endorse.</strong> "Butterscotch — Puff &amp; Coffee." Keeps equity, adds the category. Low risk, moderate payoff.</li>
+      <li><strong>Rename now.</strong> Most expensive and most correct if you're serious about goal 3. Do it before the flagship opens, not after — renaming a known café costs you a year of word of mouth.</li>
+    </ul>
+    <p>My view: decide this before you spend on the flagship's signage, and don't decide it by asking friends which name they like. Ask which name makes a ₹185 pastry feel fair.</p>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="plan">
+    <h2>The first ninety days</h2>
+
+    <div class="phase">
+      <h3>Days 1–30 — Stop the bleeding, learn the truth</h3>
+      <ul class="plain">
+        <li>Build contribution margin by site. Sales minus COGS minus that site's rent, staff, power. Three numbers. This is the most valuable thing you'll do all quarter.</li>
+        <li>Decide the flagship. Best of the three on footfall, frontage and lease terms — not on sentiment.</li>
+        <li>Exit or convert the other two. Convert means: no seating, one staff, pickup and pre-order only, running as a satellite of the kitchen.</li>
+        <li>Reprice B2B. Most small bakeries are 8–15% underpriced on wholesale because they quoted before butter went up. Raise it; you'll lose fewer accounts than you fear.</li>
+        <li>Start logging wastage daily by SKU. You cannot fix what you don't weigh.</li>
+        <li>List every specialty café, cloud kitchen and office pantry vendor within 5km. Target 60 names.</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <h3>Days 31–60 — Build the two ends</h3>
+      <ul class="plain">
+        <li>Sample-box campaign: 40 cold visits, one box each, one follow-up in 72 hours. Target 8 new accounts.</li>
+        <li>Quote the frozen SKU. Get a blast freezer costed and financed. Trial par-baked puffs and croissants with three friendly accounts.</li>
+        <li>Espresso setup at the flagship: machine, grinder, one trained barista, one roaster partnership. Open at 7:30am from day one.</li>
+        <li>Fix the product hierarchy. Two puffs, three viennoiserie, one danish of the week, four coffees. Cut the rest — a long menu at low volume is a wastage machine.</li>
+        <li>Start the corporate pitch: pantry supply for three offices within 3km, billed monthly in advance.</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <h3>Days 61–90 — Make it repeatable</h3>
+      <ul class="plain">
+        <li>Hire the one person who unblocks you — a B2B salesperson if you'd rather run the café, a café manager if you'd rather sell. Not both, and not neither.</li>
+        <li>Write the recipe and production SOPs. Lamination is a process, and processes are what let you open a second site.</li>
+        <li>Turn on delivery for boxes and cakes only. ₹450 minimum. No single pastries, ever.</li>
+        <li>Run the numbers weekly, not monthly. Contribution margin, wastage %, coffee attach rate, top-3 B2B concentration, days sales outstanding.</li>
+        <li>Photograph the product properly, once. Your Instagram is your entire top-of-funnel for both the café and the wholesale pitch.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="risks">
+    <h2>What could go wrong, and what I'd watch</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Risk</th><th>How it shows up</th><th>Early warning to track</th></tr></thead>
+        <tbody>
+          <tr><td>Wholesale concentration</td><td>Three accounts become 40%+ of revenue and dictate your price at renewal.</td><td class="num">Top-3 share &gt; 35%</td></tr>
+          <tr><td>Working capital squeeze</td><td>You grow B2B fast, pay for butter in cash, get paid in 45 days, and run out.</td><td class="num">DSO &gt; 40 days</td></tr>
+          <tr><td>Founder split in two</td><td>Both the café and the sales pipeline get 50% of you and neither works.</td><td>Neither hire made by day 90</td></tr>
+          <tr><td>Quality drift at scale</td><td>The puff that built you gets thinner when volume triples.</td><td>Weekly blind taste, same time, same person</td></tr>
+          <tr><td>Discount dependence</td><td>Delivery becomes 30% of revenue at 45% net realisation.</td><td class="num">Delivery &gt; 15% of sales</td></tr>
+          <tr><td>Cold chain and compliance</td><td>Frozen dough needs FSSAI category clearance, proper storage, temperature logs.</td><td>Sort before the first frozen invoice</td></tr>
+          <tr><td>Butter price</td><td>Lamination is 60%+ butter by cost logic. A 15% move wipes out your B2B margin.</td><td>Quarterly contracts, not spot buying</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>On the seven-year goal</h3>
+    <p>Venture funding is a poor fit for a bakery chain and an excellent fit for a food manufacturing business with a consumer brand attached. If goal 3 is real, the frozen dough line is the part that makes you fundable — it's a factory with gross margins, contracts and geographic reach. The café chain is what makes it valuable and what makes it worth running. Build both now and you get to choose later; build only the cafés and the choice gets made for you.</p>
+  </section>
+
+  <div class="lam"></div>
+
+  <section id="asks">
+    <h2>Ten numbers I need before the next conversation</h2>
+    <p>Everything above is a hypothesis built on ranges. Send these and I'll replace the ranges with your actuals, and the recommendation may well change.</p>
+    <ul class="plain">
+      <li>Revenue split, last three months: B2B versus each of the three shops.</li>
+      <li>Rent, staff cost and lease end date for each shop.</li>
+      <li>Gross margin on your top ten SKUs — or at least food cost as a percentage of sales.</li>
+      <li>Number of active B2B accounts and what your largest three contribute.</li>
+      <li>Average payment days from your B2B customers.</li>
+      <li>Daily production volume and estimated unsold percentage.</li>
+      <li>Kitchen capacity: what could you produce tomorrow with the same equipment and one more shift?</li>
+      <li>Cash in the business, and what you personally need to draw each month.</li>
+      <li>Whether you own a sheeter, a retarder-proofer, and any freezer capacity.</li>
+      <li>How many hours a week you can give to selling, honestly.</li>
+    </ul>
+
+    <div class="callout">
+      <p>If you only do one thing from this note: work out the contribution margin of each of the three shops this week. That number decides everything else — and it's the number nobody in a struggling three-site business wants to look at.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="lam"></div>
+    <p>Figures are Bangalore market benchmarks and clearly-labelled estimates, not verified data about this business — replace them with the founder's actuals before committing capital. Cost, rent and platform-commission ranges move; re-check them at the time of decision. This is commercial opinion, not financial or legal advice.</p>
+  </footer>
+
+</div>
+
+</div>
+
+<script>
+  (function(){
+    var tabs = {
+      overview: {btn: document.getElementById('tab-overview'), panel: document.getElementById('view-overview')},
+      growth:   {btn: document.getElementById('tab-growth'),   panel: document.getElementById('view-growth')}
+    };
+    function select(key){
+      Object.keys(tabs).forEach(function(k){
+        var on = k === key;
+        tabs[k].btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        tabs[k].panel.hidden = !on;
+      });
+      window.scrollTo({top:0, behavior:'auto'});
+      if (history.replaceState) history.replaceState(null, '', '#' + key);
+    }
+    tabs.overview.btn.addEventListener('click', function(){ select('overview'); });
+    tabs.growth.btn.addEventListener('click', function(){ select('growth'); });
+    var start = (location.hash || '').replace('#','');
+    if (start === 'growth') select('growth');
+  })();
+</script>
+
+</body>
+</html>
