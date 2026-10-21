@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>The reimbursement pivot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b2130;
+    --ink-2:#434b5e;
+    --ink-3:#737a8c;
+    --card:#ffffff;
+    --line:#e4e6ec;
+    --line-2:#eef0f3;
+    --accent:#4b45c6;
+    --green:#15803d;
+    --amber:#b45309;
+    --red:#b4232e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .doc{max-width:820px;margin:0 auto;padding:52px 30px 72px}
+  h1,h2{font-family:'Newsreader',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.01em;color:var(--ink)}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  /* masthead */
+  .kicker{font-family:'IBM Plex Mono';font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  h1{font-size:clamp(32px,6vw,46px);font-weight:700;margin-bottom:22px}
+  .covered{border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+  .covered .cl{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px}
+  .covered ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px 22px}
+  .covered li{font-size:13.5px;color:var(--ink-2);counter-increment:toc;position:relative;padding-left:20px}
+  .covered li::before{content:counter(toc);position:absolute;left:0;color:var(--accent);font-family:'IBM Plex Mono';font-size:12px;font-weight:600}
+  .covered ol{counter-reset:toc}
+
+  /* sections */
+  section{margin-top:46px}
+  h2{font-size:24px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px}
+  p{font-size:15px;color:var(--ink-2);margin-bottom:12px}
+  p b,strong{color:var(--ink);font-weight:600}
+
+  /* nested indented lists — the core simple UI */
+  ul.tree{list-style:none;padding-left:0}
+  ul.tree ul{list-style:none;margin:6px 0 6px 0;padding-left:18px;border-left:2px solid var(--line-2)}
+  ul.tree li{font-size:14.5px;color:var(--ink-2);margin:5px 0;padding-left:16px;position:relative;line-height:1.5}
+  ul.tree li::before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:#bcc0cc}
+  ul.tree li b{color:var(--ink)}
+  ul.tree.green>li::before{background:var(--green)}
+  ul.tree em{color:var(--ink-3);font-style:italic}
+
+  .quote{color:var(--ink);font-style:italic}
+
+  /* tables */
+  .tscroll{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;background:#fff}
+  th{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:11px 13px;border-bottom:1.5px solid var(--line);font-weight:600;vertical-align:bottom}
+  td{padding:11px 13px;border-bottom:1px solid var(--line-2);color:var(--ink-2);vertical-align:top;line-height:1.4}
+  tr:last-child td{border-bottom:none}
+  td .code{font-family:'IBM Plex Mono';font-weight:600;color:var(--ink);font-size:12.5px}
+  td .rate{font-family:'IBM Plex Mono';font-weight:600;color:var(--accent);white-space:nowrap}
+  .cap{font-size:12px;color:var(--ink-3);margin-top:7px;font-style:italic}
+  .mini-lead{font-size:14.5px;color:var(--ink);font-weight:600;margin:20px 0 6px}
+
+  /* verdict pills */
+  .v{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono';font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .v::before{content:"";width:6px;height:6px;border-radius:50%}
+  .v.go{background:#e7f4ec;color:var(--green)} .v.go::before{background:var(--green)}
+  .v.mid{background:#fcf0e2;color:var(--amber)} .v.mid::before{background:var(--amber)}
+  .v.no{background:#fbeceb;color:var(--red)} .v.no::before{background:var(--red)}
+
+  /* revenue callout */
+  .rev{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-top:14px;display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+  .rev .block{flex:1;min-width:150px}
+  .rev .rl{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+  .rev .rbig{font-family:'Newsreader';font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1}
+  .rev .rbig small{font-size:15px;color:var(--ink-3);font-weight:500}
+  .rev .target .rbig{color:var(--green)}
+  .rev .reality .rbig{color:var(--red)}
+  .rev .vs{font-family:'IBM Plex Mono';font-size:12px;color:var(--ink-3)}
+
+  /* insight block */
+  .ins{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+  .ins .tag{font-family:'IBM Plex Mono';font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:5px;background:#ecebfa;color:var(--accent);display:inline-block;margin-bottom:10px}
+  .ins h3{font-family:'Inter';font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px}
+  .ins p{font-size:14px;margin-bottom:8px}
+  .ins p:last-child{margin-bottom:0}
+  .warn{background:#fcf0e2;border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:10px 13px;font-size:13px;color:#7a3d08;margin-top:10px}
+  .warn b{color:#5f2f06}
+
+  /* refs */
+  .refs{margin-top:42px;border-top:1px solid var(--line);padding-top:18px}
+  .refs h4{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+  .refs ol{margin-left:16px;color:var(--ink-3);font-size:12px;line-height:1.7}
+
+  @media(max-width:600px){
+    .doc{padding:34px 18px 54px}
+    .rev{gap:16px}
+  }
+  @media print{
+    .doc{padding:24px 10px}
+    .tscroll,table,.ins,.rev,ul.tree>li{break-inside:avoid}
+    section{break-inside:avoid-page}
+    a{color:var(--accent);text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="kicker">Notes on the VC one-pager · Oct 2026</div>
+  <h1>The reimbursement pivot</h1>
+
+  <div class="covered">
+    <div class="cl">Covered</div>
+    <ol>
+      <li>What's working</li>
+      <li>Worries &amp; problems to solve</li>
+      <li>Understanding the codes</li>
+      <li>Revenue math</li>
+      <li>Insights</li>
+      <li>On fundraising</li>
+      <li>What to add to the deck</li>
+    </ol>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <h2>What's working</h2>
+    <ul class="tree green">
+      <li><b>Reimbursement kills the hardest physician fear</b> ✅ — "get 10 paying patients" becomes "a revenue line you can bill," language US physicians already understand.</li>
+      <li><b>"Built to be billed" is smart positioning</b> ✅ — using engagement data as billing documentation turns the app's logs into money for the practice.</li>
+      <li><b>Positioning against incumbents is sharp</b> ✅ — physician-led, vs consumer apps and vendors that bypass the physician.</li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2>Worries &amp; problems to solve 😭❗️</h2>
+    <ul class="tree">
+      <li><b>For the reimbursement route — it is critical to get outcomes</b>
+        <ul>
+          <li>"Workflow hiccups with the medical staff" are slowing the one pilot that matters.</li>
+          <li>Primary's defense against Cadence and HealthSnap is <span class="quote">"our physician-led programs produce better outcomes."</span></li>
+          <li>Without the prep-score result, the pitch reduces to <span class="quote">"another RPM/CCM vendor, with a smaller take."</span></li>
+        </ul>
+      </li>
+      <li><b>Mismatch on the device codes that reimburse vs the programs we run</b> — the programs that prove outcomes and the programs that bill cleanly aren't the same list yet.</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2>Understanding the codes</h2>
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr><th>Code</th><th>Pays for</th><th>Who qualifies</th><th>~$/pt/mo</th><th>Catch</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="code">CCM</span><br>99490</td>
+            <td>20 min of clinical-staff care management</td>
+            <td>Patients with <strong>2+ chronic conditions</strong> (12+ mo). Any specialty</td>
+            <td><span class="rate">$66</span></td>
+            <td>Needs staff time, consent, a care plan</td>
+          </tr>
+          <tr>
+            <td><span class="code">PCM</span><br>99424</td>
+            <td>30 min of physician care mgmt, one high-risk condition</td>
+            <td>Good fit for <strong>specialists</strong> (GI, urology, endo)</td>
+            <td><span class="rate">$88</span></td>
+            <td>Physician time; can't stack with CCM by same practitioner</td>
+          </tr>
+          <tr>
+            <td><span class="code">RPM</span><br>99454+99457</td>
+            <td><strong>Physiologic</strong> data (BP, weight, glucose) + 20 min mgmt</td>
+            <td>Any chronic condition with a measurable vital</td>
+            <td><span class="rate">$47+$52</span></td>
+            <td>Needs an FDA-cleared device</td>
+          </tr>
+          <tr>
+            <td><span class="code">RTM</span><br>98977/98985+98980</td>
+            <td><strong>Non-physiologic</strong> data (adherence, pain, function) + mgmt</td>
+            <td>Device codes cover <strong>respiratory, MSK, CBT only</strong></td>
+            <td><span class="rate">~$50+$50</span></td>
+            <td>Can't bill with RPM; needs an FDA-defined device</td>
+          </tr>
+          <tr>
+            <td><span class="code">APCM</span><br>G0556</td>
+            <td>Bundled monthly primary-care management</td>
+            <td><strong>Primary-care physicians only</strong></td>
+            <td><span class="rate">~$15</span></td>
+            <td>Wrong for a specialist roster; low value</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">2026 Medicare national averages, non-facility; vary by locality. Sources at the end.</p>
+
+    <p class="mini-lead">For the reimbursement model to work, prioritise the programs that fit the codes:</p>
+    <div class="tscroll">
+      <table>
+        <thead>
+          <tr><th>Program</th><th>Best codes</th><th>Payer fit</th><th>Verdict</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cardio-metabolic</strong><br>diabetes / hypertension</td>
+            <td>CCM + RPM</td>
+            <td>Strong (Medicare)</td>
+            <td><span class="v go">Double down</span></td>
+            <td>Often 2+ conditions + measurable vitals. Highest $/patient, biggest market, clean outcomes (A1c, BP, weight)</td>
+          </tr>
+          <tr>
+            <td><strong>Osteoporosis / chronic MSK</strong></td>
+            <td>RTM&nbsp;MSK + CCM/PCM</td>
+            <td>Strong (older women)</td>
+            <td><span class="v go">Double down</span></td>
+            <td>One of the few fitting RTM's MSK codes. Deepest product already. Pain &amp; function measurable</td>
+          </tr>
+          <tr>
+            <td><strong>Fatty liver (MASLD)</strong><br>Dr. Shah</td>
+            <td>PCM + RPM (scale)</td>
+            <td>Medium-good</td>
+            <td><span class="v go">Keep / build</span></td>
+            <td>Specialist owns one chronic condition (fits PCM). −23 lb signal is real. CMO is the author</td>
+          </tr>
+          <tr>
+            <td><strong>Prostate / BPH (FLOW)</strong></td>
+            <td>PCM; CCM if comorbid</td>
+            <td>Good (Medicare men)</td>
+            <td><span class="v mid">Test billing</span></td>
+            <td>Chronic, Medicare-age, urology-owned. No device code, so revenue is time-based</td>
+          </tr>
+          <tr>
+            <td><strong>Non-surgical ACL</strong></td>
+            <td>RTM MSK</td>
+            <td>Weak (commercial)</td>
+            <td><span class="v mid">Don't expand</span></td>
+            <td>Code fits, but patients skew young/commercial where coverage is patchy. Good showcase, weak revenue</td>
+          </tr>
+          <tr>
+            <td><strong>Colonoscopy prep</strong><br>Dr. Shah</td>
+            <td>None</td>
+            <td>n/a</td>
+            <td><span class="v mid">Proof, don't scale</span></td>
+            <td>Not billable (few-day episode). Value is the prep-score outcome + ops savings. Future ops-SaaS to GI practices/ASCs</td>
+          </tr>
+          <tr>
+            <td><strong>Perimenopause</strong><br>Dr. Day</td>
+            <td>None reliably</td>
+            <td>Under-65 / commercial</td>
+            <td><span class="v no">Cash-pay only</span></td>
+            <td>No code fit, not Medicare. Fine as a side lane; don't let it drive the roadmap</td>
+          </tr>
+          <tr>
+            <td><strong>Gut health / IBS</strong></td>
+            <td>Weak</td>
+            <td>Younger / commercial</td>
+            <td><span class="v no">Avoid for now</span></td>
+            <td>Short, finite, young patients, weak code fit</td>
+          </tr>
+          <tr>
+            <td><strong>PCOS / functional strength</strong></td>
+            <td>None</td>
+            <td>n/a</td>
+            <td><span class="v no">Avoid</span></td>
+            <td>Authored by non-physicians who can't bill. Off-thesis</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2>Revenue math</h2>
+    <ul class="tree">
+      <li><b>Best stack: CCM + RPM on a Medicare chronic patient</b>
+        <ul>
+          <li><b>~$165/patient/month</b>, or ~$2K/patient/year.</li>
+        </ul>
+      </li>
+      <li><b>For the one-pager's $75–225K per physician to be true:</b>
+        <ul>
+          <li>Needs <b>50–100 billed Medicare patients per physician</b>.</li>
+          <li>Currently it's <b>~6 patients per physician</b> 🫠 (121 ÷ 21).</li>
+        </ul>
+      </li>
+      <li><b>Default alive</b>
+        <ul>
+          <li>At a lean burn of ~$100K/month, Primary needs <b>~$1.2M ARR</b>.</li>
+          <li>That's roughly <b>30–40 practices × 100 patients each</b>.</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="rev">
+      <div class="block target"><div class="rl">To hit the target</div><div class="rbig">50–100<small> pts/physician</small></div></div>
+      <div class="vs">vs.</div>
+      <div class="block reality"><div class="rl">Reality today</div><div class="rbig">~6<small> pts/physician</small></div></div>
+    </div>
+    <p class="cap">Illustrative; assumes full Medicare payment and device + staff-minute requirements met.</p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2>Insights</h2>
+
+    <div class="ins">
+      <span class="tag">The wedge</span>
+      <h3>Compliant by design</h3>
+      <p>A July 2026 <strong>proposed</strong> rule would require RPM/RTM clinical staff to be <strong>direct employees of the billing practice</strong> — ending the outsourced-nurse model that Cadence / HealthSnap-style vendors use. It does <em>not</em> restrict buying software.</p>
+      <p>So Primary can own a line nobody else can: <em>"software that makes your own staff run chronic care for far more patients — billable, documented, audit-ready."</em> A regulatory headwind becomes a moat.</p>
+      <div class="warn"><b>Say "proposed."</b> The final rule isn't out yet (usually early Nov), and it also proposes to cut some RPM/RTM rates — so don't over-anchor the per-patient number.</div>
+    </div>
+
+    <div class="ins">
+      <span class="tag">Learn from it</span>
+      <h3>Talk to the Gradia Health founder</h3>
+      <p style="margin-bottom:0">GI clinics, between-visit care, nurse and dietitian teams → founded 2021, now not operational. Founder <strong>Rithvik Seela</strong> — had raised $4.2M in 2023, now sunsetted. Worth a direct conversation on <em>why</em>; the likely lesson is the services-margin trap, which is exactly what Primary's software-only model must avoid.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2>On fundraising</h2>
+    <ul class="tree">
+      <li><b>Curious on the delays</b> — with the current team and effort, why is fundraising this hard and slow?
+        <ul>
+          <li><b>Hypothesis:</b> pitching a seed round with a Series-A-sized story but pre-seed evidence, in a crowded category, on a billing pathway regulators are actively tightening.
+            <ul>
+              <li><b>Traction is thin where it matters:</b></li>
+              <li>~6 program patients per physician (121 ÷ 21).</li>
+              <li>Outcomes are anecdotal (one −23 lbs case).</li>
+              <li>The headline "16×" engagement stat is selection bias.</li>
+              <li>That's ~2 years in, which VCs read as slow.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p class="mini-lead">What an a16z partner would say is missing — assuming the deck answers these:</p>
+    <ul class="tree">
+      <li><b>1. Where's revenue?</b> Users, physicians and streaks, but no ARR and no evidence anyone pays. Has a single claim been submitted and paid? One paid Medicare claim beats a $12.1B TAM slide.</li>
+      <li><b>2. Show me unit economics.</b> Licensing fee per physician? Physician CAC? Payback? Gross margin once someone does the required monthly minutes?</li>
+      <li><b>3. 6 patients per physician isn't a business.</b> How does a practice get to 50–100 enrolled, billable patients, and how fast?</li>
+      <li><b>4. Why do you beat Cadence and HealthSnap?</b> Both already bill these codes, with staff. The answer has to be outcomes, and there's no controlled outcome yet. The "16×" stat is selection bias and "−23 lbs" reads as one patient.</li>
+      <li><b>5. Who does the billable work?</b> If it's the practice, it's not "near-zero effort." If it's Primary, it's a services company with services margins.</li>
+      <li><b>6. What's the payer mix?</b> Current programs skew under-65 and commercial. The $75–225K-per-physician claim assumes a Medicare panel.</li>
+      <li><b>7. Regulatory &amp; compliance?</b> FDA status for RTM and RPM; audit risk on auto-generated documentation. No billing, revenue-cycle or compliance expertise visible on the team.</li>
+      <li><b>8. Why aren't you in ACCESS?</b> It's the most on-thesis tailwind in the market, and it's absent from the page.</li>
+    </ul>
+
+    <p class="mini-lead">Who understands the space and could make an obvious bet at the current state:</p>
+    <ul class="tree">
+      <li><b>A healthcare-only seed / Series-A fund that backs specialist-practice enablement and chronic care.</b>
+        <ul>
+          <li><b>Flare Capital Partners</b>
+            <ul>
+              <li>Backed Cerula Care's $5.5M seed (behavioral health for people with chronic conditions).</li>
+              <li>Co-led menopause startup Elektra Health's $3.75M round, so they know women's health.</li>
+              <li><b>Watch for a conflict:</b> Flare backed Oshi Health (virtual GI care). Lead with cardio-metabolic and MSK, not GI.</li>
+              <li><b>Pitch:</b> a $2.5M seed, positioned as <em>"physician-practice enablement for Medicare chronic care (cardio-metabolic + MSK), compliant with the 2027 employed-staff rule, aiming at ACCESS."</em></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <h2>What to add to the deck</h2>
+    <ul class="tree">
+      <li><b>A new headline (the wedge):</b> "Compliant by design — your own staff runs chronic care for more patients, billable, documented, audit-ready." (Phrase the rule as <em>proposed</em>.)</li>
+      <li><b>A "one real practice" box:</b> patients enrolled → claims submitted / paid / denial % → staff minutes/patient → net $ to the practice → Primary's fee. One real practice beats any TAM slide.</li>
+      <li><b>A focus statement:</b> "Medicare chronic care: cardio-metabolic + MSK." Name the 2–3 programs and the exact codes each bills.</li>
+      <li><b>An outcome on a billable program:</b> one cohort metric with n and timeframe. Keep colonoscopy as a one-line credibility note, not the headline.</li>
+      <li><b>Density metrics:</b> eligible → enrolled → active at day 30 → billed, per practice. Shift from "21 physicians" to "patients per practice."</li>
+      <li><b>Compliance as a feature:</b> auto-documentation, consent capture, established-patient / initiating-visit checks, audit logs.</li>
+      <li><b>The program library as the moat:</b> built once, reused across practices at near-zero marginal cost — the network-effect story that makes it venture-scale.</li>
+      <li><b>Milestone-based use of funds:</b> "$2.5M takes us to ~35 practices, ~$1.2M ARR, default alive by month X."</li>
+    </ul>
+  </section>
+
+  <div class="refs">
+    <h4>Sources</h4>
+    <ol>
+      <li>CPT 2026 rates (CCM 99490, PCM 99424, RPM 99454/99457) — AUA, CY2026 MPFS Final Rule tables.</li>
+      <li>RTM 2026 codes &amp; coverage (respiratory / MSK / CBT) — CMS CY2026 PFS; Limber Health.</li>
+      <li>APCM G0556 (~$15/mo, primary-care only) — AAFP; Prevounce.</li>
+      <li>2027 proposed rule — employed-staff requirement + RPM/RTM revaluation — McDermott Will &amp; Schulte.</li>
+      <li>OIG scrutiny of RPM billing (2024 &amp; 2025 reports) — HHS-OIG.</li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
