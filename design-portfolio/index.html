@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yash Vijaykar · Design portfolio</title>
+<meta name="description" content="Design portfolio of Yash Vijaykar: the process behind the things I make.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%228%22 y=%228%22 width=%2284%22 height=%2284%22 rx=%2212%22 fill=%22%23C8402A%22/><text x=%2250%22 y=%2247%22 font-size=%2234%22 text-anchor=%22middle%22 fill=%22%23F3E6CC%22 font-family=%22serif%22 font-weight=%22800%22>Y</text><text x=%2250%22 y=%2280%22 font-size=%2234%22 text-anchor=%22middle%22 fill=%22%23F3E6CC%22 font-family=%22serif%22 font-weight=%22800%22>V</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600&text=%E3%81%82%E3%82%8A%E3%81%8C%E3%81%A8%E3%81%86%E3%81%94%E3%81%96%E3%81%84%E3%81%BE%E3%81%99&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F4F0; --surface:#EAEAE3; --surface2:#E0E0D8; --card:#FFFFFF; --paper:#FFFDF8;
+  --ink:#161615; --soft:#52524C; --mute:#8A8A82; --line:rgba(22,22,21,.11);
+  --indigo:#2747A0; --indigo-soft:#E4E9F6; --red:#C8402A; --blush:#F6DDD3; --live:#1F9D63;
+  --display:'Bricolage Grotesque',system-ui,sans-serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace; --hand:'Caveat','Segoe Print',cursive;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--indigo);text-decoration-thickness:1px;text-underline-offset:4px}
+img{display:block;max-width:100%;height:auto}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;cursor:pointer;transition:opacity .5s ease,visibility .5s}
+.js .loader{display:flex}
+.loader.done{opacity:0;visibility:hidden}
+.loader .seal{width:76px;height:76px;animation:stamp .55s var(--ease) .1s both}
+.loader .seal span{font-size:24px;border-width:2px}
+.loader p{font-family:var(--hand);font-size:26px;color:var(--soft);animation:fadein .5s ease .45s both}
+@keyframes stamp{0%{transform:scale(1.6) rotate(-14deg);opacity:0}60%{transform:scale(.94) rotate(-6deg);opacity:1}100%{transform:scale(1) rotate(-6deg)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+.seal{width:32px;height:32px;background:var(--red);border-radius:5px;padding:3px;display:flex;transform:rotate(-6deg);flex:none}
+.seal span{flex:1;border:1.5px solid rgba(243,230,204,.85);border-radius:3px;color:#F3E6CC;font-family:Georgia,serif;font-weight:800;line-height:.92;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:rgba(244,244,240,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:62px}
+.brand{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none;font-family:var(--display);font-weight:600;font-size:16px;white-space:nowrap}
+.chapters{display:flex;gap:2px;margin:0 auto;list-style:none}
+.chapters a{display:flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;color:var(--soft);text-decoration:none;font-size:14.5px;font-weight:500;white-space:nowrap;transition:background .25s,color .25s}
+.chapters a:hover{color:var(--ink);background:var(--surface)}
+.chapters a.on{color:var(--ink);background:var(--surface2)}
+.live{width:7px;height:7px;border-radius:50%;background:var(--live);box-shadow:0 0 0 0 rgba(31,157,99,.5);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,157,99,.45)}70%{box-shadow:0 0 0 7px rgba(31,157,99,0)}100%{box-shadow:0 0 0 0 rgba(31,157,99,0)}}
+.top-right{display:flex;align-items:center;gap:18px;font-size:14px;white-space:nowrap}
+.top-right .note{color:var(--mute)}
+.top-right a{text-decoration:none}
+.quiet{color:var(--soft);text-decoration:none}
+.quiet:hover{color:var(--indigo)}
+.pill{border:1.5px solid var(--ink);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:500;transition:background .2s,color .2s}
+.pill:hover{background:var(--ink);color:var(--bg)}
+
+/* hero */
+.hero{padding:56px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;min-height:calc(100vh - 62px - 120px)}
+.eyebrow{color:var(--mute);margin-bottom:18px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(64px,8vw,120px);line-height:.95;letter-spacing:-.035em;margin-bottom:22px}
+.hero .sub{font-family:var(--display);font-weight:400;font-size:25px;line-height:1.35;color:var(--soft);letter-spacing:-.01em;margin-bottom:40px;max-width:470px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);text-decoration:none;border-radius:999px;padding:13px 24px;font-weight:600;font-size:16px;transition:transform .25s var(--ease),background .2s}
+.btn:hover{transform:translateY(-2px);background:var(--indigo)}
+.btn.small{padding:10px 18px;font-size:14.5px}
+.portrait{position:relative;justify-self:center;width:min(100%,440px)}
+.portrait .sun{position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:var(--blush);left:11%;top:7%}
+.portrait img{position:relative;width:100%;filter:drop-shadow(0 16px 24px rgba(30,30,25,.18));transform:rotate(-3deg);transition:transform .6s var(--ease)}
+.portrait:hover img{transform:rotate(0) translateY(-6px)}
+.anno{position:absolute;font-family:var(--hand);font-weight:600;font-size:27px;line-height:1.05;color:var(--red);white-space:nowrap}
+.anno svg{position:absolute;overflow:visible}
+.hero-anno{left:-150px;top:500px;transform:rotate(-3deg)}
+
+/* chapters */
+.chapter{padding:88px 0;border-top:1px solid var(--line)}
+.split{display:grid;grid-template-columns:330px minmax(0,1fr);gap:64px;align-items:start}
+.aside{position:sticky;top:96px}
+.num{display:flex;align-items:center;gap:10px;color:var(--red);margin-bottom:12px}
+.yr{color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:2px 10px;letter-spacing:.06em}
+h2{font-family:var(--display);font-weight:700;font-size:46px;line-height:1.02;letter-spacing:-.025em;margin-bottom:18px}
+.aside .lede{color:var(--soft);font-size:16.5px;line-height:1.65;margin-bottom:22px}
+.aside .lede b{color:var(--ink);font-weight:600}
+.facts{list-style:none;border-top:1px solid var(--line);margin-bottom:24px}
+.facts li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.5}
+.facts b{font-family:var(--mono);font-weight:400;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);padding-top:2px}
+.stat{margin-bottom:14px}
+.stat .big{font-family:var(--display);font-weight:700;font-size:42px;line-height:1;letter-spacing:-.03em}
+.stat .big .arr{color:var(--red);font-weight:500;margin:0 2px}
+.stat p{font-size:14px;color:var(--soft);line-height:1.5;margin-top:6px}
+
+.flow>*+*{margin-top:64px}
+h3{font-family:var(--display);font-weight:650;font-size:27px;line-height:1.2;letter-spacing:-.015em;margin-bottom:10px}
+.flow p.t{color:var(--soft);max-width:660px;margin-bottom:22px}
+.cap{font-size:14.5px;color:var(--soft);line-height:1.55;margin-top:12px}
+.cap b{color:var(--ink);font-weight:600}
+.label{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);background:var(--surface);border-radius:6px;padding:3px 9px;margin-bottom:12px}
+.mat{background:var(--surface);border-radius:16px;padding:24px}
+.mat img{border-radius:6px}
+.zoom{cursor:zoom-in}
+.learned{font-family:var(--hand);font-weight:600;font-size:32px;line-height:1.2;color:var(--ink);max-width:640px}
+.learned small{display:block;font-family:var(--mono);font-weight:400;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+
+.print{background:var(--paper);padding:8px 8px 10px;box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 26px -18px rgba(30,30,25,.45);transform:rotate(var(--r,0deg));transition:transform .5s var(--ease)}
+.print:hover{transform:rotate(0) translateY(-4px)}
+.print img{width:100%}
+
+/* sakura */
+.bigquote{font-family:var(--display);font-weight:500;font-size:30px;line-height:1.3;letter-spacing:-.015em;max-width:700px}
+.bigquote .who{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-top:14px}
+.videos{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.video{position:relative;display:block;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#1b1a18;cursor:pointer;text-decoration:none}
+.video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.6));pointer-events:none}
+.vtitle{position:absolute;left:24px;bottom:22px;z-index:2;font-family:var(--display);font-weight:700;font-size:36px;line-height:1;letter-spacing:-.025em;color:#fff}
+.vtitle b{display:inline-block;font-weight:800;border-bottom:5px solid var(--red);padding-bottom:5px;margin-top:4px}
+.yt{position:absolute;top:14px;right:14px;z-index:2;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:#fff;background:rgba(0,0,0,.45);border-radius:999px;padding:4px 11px}
+.video img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.video:hover img{transform:scale(1.03)}
+.video .play{position:absolute;right:22px;bottom:22px;z-index:2;display:flex}
+.video .play span{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease)}
+.video:hover .play span{transform:scale(1.08)}
+.video .play svg{margin-left:4px}
+.when{font-family:var(--hand);font-weight:600;color:var(--red);font-size:26px;line-height:1;margin-bottom:8px;display:block}
+.vt{font-weight:600;margin-top:12px;line-height:1.4}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 22px}
+.tip .n{font-family:var(--hand);font-weight:600;color:var(--red);font-size:30px;line-height:1}
+.tip h4{font-family:var(--display);font-weight:650;font-size:19px;line-height:1.25;margin:8px 0 6px}
+.tip p{font-size:14.5px;color:var(--soft);line-height:1.55}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.res a{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink);transition:transform .3s var(--ease),border-color .2s,box-shadow .3s}
+.res a:hover{transform:translateY(-3px);border-color:var(--indigo);box-shadow:0 16px 30px -24px rgba(39,71,160,.6)}
+.res .th{height:96px;border-radius:10px;overflow:hidden;background:var(--indigo-soft);display:flex;align-items:center;justify-content:center;font-size:40px}
+.res .th img{width:100%;height:100%;object-fit:cover}
+.res b{display:block;font-family:var(--display);font-weight:650;font-size:17.5px;line-height:1.25}
+.res span{display:block;font-size:14px;color:var(--soft);line-height:1.45;margin-top:3px}
+.res i{font-style:normal;color:var(--indigo);font-weight:600;font-size:13.5px;display:block;margin-top:6px}
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr 1.45fr;gap:20px;align-items:start}
+.step .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+.step .sn{font-family:var(--mono);color:var(--red);font-size:12px;letter-spacing:.08em;display:block;margin:16px 0 2px}
+.step h4{font-family:var(--display);font-weight:650;font-size:17px}
+
+.xcard{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 18px 10px 10px;text-decoration:none;color:var(--ink);transition:transform .3s var(--ease),border-color .2s,box-shadow .3s}
+.xcard:hover{transform:translateY(-2px);border-color:var(--ink);box-shadow:0 14px 26px -20px rgba(0,0,0,.5)}
+.xlogo{flex:none;width:46px;height:46px;border-radius:11px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px}
+.xcard b{display:block;font-family:var(--display);font-weight:650;font-size:16.5px;line-height:1.25}
+.xcard i{display:block;font-style:normal;color:var(--indigo);font-size:13.5px;font-weight:600;margin-top:2px}
+/* ladder */
+.ladder{position:relative;padding-left:34px}
+.ladder::before{content:"";position:absolute;left:7px;top:10px;bottom:40px;width:1.5px;background:var(--line)}
+.rung{position:relative}
+.rung+.rung{margin-top:44px}
+.rung::before{content:"";position:absolute;left:-32px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--indigo)}
+.rung-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.rung-head .v{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.02em}
+.rung-head .tool{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.val{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:15.5px;line-height:1.5}
+.val .txt{flex:1}
+.val .txt em{font-style:normal;color:var(--soft)}
+.tick{flex:none;width:22px;height:22px;border-radius:50%;background:var(--indigo);display:inline-flex;align-items:center;justify-content:center}
+.next{flex:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--indigo);background:var(--indigo-soft);border-radius:999px;padding:3px 10px}
+.fixline{display:flex;align-items:center;gap:12px;background:var(--indigo-soft);border-radius:12px;padding:14px 18px;font-size:15.5px;line-height:1.5;margin-top:18px}
+.fixline b{font-weight:600}
+
+/* strips */
+.strip{background:var(--surface);border-radius:16px;padding:20px 0 20px 20px;overflow-x:auto;overflow-y:hidden;cursor:grab;scrollbar-width:thin;scrollbar-color:var(--surface2) transparent;display:flex;gap:14px;user-select:none;-webkit-user-select:none}
+.strip.dragging{cursor:grabbing}
+.strip::after{content:"";flex:0 0 6px}
+.strip img{height:var(--h,380px);width:auto;max-width:none;border-radius:6px;-webkit-user-drag:none}
+.strip figure{position:relative;flex:none}
+.strip-hint.nudge{animation:nudge 1.4s var(--ease)}
+@keyframes nudge{0%,100%{transform:none}30%{transform:translateX(10px)}60%{transform:translateX(-3px)}}
+.strip-hint{text-align:right;font-family:var(--hand);font-weight:600;font-size:21px;color:var(--red);margin-top:4px;line-height:1}
+
+/* pins + notes */
+.pinbox{position:relative}
+.pin{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--mono);font-size:12.5px;font-weight:500;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);box-shadow:0 0 0 4px rgba(255,255,255,.85);pointer-events:none}
+.strip .pin{left:14px;top:14px;transform:none}
+.notes{list-style:none;margin-top:18px;max-width:700px}
+.notes li{display:grid;grid-template-columns:34px minmax(0,1fr);padding:9px 0;font-size:15.5px;color:var(--soft);line-height:1.55;border-bottom:1px dashed var(--line)}
+.notes li:last-child{border-bottom:0}
+.notes li i{font-style:normal;font-family:var(--mono);font-weight:500;color:var(--red)}
+.notes li b{font-weight:600;color:var(--ink)}
+
+/* BTS toggles */
+details.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid var(--ink);border-radius:14px;background:var(--card);font-family:var(--display);font-weight:650;font-size:18px;transition:background .2s,transform .25s var(--ease),box-shadow .25s}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 14px 26px -20px rgba(0,0,0,.5)}
+details.more summary .lbl{flex:1}
+details.more summary .act{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 14px;display:inline-flex;gap:8px;align-items:center}
+details.more summary .act .x{display:inline-block;transition:transform .35s var(--ease)}
+details.more[open] summary .act .x{transform:rotate(45deg)}
+details.more summary .act .o2{display:none}
+details.more[open] summary .act .o1{display:none}
+details.more[open] summary .act .o2{display:inline}
+details.more .inner{padding:28px 0 8px;animation:open .45s var(--ease)}
+details.more .inner>*+*{margin-top:40px}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+
+/* testimonials */
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.tcard p{font-size:16.5px;line-height:1.55;font-style:italic}
+.tcard span{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+
+/* 78health before/after */
+.ba{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start}
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:5px 12px;margin-bottom:16px}
+.tag.before{background:var(--surface2);color:var(--soft)}
+.tag.after{background:#E2F3EA;color:#14653F}
+.fan{position:relative;height:430px}
+.fan img{position:absolute;width:168px;border-radius:14px;box-shadow:0 16px 28px -18px rgba(0,0,0,.6);transition:transform .45s var(--ease)}
+.fan img:nth-child(1){left:0;top:30px;transform:rotate(-7deg)}
+.fan img:nth-child(2){left:52px;top:10px;transform:rotate(-1deg);z-index:2}
+.fan img:nth-child(3){left:104px;top:36px;transform:rotate(6deg);z-index:1}
+.fan:hover img:nth-child(1){transform:rotate(-10deg) translateX(-12px)}
+.fan:hover img:nth-child(3){transform:rotate(9deg) translateX(14px)}
+.after{position:relative}
+.after-row{display:block}
+.proto-frame{position:relative;width:410px}
+.proto-frame iframe{width:410px;height:840px;border:0;display:block;filter:drop-shadow(0 26px 30px rgba(20,20,60,.22))}
+.changed{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+.changed li{background:#E2F3EA;border-radius:12px;padding:14px 14px 16px;font-size:14.5px;line-height:1.5;color:#1d3a2c}
+.changed li::before{content:"✓";display:flex;width:22px;height:22px;border-radius:50%;background:var(--live);color:#fff;font-size:12px;align-items:center;justify-content:center;margin-bottom:8px}
+.changed li b{font-weight:600}
+.ba{position:relative}
+.ba-arrow{position:absolute;left:176px;top:4px}
+.play-anno{left:0;top:600px;transform:rotate(-3deg);z-index:3}
+
+/* stacks */
+.stack-wrap{display:flex;flex-direction:column;align-items:center}
+.stack{position:relative;cursor:pointer;touch-action:pan-y}
+.page{position:absolute;left:0;top:0;transition:transform .55s var(--ease),opacity .45s ease;will-change:transform}
+.page.leaving{transform:translate(-75%,-18px) rotate(-14deg)!important;opacity:0}
+.jstack .page.leaving{transform:translate(-125%,-60%) rotate(-14deg)!important}
+.stack-ui{display:flex;align-items:center;gap:12px;margin-top:22px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--mute)}
+.stack-ui button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink);transition:background .2s,color .2s}
+.stack-ui button:hover{background:var(--ink);color:var(--bg)}
+.stack-cap{min-height:56px;text-align:center;margin-top:14px;max-width:440px}
+/* journal pages */
+.jstack{width:460px;height:580px}
+.jstack .page{left:50%;top:50%;background:var(--paper);padding:10px 10px 12px;box-shadow:0 1px 0 rgba(0,0,0,.05),0 20px 32px -22px rgba(30,30,25,.55)}
+.jstack .page img{width:auto;height:auto;max-width:440px;max-height:540px}
+.jcap{font-family:var(--hand);font-weight:600;font-size:28px;line-height:1.15}
+/* story polaroids */
+.sstack{width:400px;height:620px}
+.sstack .page{width:380px;background:var(--paper);padding:12px 12px 16px;box-shadow:0 1px 0 rgba(0,0,0,.05),0 20px 34px -22px rgba(30,30,25,.6)}
+.sstack .page img{width:100%;height:440px;object-fit:cover}
+.sstack .page h4{font-family:var(--hand);font-weight:600;font-size:30px;line-height:1.1;margin:12px 4px 4px}
+.sstack .page p{font-size:14px;color:var(--soft);line-height:1.5;margin:0 4px}
+
+/* projects */
+.section-head{display:grid;grid-template-columns:330px minmax(0,1fr);gap:64px;margin-bottom:44px;align-items:end}
+.section-head .lede{color:var(--soft);font-size:16.5px;max-width:580px}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 22px 40px -28px rgba(0,0,0,.45)}
+.thumb{height:220px;background:var(--surface);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:background .8s ease}
+.pbody{padding:20px 22px 22px;display:flex;flex-direction:column;gap:6px;flex:1}
+.pbody h4{font-family:var(--display);font-weight:650;font-size:20px;letter-spacing:-.01em}
+.pbody p{font-size:14.5px;color:var(--soft);line-height:1.55;flex:1}
+.open{align-self:flex-start;margin-top:10px;font-size:14.5px;font-weight:600;color:var(--indigo)}
+.open:hover{text-decoration:underline;text-underline-offset:4px}
+.t-lamp.lit{background:#231d16}
+.lamp-svg{position:absolute;left:50%;top:0;margin-left:-44px}
+.lamp-svg .shade{fill:#E8D7B5;transition:fill .8s ease}
+.t-lamp.lit .lamp-svg .shade{fill:#F7D79C}
+.lamp-glow{position:absolute;left:50%;top:60px;width:90px;height:100px;margin-left:-45px;border-radius:50%;box-shadow:0 0 0 0 rgba(255,176,92,0);transition:box-shadow .9s ease}
+.t-lamp.lit .lamp-glow{box-shadow:0 0 80px 36px rgba(255,176,92,.42)}
+.cord{position:absolute;left:50%;top:150px;margin-left:22px;display:flex;flex-direction:column;align-items:center;padding:0 10px}
+.cord i{display:block;width:1.5px;height:40px;background:#8c7556;transform-origin:50% 0}
+.cord b{display:block;width:11px;height:17px;border-radius:6px;background:#9A6538}
+.cord.tug i{animation:tug .55s var(--ease)}
+.cord.tug b{animation:tugb .55s var(--ease)}
+@keyframes tug{30%{transform:scaleY(1.4)}60%{transform:scaleY(.95)}}
+@keyframes tugb{30%{transform:translateY(16px)}60%{transform:translateY(-3px)}}
+.hint{position:absolute;bottom:10px;right:14px;font-family:var(--hand);font-weight:600;font-size:22px;color:var(--red)}
+.t-lamp.lit .hint{color:#E8B27A}
+.shelf{display:flex;align-items:flex-end;gap:5px;height:150px;border-bottom:6px solid #8a6a48;padding:0 6px}
+.spine{width:26px;border-radius:2px 2px 0 0;writing-mode:vertical-rl;transform:rotate(180deg);font-size:10.5px;letter-spacing:.04em;color:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;padding:8px 0;transition:transform .35s var(--ease);white-space:nowrap;overflow:hidden}
+.spine:hover{transform:rotate(180deg) translateY(12px)}
+.spine.lean{transform:rotate(172deg);margin-left:6px}
+.spine.lean:hover{transform:rotate(172deg) translateY(12px)}
+.roi{text-align:center}
+.roi small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute)}
+.roi div{font-family:var(--display);font-weight:800;font-size:60px;letter-spacing:-.04em;color:#E8855A;line-height:1.05}
+.roi div span{font-size:28px;opacity:.5;font-weight:400}
+.roi p{font-size:13px;color:var(--soft)}
+.cookie{font-size:78px;line-height:1;cursor:pointer;transition:transform .3s var(--ease);user-select:none}
+.cookie:hover{transform:rotate(-8deg) scale(1.05)}
+.fortune{position:absolute;left:24px;right:24px;top:50%;transform:translateY(-50%);background:#FFFDF0;border-top:3px solid #C9A84C;border-bottom:3px solid #C9A84C;padding:14px 16px;text-align:center;font-style:italic;font-size:14.5px;color:#3D2E00;display:none}
+.t-cookie.cracked .cookie{display:none}
+.t-cookie.cracked .fortune{display:block;animation:fadein .4s ease}
+.t-birds img{width:100%;height:100%;object-fit:cover}
+.matrix{display:grid;grid-template-columns:auto 96px 96px;grid-template-rows:auto 60px 60px;gap:5px;font-size:11.5px;color:var(--mute);align-items:center;text-align:center}
+.matrix .c{background:var(--card);border:1px solid var(--line);border-radius:8px;height:100%;display:flex;align-items:center;justify-content:center;color:var(--soft);font-size:12px}
+.matrix .c.hot{background:var(--red);border-color:var(--red);color:#fff}
+
+/* inspiration */
+.pauling{font-family:var(--display);font-weight:700;font-size:clamp(40px,4.6vw,62px);line-height:1.04;letter-spacing:-.03em;max-width:980px}
+.pauling .who{display:block;font-family:var(--mono);font-weight:400;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:18px}
+.sub-block{display:grid;grid-template-columns:330px minmax(0,1fr);gap:64px;align-items:start;margin-top:72px}
+.sub-block>div:first-child{padding-top:60px}
+.flowers{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-top:28px}
+.flower{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 8px 14px;transition:transform .45s var(--ease)}
+.flower:hover{transform:translateY(-5px) rotate(-1deg)}
+.flower img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px}
+.flower h4{font-family:var(--display);font-weight:650;font-size:15.5px;line-height:1.25;margin:10px 4px 2px}
+.flower em{display:block;font-size:13px;color:var(--soft);margin:0 4px;line-height:1.35}
+.flower span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);margin:8px 4px 0;line-height:1.4}
+.flowers-head{margin-top:88px;max-width:820px}
+.flowers-head h3{font-size:34px;margin-bottom:10px}
+
+/* close */
+.close{padding:96px 0 60px;border-top:1px solid var(--line)}
+.close .wrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:56px;align-items:center}
+.arigato{cursor:pointer;user-select:none;display:inline-block;transition:transform .3s var(--ease);font-family:var(--display);font-weight:700;font-size:clamp(56px,6.4vw,92px);line-height:.98;letter-spacing:-.035em}
+.jp{font-family:'Zen Old Mincho','Hiragino Mincho ProN','Yu Mincho',serif;font-weight:600;font-size:30px;color:var(--red);letter-spacing:.06em;margin:14px 0 40px}
+.contact{display:flex;gap:22px;flex-wrap:wrap;align-items:center;font-size:15.5px}
+.me{position:relative}
+.me img{transform:rotate(3deg);filter:drop-shadow(0 16px 24px rgba(30,30,25,.18));transition:transform .6s var(--ease)}
+.me:hover img{transform:rotate(0) translateY(-6px)}
+.me .anno{right:-4px;top:-38px}
+.close .foot{display:block}
+.colophon{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font-size:13px;color:var(--mute)}
+
+.arigato:active{transform:scale(.98)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:95}
+/* lightbox + drawer */
+dialog.lb{border:0;padding:0;background:transparent;max-width:94vw;max-height:94vh;margin:auto;outline:none}
+dialog.lb::backdrop{background:rgba(20,20,18,.86)}
+dialog.lb img{max-width:94vw;max-height:86vh;border-radius:8px;cursor:zoom-out;background:#fff}
+dialog.lb p{color:#E9E7DF;text-align:center;font-size:14px;margin-top:12px}
+.drawer-bg{position:fixed;inset:0;background:rgba(20,20,18,.35);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,92vw);background:var(--bg);z-index:41;transform:translateX(100%);visibility:hidden;transition:transform .45s var(--ease),visibility .45s;overflow-y:auto;padding:36px 40px 48px}
+.drawer.on{transform:none;visibility:visible;box-shadow:-30px 0 60px -30px rgba(0,0,0,.35)}
+.drawer-bg.on{opacity:1;visibility:visible}
+.drawer .x{position:absolute;top:22px;right:22px;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);font-size:16px}
+.drawer .x:hover{background:var(--ink);color:var(--bg)}
+.drawer h3{font-size:32px;margin:24px 0 12px}
+.drawer p{color:var(--soft);margin-bottom:14px}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+@media (max-width:1100px){ .chapters{display:none} }
+@media (max-width:900px){
+  .wrap{padding:0 20px}
+  .hero .wrap,.split,.section-head,.sub-block,.flowers-head,.close .wrap,.ba,.after-row,.two{grid-template-columns:1fr}
+  .aside{position:static}
+  .steps,.pgrid,.tgrid,.trio,.res,.videos{grid-template-columns:1fr}
+  .flowers{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .top-right .note{display:none}
+}
+@media print{
+  .loader,.top,.drawer,.drawer-bg,dialog,.stack-ui,.cord,.hint{display:none!important}
+  .js .rv{opacity:1;transform:none}
+  .aside{position:static}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="seal"><span>Y<br>V</span></div>
+  <p>welcome in</p>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#hello"><span class="seal" aria-hidden="true"><span>Y<br>V</span></span>Yash Vijaykar</a>
+    <ul class="chapters" id="chapters">
+      <li><a href="#sakura" data-k="sakura">Sakura</a></li>
+      <li><a href="#nintee" data-k="nintee">Nintee</a></li>
+      <li><a href="#health" data-k="health">78Health <i class="live" title="Live prototype inside"></i></a></li>
+      <li><a href="#projects" data-k="projects">Projects</a></li>
+      <li><a href="#journals" data-k="journals">Journals</a></li>
+      <li><a href="#inspiration" data-k="inspiration">Inspiration</a></li>
+    </ul>
+    <div class="top-right">
+      <span class="note">Design Portfolio</span>
+      <a class="quiet" href="https://yashvijaykar.com" target="_blank" rel="noopener">Main site ↗</a>
+      <a class="pill" href="mailto:yashvijaykar98@gmail.com">Say hi</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HELLO -->
+<section class="hero" id="hello">
+  <div class="wrap">
+    <div class="rv">
+      <p class="eyebrow mono">Design portfolio · 2026</p>
+      <h1>Hi, I'm Yash.</h1>
+      <p class="sub">Nice to meet you!<br>Let's see what I have shipped, and what the designer in me looks like.</p>
+      <a class="btn" href="#sakura">Let's go <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="portrait rv">
+      <div class="sun" aria-hidden="true"></div>
+      <img width="631" height="1000" src="img/me-peace.webp" alt="Yash smiling and making a peace sign, wearing a floral shirt">
+      <div class="anno hero-anno">I designed<br>this tattoo
+        <svg width="130" height="140" style="left:96px;top:-130px" aria-hidden="true"><path d="M8 124 C 46 118, 90 88, 102 32" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round"/><path d="M93 41 L103 28 L111 42" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 SAKURA -->
+<section class="chapter" id="sakura" data-nav="sakura">
+  <div class="wrap split">
+    <aside class="aside rv">
+      <p class="num mono">01 · Project Sakura <span class="yr">2025</span></p>
+      <h2>I recovered from clinical depression.</h2>
+      <p class="lede">It was challenging, and it changed me. Then a question stuck: why aren't these things taught to us? Self-compassion, self-esteem, how to respond when someone around you is struggling. The people around me didn't know how to respond, and so many people struggle silently.</p>
+      <p class="lede"><b>The goal is simple: help someone struggling with tools and comfort.</b></p>
+      <a class="xcard" href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank" rel="noopener"><span class="xlogo" aria-hidden="true">𝕏</span><span><b>My journey, as a thread</b><i>Read the thread on X ↗</i></span></a>
+    </aside>
+
+    <div class="flow">
+      <div class="rv">
+        <p class="bigquote">“Depression is one of the worst forms of suffering, because of the immense feelings of shame, worthlessness and hopelessness.”<span class="who">Dr David Burns, <i>Feeling Good</i></span></p>
+      </div>
+
+      <div class="rv">
+        <span class="label">The videos</span>
+        <h3>What happened, and a year later</h3>
+        <p class="t">Made for anyone struggling silently, and for the friends and family around them who want to help but don't know what to say.</p>
+        <div class="videos">
+          <div>
+            <span class="when">then</span>
+            <a class="video" href="https://youtu.be/34HSGvs0VUY" target="_blank" rel="noopener" aria-label="Watch on YouTube: this wasn't burnout">
+              <img loading=\"lazy\" decoding=\"async\" width="800" height="450" src="img/sk-poster1.webp" alt="">
+              <span class="vtitle">this wasn't<br><b>burnout.</b></span>
+              <span class="play"><span><svg width="18" height="20" viewBox="0 0 18 20"><path d="M2 1.5v17L17 10z" fill="#C8402A"/></svg></span></span>
+              <span class="yt">YouTube ↗</span>
+            </a>
+            <p class="cap">My journey, the tools that helped, and what to say to someone who's struggling.</p>
+          </div>
+          <div>
+            <span class="when">a year later</span>
+            <a class="video" href="https://youtu.be/0Hu0YAprTDE" target="_blank" rel="noopener" aria-label="Watch on YouTube: life update and tattoo">
+              <img loading=\"lazy\" decoding=\"async\" width="585" height="329" src="img/sk-poster2.webp" alt="">
+              <span class="vtitle">life update<br><b>+ tattoo</b></span>
+              <span class="play"><span><svg width="18" height="20" viewBox="0 0 18 20"><path d="M2 1.5v17L17 10z" fill="#C8402A"/></svg></span></span>
+              <span class="yt">YouTube ↗</span>
+            </a>
+            <p class="cap">An update: I'm doing amazing now.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv">
+        <span class="label">For the people around them</span>
+        <h3>How to respond when someone is struggling</h3>
+        <div class="trio">
+          <div class="tip"><span class="n">1</span><h4>Don't compare pain</h4><p>“Others have it worse” makes people feel unheard. Acknowledge it, and listen.</p></div>
+          <div class="tip"><span class="n">2</span><h4>Gratitude can't be imposed</h4><p>It only comes from within. People in pain need understanding and hope, not guilt.</p></div>
+          <div class="tip"><span class="n">3</span><h4>Add to hope</h4><p>You don't need to fix them. Remind them: “This is temporary. You are not alone.”</p></div>
+        </div>
+      </div>
+
+      <div class="rv">
+        <span class="label">Tools and resources I shared</span>
+        <h3>What helped me</h3>
+        <div class="res">
+          <a href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank" rel="noopener"><div class="th">🧵</div><div><b>My journey, as a thread</b><span>What happened, and what helped, step by step.</span><i>Read on X ↗</i></div></a>
+          <a href="https://docs.google.com/document/d/1uRWYlJgx90ghg60n_CwjqlNmft8-jsHhr-mV5TTIYsc/" target="_blank" rel="noopener"><div class="th"><img width="664" height="786" src="img/j-double.webp" alt="A double-column journal page, blurred"></div><div><b>My CBT tool</b><span>The framework that helped me most: thought, distortion, response.</span><i>Open the template ↗</i></div></a>
+          <a href="https://www.google.com/search?q=feeling+good+by+david+burns" target="_blank" rel="noopener"><div class="th">📕</div><div><b>Feeling Good, Dr David Burns</b><span>The book that changed things for me.</span><i>Find the book ↗</i></div></a>
+          <a href="https://x.com/yashgpt5/status/1950630867216605270" target="_blank" rel="noopener"><div class="th"><img loading=\"lazy\" decoding=\"async\" width="253" height="346" src="img/sk-thread.webp" alt="My thread on How to Raise a Healthy Gamer"></div><div><b>How to raise a healthy gamer</b><span>A thread on choosing connection over dopamine.</span><i>Read on X ↗</i></div></a>
+        </div>
+      </div>
+
+      <div class="rv">
+        <p class="bigquote" style="font-size:26px">“Someone told me they started going to therapy because of my video.”<span class="who">Nothing I've shipped has meant more</span></p>
+      </div>
+
+      <div class="rv">
+        <span class="label">A daily reminder</span>
+        <h3>I designed a tattoo for myself</h3>
+        <p class="t">Two lilies and the text ‘AS YOU ARE’. I needed reminders for self-compassion and self-acceptance: lilies for compassion (treat yourself the way you'd treat a friend), and the words to accept myself as I am.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="pair"><div class="print" style="--r:-2deg"><img loading=\"lazy\" decoding=\"async\" width="444" height="648" class="zoom" src="img/t1-ref-a.webp" alt="Reference: watercolour of mountain lupine with colour swatches"></div><div class="print" style="--r:1.5deg"><img loading=\"lazy\" decoding=\"async\" width="365" height="410" class="zoom" src="img/t1-ref-b.webp" alt="Reference: botanical tattoos by other artists"></div></div>
+            <span class="sn">01</span><h4>References</h4>
+            <p class="cap">What I liked: purple and green swatches, flowers breaking out of a minimal frame.</p>
+          </div>
+          <div class="step">
+            <div class="pair"><div class="print" style="--r:1deg"><img loading=\"lazy\" decoding=\"async\" width="434" height="416" class="zoom" src="img/t1-sec1.webp" alt="My exploration: orange lilies in watercolour with AS YOU ARE"></div><div class="print" style="--r:-1.5deg"><img loading=\"lazy\" decoding=\"async\" width="260" height="370" class="zoom" src="img/t1-sec2.webp" alt="My exploration: one purple strand with swatches and AS YOU ARE"></div></div>
+            <span class="sn">02</span><h4>Explorations</h4>
+            <p class="cap">Two directions: warm lilies, or one strand with text and swatches.</p>
+          </div>
+          <div class="step">
+            <div class="pair"><div class="print" style="--r:-1deg"><img loading=\"lazy\" decoding=\"async\" width="334" height="476" class="zoom" src="img/t1-stencil.webp" alt="Line sketches of the flowers"></div><div class="print" style="--r:2deg"><img loading=\"lazy\" decoding=\"async\" width="260" height="480" class="zoom" src="img/t1-skin.webp" alt="Stencil tested on my arm"></div></div>
+            <span class="sn">03</span><h4>Test on skin</h4>
+            <p class="cap">Line work first, then the stencil on my arm before committing.</p>
+          </div>
+          <div class="step">
+            <div class="print" style="--r:1.5deg"><img loading=\"lazy\" decoding=\"async\" width="766" height="472" class="zoom" src="img/t1-final.webp" alt="The finished tattoo on my arm: two lilies and AS YOU ARE"></div>
+            <span class="sn">04</span><h4>Final</h4>
+            <p class="cap">Inked by @pranav.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="learned rv"><small>What I learned</small>The people around someone who's struggling are users too.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 NINTEE · WORDRALLY -->
+<section class="chapter" id="nintee" data-nav="nintee">
+  <div class="wrap split">
+    <aside class="aside rv">
+      <p class="num mono">02 · Nintee · WordRally <span class="yr">2024</span></p>
+      <h2>Rapid prototyping</h2>
+      <p class="lede">A word game to make vocabulary fun. Each version validated one thing before we built the next.</p>
+      <ul class="facts">
+        <li><b>Role</b><span>Product, prototypes and experiments</span></li>
+        <li><b>Team</b><span>Me and one front-end developer, with LLMs doing the heavy lifting</span></li>
+        <li><b>Tools</b><span>Typeform, Vercel, React Native, Mixpanel, GPT-4</span></li>
+      </ul>
+      <div class="stat"><div class="big">40%<span class="arr">→</span>10%</div><p>drop-off at the very first tap, after we cut sign-up</p></div>
+      <div class="stat"><div class="big">1.5<span class="arr">→</span>8 min</div><p>average session</p></div>
+    </aside>
+
+    <div class="flow">
+      <div class="ladder">
+        <div class="rung rv">
+          <div class="rung-head"><span class="v">v0</span><span class="tool">Typeform</span></div>
+          <p class="val"><span class="tick"><svg width="12" height="10" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><b>Validate:</b> is a picture quiz fun? <em>Yes, the team kept asking for more quizzes.</em></span><span class="next">→ v1</span></p>
+          <div class="strip" data-wiggle style="--h:300px"><img loading=\"lazy\" decoding=\"async\" width="2600" height="487" class="zoom" src="img/wr-v0-typeform.webp" alt="v0: WordRally built as a Typeform quiz with illustrated questions"></div>
+          <p class="strip-hint">drag sideways →</p>
+        </div>
+        <div class="rung rv">
+          <div class="rung-head"><span class="v">v1</span><span class="tool">Vercel web app</span></div>
+          <p class="val"><span class="tick"><svg width="12" height="10" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><b>Validate:</b> will people share it? <em>Yes, players sent their scores to friends.</em></span><span class="next">→ v2</span></p>
+          <div class="strip" style="--h:440px"><img loading=\"lazy\" decoding=\"async\" width="1900" height="735" class="zoom" src="img/wr-v1-vercel.webp" alt="v1: WordRally as a web app with a shareable score card"></div>
+          <p class="strip-hint">drag sideways →</p>
+        </div>
+        <div class="rung rv">
+          <div class="rung-head"><span class="v">v2+</span><span class="tool">React Native alpha builds</span></div>
+          <p class="val"><span class="tick"><svg width="12" height="10" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><b>Validate:</b> does it hold attention on a real phone? <em>Yes, 8-minute sessions, 20+ builds in 30 days.</em></span><span class="next">Play Store alpha</span></p>
+          <div class="strip" style="--h:400px"><img loading=\"lazy\" decoding=\"async\" width="2600" height="574" class="zoom" src="img/wr-v2-app.webp" alt="v2: WordRally mobile app screens with a mascot, levels and matching games"></div>
+          <p class="strip-hint">drag sideways →</p>
+        </div>
+      </div>
+
+      <div class="rv">
+        <span class="label">The moment</span>
+        <h3>40% left before playing a single word</h3>
+        <div class="mat"><div class="pinbox">
+          <img loading=\"lazy\" decoding=\"async\" width="1800" height="378" class="zoom" src="img/wr-funnel.webp" alt="Mixpanel funnel showing a 40% drop at the first tap">
+          <span class="pin" style="left:20.5%;top:15%">1</span>
+          <span class="pin" style="left:78.5%;top:30%">2</span>
+        </div></div>
+        <ol class="notes">
+          <li><i>1</i><span><b>40% of people left at “let's go”</b>, the very first tap. We talked to users to find out why.</span></li>
+          <li><i>2</i><span><b>The ones who got past it stayed</b>, about 8 minutes a session. The game worked; the door didn't.</span></li>
+        </ol>
+        <p class="fixline"><span class="tick"><svg width="12" height="10" viewBox="0 0 12 10"><path d="M1 5l3.5 3.5L11 1.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>The fix:</b> we cut login and username so people jump straight into a quiz. Drop-off fell from 40% to 10%.</span></p>
+      </div>
+
+      <details class="more rv">
+        <summary><span class="lbl">BTS: the content pipeline and my checklist</span><span class="act"><span class="o1">Open</span><span class="o2">Close</span><span class="x">+</span></span></summary>
+        <div class="inner">
+          <div>
+            <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1800" height="1221" class="zoom" src="img/wr-pipeline.webp" alt="Content automation pipeline: GPT-4 prompts generate quizzes and image prompts, with text QC before Firebase"></div>
+            <p class="cap"><b>Two people, daily releases.</b> An LLM pipeline turned one word into quizzes, explanations and image prompts, with a human check before anything shipped.</p>
+          </div>
+          <div class="two">
+            <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1800" height="1001" class="zoom" src="img/wr-checklist.webp" alt="My content checklist: always assume people are lazy; visuals, sounds, animations; copy a 5th grader can understand"></div>
+            <div>
+              <p class="cap" style="margin-top:0"><b>My content checklist at the time</b>: copy a fifth grader understands, every step low effort, a casual and friendly vibe.</p>
+              <p class="cap"><b>What I'd change today:</b> I'd write “busy”, not “lazy”, and design for real progress rather than dopamine hits.</p>
+              <p class="cap"><b>Honest result:</b> day-1 retention held at 25%, short of our 40% goal.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 02 NINTEE · AI COACH -->
+<section class="chapter" id="coach" data-nav="nintee">
+  <div class="wrap split">
+    <aside class="aside rv">
+      <p class="num mono">02 · Nintee · AI habit coach <span class="yr">2024</span></p>
+      <h2>A coach that remembers</h2>
+      <p class="lede">People joined small challenges, like a 7-day sleep routine, and checked in with an AI coach. My job was to make it feel like it knew you: what you said last week, the photo you just sent, what you need next.</p>
+      <ul class="facts">
+        <li><b>Role</b><span>Product manager: chatbot flows, prompts and logic</span></li>
+        <li><b>Visuals</b><span>Nintee's design team</span></li>
+        <li><b>Built on</b><span>Discord, then a React Native app; GPT, captioning and OCR models</span></li>
+      </ul>
+      <div class="stat"><div class="big">~40%</div><p>higher activation after I reworked onboarding and made follow-ups personal</p></div>
+    </aside>
+
+    <div class="flow">
+      <div class="rv">
+        <span class="label">AI Coach product design, owned by me.</span>
+        <h3>How the coach thinks</h3>
+        <div class="mat"><div class="pinbox">
+          <img loading=\"lazy\" decoding=\"async\" width="1800" height="740" class="zoom" src="img/hc-workflow.webp" alt="Chatbot workflow: onboarding, intent classifier, session summary memory and image captioning modules">
+          <span class="pin" style="left:2%;top:7.5%">1</span>
+          <span class="pin" style="left:20.4%;top:54.5%">2</span>
+          <span class="pin" style="left:62.6%;top:4%">3</span>
+          <span class="pin" style="left:62.6%;top:55.5%">4</span>
+        </div></div>
+        <ol class="notes">
+          <li><i>1</i><span><b>Onboarding</b> turns a vague goal into one specific, doable challenge.</span></li>
+          <li><i>2</i><span><b>An intent check</b> tells a coaching question apart from a question about the app, so each gets the right answer.</span></li>
+          <li><i>3</i><span><b>Memory:</b> summaries of your last five sessions shape every reply.</span></li>
+          <li><i>4</i><span><b>Photos:</b> upload a picture of your meal, run or any activity, and it updates your logs.</span></li>
+        </ol>
+      </div>
+
+      <div class="rv">
+        <span class="label">Shipping in public</span>
+        <h3>Every update went out with a “try it now”</h3>
+        <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1800" height="843" class="zoom" src="img/hc-discord.webp" alt="My Ninteebot update posts on Discord with examples and a call for feedback"></div>
+        <p class="cap">I announced each change in our Discord community with a real example, and asked for feedback in the same breath.</p>
+      </div>
+
+      <div class="rv">
+        <span class="label">What people said</span>
+        <div class="tgrid">
+          <div class="tcard"><p>“For the first time in my adulthood, I was this much consistent for something I was really working hard on… I'll miss the bot, used to work like one's therapist.”</p><span>A member, on WhatsApp</span></div>
+          <div class="tcard"><p>“The Nintee AI Bot got more exciting, engaging and dynamic with the latest updates.”</p><span>Tanu Sharma, Trustpilot</span></div>
+          <div class="tcard"><p>“Nintee is super good, just asked some questions and curiosities of mine to nintee and it helped me so good.”</p><span>Ishan, community feed</span></div>
+        </div>
+      </div>
+
+      <details class="more rv">
+        <summary><span class="lbl">BTS: the app, and more testimonials</span><span class="act"><span class="o1">Open</span><span class="o2">Close</span><span class="x">+</span></span></summary>
+        <div class="inner">
+          <div>
+            <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1800" height="808" class="zoom" src="img/hc-app.webp" alt="Nintee app screens: goals, a 75-day milestone, community feed"></div>
+            <p class="cap">Later the coach moved into an app. <b>Visual design by Nintee's design team</b>; I owned the flows, the copy and the coach's logic.</p>
+          </div>
+          <div>
+            <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1369" height="794" class="zoom" src="img/hc-testimonials.webp" alt="Nintee user testimonials"></div>
+            <p class="cap">Users reported eating better, staying consistent and having more energy.</p>
+          </div>
+        </div>
+      </details>
+
+      <p class="learned rv"><small>What I learned</small>Remembering small things is what makes a coach feel human.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 78HEALTH -->
+<section class="chapter" id="health" data-nav="health">
+  <div class="wrap split">
+    <aside class="aside rv">
+      <p class="num mono">03 · 78Health · Primary app <span class="yr">2026</span></p>
+      <h2>Physician-led programs, made easy to follow</h2>
+      <p class="lede">Primary turns a physician's expertise into daily, AI-guided health programs that bridge the gap between clinic visits. It was sold as a proactive coach, but built like a tracker and a program store. I reviewed it, then rebuilt the core as a working prototype.</p>
+      <ul class="facts">
+        <li><b>Role</b><span>Self-initiated UX review and a working prototype</span></li>
+        <li><b>Result</b><span>The team adopted the direction</span></li>
+        <li><b>Tools</b><span>Figma; HTML, CSS and JS with Claude Code</span></li>
+      </ul>
+      <a class="btn small" href="#proto">Try the prototype</a>
+    </aside>
+
+    <div class="flow">
+      <div class="rv" id="proto">
+        <h3>Before, and the prototype the team adopted</h3>
+        <div class="ba">
+          <svg class="ba-arrow" width="118" height="30" viewBox="0 0 118 30" aria-hidden="true"><path d="M4 18 C 34 8, 74 8, 108 15" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round"/><path d="M98 7 L110 15 L98 23" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="anno play-anno">play with<br>the prototype
+            <svg width="200" height="120" style="left:150px;top:-8px" aria-hidden="true"><path d="M4 22 C 70 10, 130 30, 186 84" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round"/><path d="M174 82 L187 86 L186 72" fill="none" stroke="#C8402A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <span class="tag before">Before · their app</span>
+            <div class="fan">
+              <img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s2-empty.webp" alt="Before: you are not enrolled in any program">
+              <img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s3-metrics.webp" alt="Before: My Day with a wall of nutrient metrics">
+              <img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s1-tutorial.webp" alt="Before: a tutorial explaining how to swipe">
+            </div>
+            <p class="cap">An empty store on day one, a wall of nutrient bars, and a tutorial for gestures.</p>
+          </div>
+          <div class="after">
+            <span class="tag after"><i class="live"></i> After · my prototype · live</span>
+            <div class="after-row">
+              <div class="proto-frame"><iframe data-src="78health-prototype.html?embed=1" title="Primary app prototype, interactive" loading="lazy"></iframe></div>
+            </div>
+          </div>
+        </div>
+        <ul class="changed">
+          <li><b>Today's plan first</b>, not an empty store.</li>
+          <li><b>Tick a task</b> and the ring fills.</li>
+          <li><b>My Day</b>: one hero number and one symptom to log.</li>
+          <li><b>Ask Primary</b>: short, kind replies, with typing dots while it thinks.</li>
+        </ul>
+      </div>
+
+      <div class="rv">
+        <span class="label">Feedback that matters, I shared</span>
+        <h3>The first five minutes, annotated</h3>
+        <div class="strip" style="--h:460px">
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s1-tutorial.webp" alt="A tutorial screen explaining how to swipe"><span class="pin">1</span></figure>
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s2-empty.webp" alt="You are not enrolled in any program"><span class="pin">2</span></figure>
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s6-store.webp" alt="A store of programs and providers"><span class="pin">2</span></figure>
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s3-metrics.webp" alt="My Day with a wall of nutrient metrics"><span class="pin">3</span></figure>
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s4-wall.webp" alt="A long health insight article"><span class="pin">4</span></figure>
+          <figure><img loading=\"lazy\" decoding=\"async\" width="443" height="961" class="zoom" src="img/h78-s5-chat.webp" alt="Chat waiting with Understanding your input"><span class="pin">5</span></figure>
+        </div>
+        <p class="strip-hint">drag sideways →</p>
+        <ol class="notes">
+          <li><i>1</i><span><b>If you have to teach the gesture, the UI has failed.</b> No one reads this much on a first screen.</span></li>
+          <li><i>2</i><span><b>New users land in an empty store.</b> The doctor's link should be the default first path, and the copy should say “Join a program”.</span></li>
+          <li><i>3</i><span><b>Fourteen nutrient bars.</b> Show one hero number and what's next, not everything I logged.</span></li>
+          <li><i>4</i><span><b>One screen, one headline, one action.</b> Make text legible, with pointers and spacing.</span></li>
+          <li><i>5</i><span><b>Chat felt slow.</b> Check what kind of question it is before reasoning, and use typing dots so the wait feels instant.</span></li>
+        </ol>
+      </div>
+
+      <div class="rv two">
+        <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="610" height="200" class="zoom" src="img/h78-nudge.webp" alt="A notification that compares today's low steps with yesterday"></div>
+        <div>
+          <span class="label">Tone</span>
+          <h3>Nudges need to be positive</h3>
+          <p class="cap" style="margin-top:0">Comparing today with yesterday reads as guilt, and guilt doesn't bring people back. Lead with what's possible next.</p>
+        </div>
+      </div>
+
+      <details class="more rv">
+        <summary><span class="lbl">BTS: my full review, 23 points in four tiers</span><span class="act"><span class="o1">Open</span><span class="o2">Close</span><span class="x">+</span></span></summary>
+        <div class="inner">
+          <div class="two">
+            <div class="mat"><img loading=\"lazy\" decoding=\"async\" width="1289" height="3060" class="zoom" src="img/h78-feedback-doc.webp" alt="My consolidated UX feedback for the Primary app"></div>
+            <div>
+              <p class="cap" style="margin-top:0"><b>Fix first</b>: what do I do today, kill the empty state, cut walls of text, one hero metric, short and fast chat.</p>
+              <p class="cap"><b>Structural</b>: one typeface and four text roles, one template for every AI output, no teaching gestures.</p>
+              <p class="cap"><b>Polish</b>: light theme with readable contrast, no unlabeled counters, “Free” instead of “Rs 0”.</p>
+              <p class="cap"><b>Don't reinvent the wheel</b>: one daily score like Oura, streaks like Duolingo, reminders over WhatsApp.</p>
+              <p class="cap"><b>Keep</b>: food-photo logging, the proactive nudges and doctor-authored programs.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 04 PROJECTS -->
+<section class="chapter" id="projects" data-nav="projects">
+  <div class="wrap">
+    <div class="section-head rv">
+      <div><p class="num mono">04 · Projects and prototypes</p><h2>Small things I made for fun</h2></div>
+      <p class="lede">Side projects where I play with feel, words and code. Most of them live on my main site; open any card for the story.</p>
+    </div>
+    <div class="pgrid">
+      <article class="pcard rv">
+        <div class="thumb t-lamp" id="lampThumb">
+          <div class="lamp-glow"></div>
+          <svg class="lamp-svg" width="88" height="160" viewBox="0 0 88 160" aria-hidden="true">
+            <line x1="44" y1="0" x2="44" y2="48" stroke="#8c7556" stroke-width="1.5"/>
+            <rect x="36" y="46" width="16" height="7" rx="2" fill="#2a2119"/>
+            <ellipse class="shade" cx="44" cy="100" rx="38" ry="46"/>
+            <g fill="none" stroke="rgba(110,72,36,.33)" stroke-width="1"><path d="M17 72 Q44 77 71 72"/><path d="M8 88 Q44 94 80 88"/><path d="M6 104 Q44 110 82 104"/><path d="M9 120 Q44 125 79 120"/><path d="M18 134 Q44 138 70 134"/></g>
+            <ellipse cx="44" cy="146" rx="10" ry="2.5" fill="#2a2119"/>
+          </svg>
+          <button class="cord" type="button" id="cord" aria-label="Pull the lamp cord"><i></i><b></b></button>
+          <span class="hint">pull the cord</span>
+        </div>
+        <div class="pbody"><h4>A lamp with a cord</h4><p>Pull it: warm light and a soft click. My idea of “feels good to use”, in code.</p><button class="open" data-open="lamp">Open the story →</button></div>
+      </article>
+      <article class="pcard rv">
+        <div class="thumb">
+          <div class="shelf" aria-hidden="true">
+            <span class="spine" style="height:122px;background:#7A4E3A">Feeling Good</span>
+            <span class="spine" style="height:108px;background:#3F5A57">Clear Thinking</span>
+            <span class="spine" style="height:128px;background:#2E2A26">Antifragile</span>
+            <span class="spine" style="height:100px;background:#A9864C">Zero to One</span>
+            <span class="spine" style="height:116px;background:#5B6B3F">The Mom Test</span>
+            <span class="spine" style="height:126px;background:#8E3B2E">Healthy Gamer</span>
+            <span class="spine" style="height:104px;background:#4C4A6B">Hooked</span>
+            <span class="spine lean" style="height:118px;background:#6E5A44">Sapiens</span>
+          </div>
+        </div>
+        <div class="pbody"><h4>A bookshelf</h4><p>The books I've read, shown as objects on a shelf instead of a list.</p><button class="open" data-open="shelf">Open the story →</button></div>
+      </article>
+      <article class="pcard rv">
+        <div class="thumb"><div class="roi"><small>AUTOMATION ROI</small><div>1,240<span>×</span></div><p>hooman time expensive. machine time cheap.</p></div></div>
+        <div class="pbody"><h4>AI vs human ROI calculator</h4><p>What an hour of human work costs next to the same task done by an LLM.</p><button class="open" data-open="roi">Open the story →</button></div>
+      </article>
+      <article class="pcard rv">
+        <div class="thumb t-cookie" id="cookieThumb">
+          <span class="cookie" role="button" tabindex="0" aria-label="Break the cookie" id="cookie">🍪</span>
+          <div class="fortune" id="fortune"></div>
+          <span class="hint">break it</span>
+        </div>
+        <div class="pbody"><h4>Gen Z fortune cookie</h4><p>A tiny game whose fortunes get cheekier with every cookie you break.</p><button class="open" data-open="cookie">Open the story →</button></div>
+      </article>
+      <article class="pcard rv">
+        <div class="thumb t-birds"><img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/lecturing_birds_howtofly.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvbGVjdHVyaW5nX2JpcmRzX2hvd3RvZmx5LmpwZyIsImlhdCI6MTc3OTk1MDk0NiwiZXhwIjoxODExNDg2OTQ2fQ.y_xWBibmRnNmkqLR3pDhEvkrLdIGfse8vuxEeFzeFds" alt="AI image: a person lecturing birds on how to fly" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🦅',style:'font-size:72px'}))"></div>
+        <div class="pbody"><h4>Lecturing birds how to fly</h4><p>A comedy series of AI images: experts being taught the thing they're best at.</p><button class="open" data-open="birds">Open the story →</button></div>
+      </article>
+      <article class="pcard rv">
+        <div class="thumb">
+          <div class="matrix" aria-hidden="true">
+            <span></span><span>reversible</span><span>one-way door</span>
+            <span>low stakes</span><span class="c">just decide</span><span class="c">sleep on it</span>
+            <span>high stakes</span><span class="c">test small</span><span class="c hot">slow down</span>
+          </div>
+        </div>
+        <div class="pbody"><h4>Stakeholder GPT</h4><p>An LLM prototype that flags the biases in a decision and says how carefully to decide.</p><button class="open" data-open="gpt">Open the story →</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 05 JOURNALS -->
+<section class="chapter" id="journals" data-nav="journals">
+  <div class="wrap split">
+    <aside class="aside rv">
+      <p class="num mono">05 · Journals</p>
+      <h2>Doodles in my journal</h2>
+      <p class="lede">Paper is where I slow down: sketches from my travels, flowers I notice on walks or just simple reminders.</p>
+      <p class="lede" style="font-family:var(--hand);font-weight:600;font-size:24px;color:var(--red);line-height:1.2">tap the stack, or swipe →</p>
+    </aside>
+    <div class="flow">
+      <div class="stack-wrap rv" data-stack>
+        <div class="stack jstack" role="button" tabindex="0" aria-label="Flip to the next journal page">
+          <div class="page" data-cap="Kinkaku-ji, Kyoto · January 2025"><img width="1300" height="697" src="img/dd-kinkakuji.webp" alt="Ink sketch of Kinkaku-ji temple with yellow highlights, and journal notes"></div>
+          <div class="page" data-cap="Royal Poinciana, or Gulmohar"><img width="1267" height="952" src="img/dd-poinciana.webp" alt="Ink sketch of a Royal Poinciana flower"></div>
+          <div class="page" data-cap="Look at the longer horizon"><img width="533" height="952" src="img/dd-horizon.webp" alt="Journal page: look at longer horizon, with a tiny figure and mountains"></div>
+          <div class="page" data-cap="Understanding antifragility with doodles"><img width="536" height="956" src="img/dd-antifragile.webp" alt="Whiteboard doodles explaining fragility: one large stone versus a thousand pebbles, seven bottles in one night versus one a day, one 30-foot jump versus ten 3-foot jumps"></div>
+          <div class="page" data-cap="A reminder from Steve Jobs"><img width="536" height="766" src="img/dd-jobs.webp" alt="A handwritten Steve Jobs quote in my journal, with highlights"></div>
+        </div>
+        <p class="stack-cap jcap"></p>
+        <div class="stack-ui"><button type="button" data-prev aria-label="Previous page">←</button><span data-count>1 / 5</span><button type="button" data-next aria-label="Next page">→</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 INSPIRATION -->
+<section class="chapter" id="inspiration" data-nav="inspiration">
+  <div class="wrap">
+    <p class="num mono rv">06 · Inspiration</p>
+    <p class="pauling rv">“To get a good idea, you need a lot of ideas.”<span class="who">Linus Pauling</span></p>
+
+    <div class="sub-block">
+      <div class="rv">
+        <span class="label">Exploration</span>
+        <h3 style="font-size:34px">The design freak in me</h3>
+        <p class="t" style="color:var(--soft)">Making things, noticing things, being as intentional as I can, and bringing people together.</p>
+        <p style="font-family:var(--hand);font-weight:600;font-size:24px;color:var(--red);line-height:1.2">tap the stack, or swipe →</p>
+      </div>
+      <div class="stack-wrap rv" data-stack>
+        <div class="stack sstack" role="button" tabindex="0" aria-label="Flip to the next story">
+          <div class="page"><img width="1000" height="871" src="img/st-seigaiha.webp" alt="Journal page about the Seigaiha wave pattern, with a Casio watch that has the same pattern"><h4>Intentionality in choices</h4><p>Seigaiha (青海波), blue ocean waves: calm, good luck, resilience. Even a watch can carry a meaning.</p></div>
+          <div class="page"><img width="532" height="951" src="img/st-pizza4ps.webp" alt="A wall of handwritten cards at Pizza 4P's asking what oneness means to you"><h4>Pizza 4P's</h4><p>After dining, everyone doodles and writes about their experience. What a way to bring people together.</p></div>
+          <div class="page"><img width="696" height="953" src="img/st-boardgame.webp" alt="A Saturday game day page full of handwritten notes from players"><h4>Saturday game day</h4><p>My partner runs a board game club, @Krashandroll. I co-hosted an event and asked people to journal whatever they felt after.</p></div>
+          <div class="page"><img width="808" height="729" src="img/st-gateb.webp" alt="A handmade poster reading Gate B with an arrow and have a nice day"><h4>Gate B →</h4><p>Made a poster so food delivery riders can find their way easily.</p></div>
+          <div class="page"><img width="749" height="952" src="img/st-slowdown.webp" alt="A framed poster reading slow down, you're doing fine"><h4>Slow down</h4><p>Gathering inspo wherever I can. Picked this up from a café in Bengaluru.</p></div>
+          <div class="page"><img width="1504" height="1761" src="img/nt-remote-fun.webp" alt="A meme in a product update and a team video call with silly filters"><h4>Remote, but close</h4><p>At Nintee: memes in product updates, and weekly chill-time calls with silly filters.</p></div>
+          <div class="page"><img width="536" height="793" src="img/st-reflection.webp" alt="My weekly reflection slides open on a laptop, with photos from the week"><h4>Weekly reflection</h4><p>I practice weekly reflection. I also started adding images to my logs.</p></div>
+          <div class="page"><img width="532" height="952" src="img/st-grass.webp" alt="A hand resting on grass"><h4>Touch grass!</h4><p>The simplest reset I know.</p></div>
+        </div>
+        <div class="stack-ui"><button type="button" data-prev aria-label="Previous story">←</button><span data-count>1 / 8</span><button type="button" data-next aria-label="Next story">→</button></div>
+      </div>
+    </div>
+
+    <div class="flowers-head rv">
+      <div><span class="label">Flowers</span><h3>Flowers remind me that time is fleeting, and nothing is permanent.</h3></div>
+      <p class="t" style="color:var(--soft)">Each flower is beautiful and has its own uniqueness. The joy goes away when you compare them, so enjoy them as they are.</p>
+      <p class="mono" style="color:var(--mute);margin-top:4px">(all images were clicked by me)</p>
+    </div>
+    <div class="flowers rv">
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="533" height="953" class="zoom" src="img/fl-chrysanthemum.webp" alt="Pink chrysanthemums"><h4>Chrysanthemum</h4><em>Chrysanthemum × morifolium</em><span>Blooms: Late summer to late fall</span></figure>
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="534" height="953" class="zoom" src="img/fl-pink-rain-lily.webp" alt="Pink rain lilies"><h4>Pink rain lily</h4><em>Zephyranthes rosea</em><span>Blooms: Late summer to early fall</span></figure>
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="535" height="953" class="zoom" src="img/fl-leopard-plant.webp" alt="Yellow leopard plant flowers"><h4>Leopard plant</h4><em>Farfugium japonicum</em><span>Blooms: Fall to early winter</span></figure>
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="533" height="954" class="zoom" src="img/fl-morning-glory.webp" alt="A blue morning glory"><h4>Morning glory</h4><em>Ipomoea purpurea</em><span>Blooms: Early summer to first frost</span></figure>
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="534" height="954" class="zoom" src="img/fl-paperwhite.webp" alt="A paperwhite daffodil"><h4>Paperwhite</h4><em>Narcissus tazetta</em><span>Blooms: Late winter to early spring</span></figure>
+      <figure class="flower"><img loading=\"lazy\" decoding=\"async\" width="535" height="954" class="zoom" src="img/fl-white-rain-lily.webp" alt="A white rain lily"><h4>White rain lily</h4><em>Zephyranthes candida</em><span>Blooms: Late summer to early fall</span></figure>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section class="close" id="close">
+  <div class="wrap">
+    <div class="rv">
+      <p class="arigato" id="arigato" role="button" tabindex="0" aria-label="Arigato gozaimasu">Arigato<br>gozaimasu</p>
+      <p class="jp" lang="ja">ありがとうございます</p>
+      <div class="contact">
+        <a class="btn" href="mailto:yashvijaykar98@gmail.com">yashvijaykar98@gmail.com</a>
+        <a class="quiet" href="https://www.linkedin.com/in/yashvijaykar/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="quiet" href="https://x.com/yashgpt5" target="_blank" rel="noopener">X ↗</a>
+        <a class="quiet" href="https://open.substack.com/pub/yashyijaykar" target="_blank" rel="noopener">Substack ↗</a>
+        <a class="quiet" href="https://yashvijaykar.com" target="_blank" rel="noopener">Main site ↗</a>
+      </div>
+    </div>
+    <div class="me rv">
+      <img loading=\"lazy\" decoding=\"async\" width="848" height="548" src="img/me-tokyo.webp" alt="Yash in a beanie, smiling, in a Tokyo garden">
+      <div class="anno">see you soon :)</div>
+    </div>
+  </div>
+  <div class="wrap foot">
+    <div class="colophon"><span>Made by Yash Vijaykar, with help from his Claude AI buddy.</span></div>
+  </div>
+</section>
+</main>
+
+<dialog class="lb" id="lb"><img loading=\"lazy\" decoding=\"async\" alt=""><p></p></dialog>
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Project details"><button class="x" id="drawerX" aria-label="Close">✕</button><div id="drawerBody"></div></aside>
+
+<template id="d-lamp"><span class="label">Feels good to use</span><h3>A lamp with a cord</h3><p>A paper lantern for my main site. Pull the cord and the page switches between day and night, with a soft click.</p><p>I wanted the feeling of switching on a real lamp: warm light, a satisfying sound, nothing in a hurry. It's the same thing I loved about everyday objects in Japan, made in code.</p><p><a href="https://yashvijaykar.com" target="_blank" rel="noopener">See it on my main site ↗</a></p></template>
+<template id="d-shelf"><span class="label">Feels good to look at</span><h3>A bookshelf</h3><p>A list of books is easy to skim and easy to forget. A shelf of spines is something you want to reach into, so the books I've read live on a shelf on my site.</p><p>The books that shaped how I think about people and products: <i>Feeling Good</i>, <i>Clear Thinking</i>, <i>The Mom Test</i>, <i>Hooked</i> and <i>How to Raise a Healthy Gamer</i>.</p><p><a href="https://yashvijaykar.com" target="_blank" rel="noopener">See it on my main site ↗</a></p></template>
+<template id="d-roi"><span class="label">Making an idea concrete</span><h3>AI vs human ROI calculator</h3><p>An interactive tool that compares what an hour of human time costs with the same work done by an LLM, across 15 everyday tasks and several models.</p><p>Pick your hourly rate, a model and the tasks you do, and one big number tells you the story. I built it to make an abstract argument feel real at a glance.</p><p><a href="https://yashvijaykar.com/AI_ROI" target="_blank" rel="noopener">Try it ↗</a></p></template>
+<template id="d-cookie"><span class="label">Play</span><h3>Gen Z fortune cookie</h3><p>Break a cookie, get a fortune. The fortunes get cheekier with each one, and after five you're told to touch grass and come back tomorrow.</p><p>A small experiment in pacing and tone: how a game can tease you, care about you, and stop you from overdoing it.</p><p><a href="https://yashvijaykar.com/fortune" target="_blank" rel="noopener">Break a cookie ↗</a></p></template>
+<template id="d-birds"><span class="label">Humour</span><h3>Lecturing birds how to fly</h3><p>A comedy series of AI images: birds, fish and lions being lectured on the thing they're best at. The title comes from Nassim Taleb's <i>Antifragile</i>.</p><p>A small joke about advice, and an excuse to play with image models.</p><p><a href="https://yashvijaykar.com/birds" target="_blank" rel="noopener">See the series ↗</a></p></template>
+<template id="d-gpt"><span class="label">Thinking tool</span><h3>Stakeholder GPT</h3><p>An LLM prototype that reads a decision you're facing, flags the biases you're likely to fall into, and suggests how carefully to decide based on how reversible and high-stakes it is.</p><p>Built while I was learning about clear thinking and decision-making, to make the frameworks usable in the moment.</p></template>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* loader */
+  var loader=document.getElementById('loader');
+  function hideLoader(){ loader.classList.add('done'); try{sessionStorage.setItem('yv-seen','1')}catch(e){} }
+  var seen=false; try{seen=sessionStorage.getItem('yv-seen')==='1'}catch(e){}
+  if(seen||reduce){ loader.style.display='none'; } else { loader.addEventListener('click',hideLoader); setTimeout(hideLoader,1300); }
+
+  /* reveal */
+  var rv=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} })},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+    rv.forEach(function(el){io.observe(el)});
+  } else rv.forEach(function(el){el.classList.add('in')});
+
+  /* nav highlight */
+  var links={}; document.querySelectorAll('#chapters a').forEach(function(a){links[a.dataset.k]=a});
+  if('IntersectionObserver' in window){
+    var spy=new IntersectionObserver(function(es){es.forEach(function(e){ if(!e.isIntersecting) return; var a=links[e.target.dataset.nav]; Object.values(links).forEach(function(x){x.classList.remove('on')}); if(a) a.classList.add('on'); })},{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('[data-nav]').forEach(function(s){spy.observe(s)});
+  }
+
+  /* lightbox */
+  var lb=document.getElementById('lb'), lbImg=lb.querySelector('img'), lbCap=lb.querySelector('p');
+  document.querySelectorAll('img.zoom').forEach(function(img){
+    img.addEventListener('click',function(){ lbImg.src=img.currentSrc||img.src; lbImg.alt=img.alt; lbCap.textContent=img.alt; lb.showModal(); });
+  });
+  lb.addEventListener('click',function(){lb.close()});
+
+
+  /* prototype loads when near */
+  var pf=document.querySelector('iframe[data-src]');
+  if(pf){
+    var load=function(){ if(!pf.getAttribute('src')) pf.src=pf.dataset.src; };
+    if('IntersectionObserver' in window){ var po=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ load(); po.disconnect(); } },{rootMargin:'800px'}); po.observe(pf); } else load();
+  }
+
+  /* drag-sideways strips */
+  document.querySelectorAll('.strip').forEach(function(st){
+    var down=false, sx=0, sl=0, moved=0;
+    st.addEventListener('pointerdown',function(e){ if(e.pointerType!=='mouse') return; down=true; moved=0; sx=e.clientX; sl=st.scrollLeft; st.classList.add('dragging'); });
+    window.addEventListener('pointermove',function(e){ if(!down) return; var dx=e.clientX-sx; moved=Math.max(moved,Math.abs(dx)); st.scrollLeft=sl-dx; });
+    window.addEventListener('pointerup',function(){ if(!down) return; down=false; st.classList.remove('dragging'); });
+    st.addEventListener('click',function(e){ if(moved>6){ e.stopPropagation(); e.preventDefault(); moved=0; } },true);
+    st.addEventListener('dragstart',function(e){ e.preventDefault(); });
+  });
+
+  /* first strip hints it can scroll */
+  var wg=document.querySelector('[data-wiggle]');
+  if(wg && !reduce && 'IntersectionObserver' in window){
+    var wo=new IntersectionObserver(function(es){ if(!es[0].isIntersecting) return; wo.disconnect();
+      setTimeout(function(){
+        var t0=null, D=1500, A=Math.min(160, wg.scrollWidth-wg.clientWidth);
+        var hint=wg.nextElementSibling; if(hint) hint.classList.add('nudge');
+        function step(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/D); var e=Math.sin(Math.PI*k); wg.scrollLeft=A*e*e*(3-2*e); if(k<1) requestAnimationFrame(step); }
+        if(A>0) requestAnimationFrame(step);
+      },700);
+    },{threshold:.7});
+    wo.observe(wg);
+  }
+
+  /* swipeable stacks */
+  document.querySelectorAll('[data-stack]').forEach(function(wrap){
+    var stack=wrap.querySelector('.stack'), pages=[].slice.call(stack.querySelectorAll('.page')), n=pages.length, idx=0, busy=false;
+    var count=wrap.querySelector('[data-count]'), cap=wrap.querySelector('.stack-cap');
+    var rots=[-2.6,1.9,-1.3,2.4,-1.9,1.2,-2.2,1.6,-1];
+    function layout(){
+      pages.forEach(function(p,i){ var pos=(i-idx+n)%n; p.style.zIndex=n-pos; var c=p.parentNode.classList.contains('jstack')?'translate(-50%,-50%) ':''; p.style.transform=c+'translate('+(pos*5)+'px,'+(pos*6)+'px) rotate('+rots[i%rots.length]+'deg)'; p.style.opacity=pos>3?0:1; });
+      if(count) count.textContent=(idx+1)+' / '+n;
+      if(cap) cap.textContent=pages[idx].dataset.cap||'';
+    }
+    function go(dir){ if(busy) return; busy=true;
+      if(dir>0){ var top=pages[idx]; top.classList.add('leaving'); setTimeout(function(){ top.classList.remove('leaving'); idx=(idx+1)%n; layout(); busy=false; }, reduce?0:360); }
+      else { idx=(idx-1+n)%n; layout(); setTimeout(function(){busy=false},300); }
+    }
+    layout();
+    var sx=null, swiped=false;
+    stack.addEventListener('pointerdown',function(e){ sx=e.clientX; swiped=false; });
+    stack.addEventListener('pointerup',function(e){ if(sx===null) return; var dx=e.clientX-sx; sx=null; if(Math.abs(dx)>50){ swiped=true; go(dx<0?1:-1); } });
+    stack.addEventListener('click',function(){ if(swiped){ swiped=false; return; } go(1); });
+    stack.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '||e.key==='ArrowRight'){e.preventDefault();go(1);} if(e.key==='ArrowLeft'){e.preventDefault();go(-1);} });
+    stack.addEventListener('dragstart',function(e){ e.preventDefault(); });
+    wrap.querySelector('[data-next]').addEventListener('click',function(){go(1)});
+    wrap.querySelector('[data-prev]').addEventListener('click',function(){go(-1)});
+  });
+
+  /* lamp */
+  var ac=null, cord=document.getElementById('cord'), lamp=document.getElementById('lampThumb');
+  function click(on){ try{ var C=window.AudioContext||window.webkitAudioContext; if(!C) return; ac=ac||new C();
+    var tick=function(at,f,vol){ var len=Math.floor(ac.sampleRate*.035), buf=ac.createBuffer(1,len,ac.sampleRate), d=buf.getChannelData(0); for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,5);
+      var s=ac.createBufferSource(); s.buffer=buf; var bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=f; bp.Q.value=4; var g=ac.createGain(); g.gain.value=vol; s.connect(bp); bp.connect(g); g.connect(ac.destination); s.start(ac.currentTime+at); };
+    tick(.14,on?2600:2100,.9); tick(.30,1500,.35); }catch(e){} }
+  cord.addEventListener('click',function(e){ e.stopPropagation(); cord.classList.remove('tug'); void cord.offsetWidth; cord.classList.add('tug'); var on=!lamp.classList.contains('lit'); lamp.classList.toggle('lit',on); click(on); });
+
+  /* fortune cookie */
+  var fortunes=["big things coming bro (source: vibes)","a random risky decision may actually cook","odds of success increased by 3%","your future self is begging for consistency","the vibe is immaculate today. do absolutely nothing to ruin it."];
+  var ct=document.getElementById('cookieThumb'), ck=document.getElementById('cookie'), ft=document.getElementById('fortune');
+  function crack(){ ft.textContent=fortunes[Math.floor(Math.random()*fortunes.length)]; ct.classList.add('cracked'); }
+  ck.addEventListener('click',crack); ck.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();crack();} });
+  ft.addEventListener('click',function(){ ct.classList.remove('cracked'); });
+
+  /* confetti on arigato */
+  (function(){
+    var el=document.getElementById('arigato'); if(!el) return;
+    var cols=['#C8402A','#2747A0','#F6DDD3','#F2A7B5','#E8B23A','#1F9D63'];
+    function burst(x,y){
+      if(reduce) return;
+      var c=document.createElement('canvas'); c.className='confetti'; var dpr=window.devicePixelRatio||1;
+      c.width=innerWidth*dpr; c.height=innerHeight*dpr; document.body.appendChild(c);
+      var g=c.getContext('2d'); g.scale(dpr,dpr);
+      var P=[]; for(var i=0;i<140;i++){ var a=-Math.PI/2+(Math.random()-.5)*Math.PI*1.1, v=7+Math.random()*9;
+        P.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.3,w:6+Math.random()*6,h:8+Math.random()*8,c:cols[i%cols.length],petal:Math.random()<.35}); }
+      var t0=performance.now();
+      (function f(t){ var el2=(t-t0)/1000; g.clearRect(0,0,innerWidth,innerHeight);
+        P.forEach(function(p){ p.vy+=.32; p.vx*=.99; p.vy*=.99; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+          g.save(); g.translate(p.x,p.y); g.rotate(p.r); g.globalAlpha=Math.max(0,1-el2/2.6); g.fillStyle=p.c;
+          if(p.petal){ g.beginPath(); g.ellipse(0,0,p.w*.55,p.h*.42,0,0,Math.PI*2); g.fill(); } else g.fillRect(-p.w/2,-p.h/4,p.w,p.h/2);
+          g.restore(); });
+        if(el2<2.6) requestAnimationFrame(f); else c.remove(); })(t0);
+    }
+    function go(e){ var r=el.getBoundingClientRect(); var x=e&&e.clientX?e.clientX:r.left+r.width/2, y=e&&e.clientY?e.clientY:r.top+r.height/2; burst(x,y); }
+    el.addEventListener('click',go);
+    el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+  })();
+
+  /* drawer */
+  var drawer=document.getElementById('drawer'), bg=document.getElementById('drawerBg'), body=document.getElementById('drawerBody'), lastBtn=null;
+  function openD(key,btn){ var t=document.getElementById('d-'+key); if(!t) return; lastBtn=btn; body.innerHTML=''; body.appendChild(t.content.cloneNode(true)); drawer.classList.add('on'); bg.classList.add('on'); drawer.setAttribute('aria-hidden','false'); document.getElementById('drawerX').focus(); }
+  function closeD(){ drawer.classList.remove('on'); bg.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); if(lastBtn) lastBtn.focus(); }
+  document.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click',function(){ openD(b.dataset.open,b); }); });
+  bg.addEventListener('click',closeD); document.getElementById('drawerX').addEventListener('click',closeD);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && drawer.classList.contains('on')) closeD(); });
+})();
+</script>
+</body>
+</html>
