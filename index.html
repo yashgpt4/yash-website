@@ -2,6 +2,16 @@
   ═══════════════════════════════════════════════
   VERSION HISTORY
   ───────────────────────────────────────────────
+  v2.2 · Nov 2026
+    - About: depression bullet reworded; "than" → "rather than" fix
+    - About: "what now" trimmed to 2 items
+    - Sidebar: hid "moving to north america" locked item; updated portfolio date
+    - Sidebar: added "design portfolio ↗" link (opens /design-portfolio/ in new tab)
+    - Portfolio: hid Sahil Lavingia entry
+    - Portfolio: blurb, stat chips, HealthyGamer / Nabeel / Nikhil outcomes reworded
+    - Portfolio: removed "(for founders only)" from resume link; added design portfolio link
+    - Principles / Blog / Entrepreneurship: typo + tone fixes
+
   v2.1 · May 18 2026
     - Portfolio: removed status tags from all 6 toggle headers
     - Portfolio: updated sub-line 2 (vc-scouting framing)
@@ -28,6 +38,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yash Vijaykar</title>
+<link rel="preload" as="image" href="assets/yash_kamo_river.webp" type="image/webp" fetchpriority="high" />
 <link rel="icon"
   href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧃</text></svg>" />
 <style>
@@ -1353,7 +1364,12 @@
 
           <div class="ni" onclick="setTab(this,'portfolio')">
             <div class="ni-title">🚣 portfolio (work work work)</div>
-            <div class="ni-sub">May 2026 · I show up before I'm hired</div>
+            <div class="ni-sub">Aug 2026 · I show up before I'm hired</div>
+          </div>
+
+          <div class="ni" onclick="window.open('https://yashvijaykar.com/design-portfolio/','_blank','noopener')">
+            <div class="ni-title">🧶 design portfolio ↗</div>
+            <div class="ni-sub">design work & case studies</div>
           </div>
 
           <div class="ni" onclick="setTab(this,'principles')">
@@ -1402,9 +1418,11 @@
               foundermode</div>
           </div>
 
+          <!-- HIDDEN v2.2
           <div class="ni-locked">
             <div class="ni-title">🔒 moving to north america</div>
           </div>
+          -->
 
         </div>
       </nav>
@@ -1419,9 +1437,9 @@
         <div id="pane-about" class="pane active">
 
           <img
-            src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_kamo_river.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF9rYW1vX3JpdmVyLnBuZyIsImlhdCI6MTc3ODg0ODAyNiwiZXhwIjoxODEwMzg0MDI2fQ.amLMRluugClsmgMx-ju-ouhp3k3wrXQ3FTXGYYf868A"
-            alt="Yash at Kamo River, Kyoto" loading="eager"
-            style="max-width:520px; width:100%; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
+            src="assets/yash_kamo_river.webp"
+            alt="Yash at Kamo River, Kyoto" width="838" height="612" loading="eager" fetchpriority="high" decoding="async"
+            style="max-width:520px; width:100%; height:auto; border-radius:10px; border:0.5px solid #e7e5e4; margin-bottom:8px; display:block;" />
           <p style="font-size:12px; color:#a8a29e; font-style:italic; margin-bottom:14px;">📍 kamo river, kyoto (current
             fav place on earth)</p>
 
@@ -1441,10 +1459,10 @@
 
           <ul style="list-style:disc; padding-left:1.3em; margin-bottom:10px;">
             <li class="about-body" style="margin-bottom:4px;">ended up learning a lot about myself</li>
-            <li class="about-body" style="margin-bottom:4px;">was diagnosed with clinical depression, <a
-                href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">solved for it</a></li>
+            <li class="about-body" style="margin-bottom:4px;">went through clinical depression, recovered, and <a
+                href="https://x.com/yashgpt4/status/1932112899708952873" target="_blank">wrote openly about what helped</a></li>
             <li class="about-body" style="margin-bottom:4px;">started living inside out (driving things from within
-              (antifragile), than listening to external forces, people around me telling what i "should" / "shouldn't"
+              (antifragile), rather than listening to external forces, people around me telling what i "should" / "shouldn't"
               do (fragile))</li>
             <li class="about-body" style="margin-bottom:4px;">rewarded myself a trip to Japan last dec - it was AWESOME!
             </li>
@@ -1465,19 +1483,14 @@
           <div class="about-section">what now</div>
 
           <ol style="list-style:decimal; padding-left:1.3em; margin-bottom:16px;">
-            <li class="about-body" style="margin-bottom:8px;">changing current environment (moving from Bengaluru ->
-              North America) - realised current environment is suboptimal (zero sum games, low trust, low opportunity),
-              want to be around high conc of like minded + like hearted people playing positive sum players and long
-              term games 🫶</li>
-            <li class="about-body" style="margin-bottom:8px;">i am excited to be a part of a startup asap as possible
-              (small team energy, solve meaningful problems is what I'm craving)</li>
+            <li class="about-body" style="margin-bottom:8px;">building in AI × mental health, the problem I care about most.</li>
             <li class="about-body">curating life with <a href="https://x.com/Invictusbinz" target="_blank"
                 style="color:#1c1917;text-decoration:none;">@invictusbinz</a> 💁🏻‍♀️</li>
           </ol>
 
           <hr class="divider" />
 
-          <div class="about-section">testimonials</div>
+          <div class="about-section">testimonials (on experimenting with life)</div>
 
           <div class="testimonials-grid">
             <img src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/testimonial_jaga.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMvdGVzdGltb25pYWxfamFnYS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg0NjE3NjA2LCJleHAiOjE4MTYxNTM2MDZ9.welSei4wHf_fa9ipXW7xVS1h92M0mrqOfUGaNVVmJck" alt="testimonial" class="testimonial-img" loading="lazy">
@@ -1520,13 +1533,12 @@
           <div class="section-label">Proof of work</div>
           <p class="approach-blurb">No brief. No job post. I did the work because the problem was interesting and the
             founder seemed worth betting on.<br>The thesis: understand their north star, map the top bottlenecks,
-            present options.<br>I've also walked away — 9 times, including an early SpaceX investor after a 4-hr call
-            when integrity red flags surfaced.</p>
+            present options.<br>I've also walked away when the fit wasn't right. Saying no is part of the thesis.</p>
 
           <!-- Stat chips -->
           <div class="chips">
-            <span class="chip">9 offers declined post-Nintee</span>
-            <span class="chip">~$120k offer declined</span>
+            <span class="chip">7 unsolicited business cases built</span>
+            <span class="chip">Offer from an SF Series A AI startup</span>
             <span class="chip">50+ founders evaluated globally</span>
           </div>
 
@@ -1574,10 +1586,10 @@
             </div>
           </div>
 
-          <!-- 78Health (hidden for now)
+          <!-- ── 02 78Health ── -->
           <div class="tog-header" onclick="tog('78health')">
             <span class="tog-arrow" id="ar-78health">▶</span>
-            <span class="tog-num">•</span>
+            <span class="tog-num">02</span>
             <span class="tog-name">78Health</span>
             <span class="tog-tag">Remote patient monitoring · CA + BLR</span>
           </div>
@@ -1612,12 +1624,11 @@
                 target="_blank">See the work →</a>
             </div>
           </div>
-          -->
 
-          <!-- ── 02 HealthyGamer ── -->
+          <!-- ── 03 HealthyGamer ── -->
           <div class="tog-header" onclick="tog(2)">
             <span class="tog-arrow" id="ar2">▶</span>
-            <span class="tog-num">02</span>
+            <span class="tog-num">03</span>
             <span class="tog-name">HealthyGamer GG</span>
             <span class="tog-tag">Mental health platform · TX</span>
           </div>
@@ -1643,10 +1654,7 @@
             </ul>
             <div class="co-section">What happened</div>
             <ul class="co-list">
-              <li>Asked hard questions in the interview because I genuinely cared what moves the needle — got a generic
-                rejection with zero context</li>
-              <li>Flagged it directly to Dr. K: "For a company whose mission is built on trust, care, and honest
-                conversation — these small interactions carry disproportionate weight." Said my part. Moved on.</li>
+              <li>Didn't move forward after the interview. Turned the research into a book thread that Dr. K liked.</li>
             </ul>
             <div class="co-links">
               <a href="https://www.youtube.com/c/HealthyGamerGG" target="_blank">HealthyGamer GG →</a>
@@ -1657,10 +1665,10 @@
             </div>
           </div>
 
-          <!-- ── 03 Nabeel ── -->
+          <!-- ── 04 Nabeel ── -->
           <div class="tog-header" onclick="tog(3)">
             <span class="tog-arrow" id="ar3">▶</span>
-            <span class="tog-num">03</span>
+            <span class="tog-num">04</span>
             <span class="tog-name">Nabeel Qureshi</span>
             <span class="tog-tag">Stealth healthcare · NYC</span>
           </div>
@@ -1681,7 +1689,7 @@
               alt="Nabeel's reply" />
             <ul class="co-list">
               <li>Nabeel replied, watched the video, engaged genuinely</li>
-              <li>Stalled on visa. Not merit.</li>
+              <li>Didn't move forward because of visa constraints. Nabeel engaged genuinely with the work.</li>
             </ul>
             <div class="co-links">
               <a href="https://x.com/nabeelqu" target="_blank">Nabeel Qureshi →</a>
@@ -1689,10 +1697,10 @@
             </div>
           </div>
 
-          <!-- ── 04 Nikhil ── -->
+          <!-- ── 05 Nikhil ── -->
           <div class="tog-header" onclick="tog(4)">
             <span class="tog-arrow" id="ar4">▶</span>
-            <span class="tog-num">04</span>
+            <span class="tog-num">05</span>
             <span class="tog-name">Nikhil Kamath</span>
             <span class="tog-tag">WTFund / Zerodha · BLR</span>
           </div>
@@ -1717,7 +1725,7 @@
             <ul class="co-list">
               <li>Caught myself mid-way: the drive was "get a 10x career jump" — ego, not mission. Chose not to reach
                 out from that place.</li>
-              <li>The self-awareness that stopped me is the thing he'd respect most.</li>
+              <li>Learned to check why I'm reaching out before I hit send.</li>
             </ul>
             <div class="co-links">
               <a href="https://www.figma.com/board/ok5flRCSOLh4GjxVimn8rz/Portfolio-%7C-Yash-Vijaykar?node-id=409-343"
@@ -1725,10 +1733,10 @@
             </div>
           </div>
 
-          <!-- ── 05 Sahil ── -->
+          <!-- HIDDEN v2.2: 06 Sahil
           <div class="tog-header" onclick="tog(5)">
             <span class="tog-arrow" id="ar5">▶</span>
-            <span class="tog-num">05</span>
+            <span class="tog-num">06</span>
             <span class="tog-name">Sahil Lavingia</span>
             <span class="tog-tag">Gumroad / Antiwork · NYC</span>
           </div>
@@ -1757,6 +1765,7 @@
                 target="_blank">Stories →</a>
             </div>
           </div>
+          -->
 
           <!-- Past work -->
           <hr class="divider" style="margin-top:20px" />
@@ -1836,7 +1845,8 @@
             <a href="https://x.com/yashgpt5" target="_blank">X →</a>
             <a href="https://open.substack.com/pub/yashyijaykar" target="_blank">Substack →</a>
             <a href="https://drive.google.com/file/d/1AwQT5ca6J8ba_N0dota8FjvTbqTjJfrY/view?usp=sharing"
-              target="_blank">Resume → <span style="color:#a8a29e;">(for founders only)</span></a>
+              target="_blank">Resume →</a>
+            <a href="https://yashvijaykar.com/design-portfolio/" target="_blank">Design portfolio →</a>
           </div>
 
         </div><!-- /portfolio pane -->
@@ -1845,8 +1855,8 @@
         <div id="pane-principles" class="pane">
           <p class="conviction">🏔️ principles</p>
           <p class="sub-line" style="margin-bottom:4px">These are reminders that take me
-            closer to who I am. I need them time to time. Carved out based on experiences lived through.</p>
-          <p class="sub-line" style="margin-bottom:4px">Inspired from <a
+            closer to who I am. I need them from time to time. Carved out based on experiences lived through.</p>
+          <p class="sub-line" style="margin-bottom:4px">Inspired by <a
               href="https://nabeelqu.co/principles" target="_blank" rel="noopener"
               style="color:#E8855A;text-decoration:none;">nabeelqu's principles note</a>. Feel free to steal what you
             like.</p>
@@ -1856,7 +1866,7 @@
             <!-- rendered by JS -->
           </div>
 
-          <p class="prin-footer">Last updated May 2026</p>
+          <p class="prin-footer">Last updated Nov 2026</p>
         </div>
 
         <!-- ══════════════ BLOG ══════════════ -->
@@ -1869,7 +1879,7 @@
             src="https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/notes-images/yash_writer.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJub3Rlcy1pbWFnZXMveWFzaF93cml0ZXIucG5nIiwiaWF0IjoxNzc4ODQ3ODIyLCJleHAiOjE4MTAzODM4MjJ9.LS7_YpOKITeA-9yK_VlHANce-5xqT_tg2bLspbu_cLg"
             alt="Yash writing"
             style="max-width:260px;width:100%;border-radius:10px;border:0.5px solid #e7e5e4;margin-bottom:8px;display:block;" />
-          <p style="font-size:13px;color:#a8a29e;font-style:italic;margin-bottom:20px;">i write where ever i can - i'm
+          <p style="font-size:13px;color:#a8a29e;font-style:italic;margin-bottom:20px;">i write wherever i can - i'm
             sure you can relate</p>
           <div id="blog-list">
             <!-- rendered by JS -->
@@ -2039,7 +2049,7 @@
           </div>
           <div class="tog-body" id="sece3">
             <ol style="list-style:decimal;padding-left:1.2em;margin:0;">
-              <li class="approach-blurb" style="margin-bottom:8px;">I have an entrepreneur's DNA.</li>
+              <li class="approach-blurb" style="margin-bottom:8px;">Building feels like the obvious path for me.</li>
               <li class="approach-blurb" style="margin-bottom:8px;">I am doing this 100% for me — it aligns internally
                 with what I want to spend my time on (value creation, problem solving, practising autonomy).</li>
               <li class="approach-blurb" style="margin-bottom:8px;">I want to solve problems where the product
@@ -2061,7 +2071,7 @@
           <!-- Toggle 4: Where Am I Blocked On -->
           <div class="tog-header" onclick="tog('e4')">
             <span class="tog-arrow" id="are4">▶</span>
-            <span class="tog-name">Where am I blocked on</span>
+            <span class="tog-name">Where I'm blocked</span>
           </div>
           <div class="tog-body" id="sece4">
             <ul style="list-style:disc;padding-left:1.2em;margin:0;">
@@ -2081,8 +2091,7 @@
               Musk). <em>"How useful have you been to your fellow human beings times how many people?"</em></p>
             <p class="approach-blurb" style="margin-bottom:8px;">Creating massive value for a very long period of time
               requires intentionality, space and depth. I am on that path.</p>
-            <p class="approach-blurb">I am very confident this is bound to happen. It's okay if people around can't see
-              it right now — the right people will come along the way, and I shall keep moving forward.</p>
+            <p class="approach-blurb">I'm committed to this path and will keep moving forward. The right people will come along the way.</p>
           </div>
 
           <!-- Toggle 6: WIP -->
