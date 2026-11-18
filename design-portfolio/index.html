@@ -267,18 +267,23 @@ details.more .inner>*+*{margin-top:40px}
 .open{align-self:flex-start;margin-top:10px;font-size:14.5px;font-weight:600;color:var(--indigo)}
 .open:hover{text-decoration:underline;text-underline-offset:4px}
 .t-lamp.lit{background:#231d16}
-.lamp-svg{position:absolute;left:50%;top:0;margin-left:-44px}
-.lamp-svg .shade{fill:#E8D7B5;transition:fill .8s ease}
-.t-lamp.lit .lamp-svg .shade{fill:#F7D79C}
-.lamp-glow{position:absolute;left:50%;top:60px;width:90px;height:100px;margin-left:-45px;border-radius:50%;box-shadow:0 0 0 0 rgba(255,176,92,0);transition:box-shadow .9s ease}
+.lamp-glow{position:absolute;left:50%;top:42px;width:92px;height:104px;margin-left:-46px;border-radius:50%;box-shadow:0 0 0 0 rgba(255,176,92,0);transition:box-shadow 1s ease .12s}
 .t-lamp.lit .lamp-glow{box-shadow:0 0 80px 36px rgba(255,176,92,.42)}
-.cord{position:absolute;left:50%;top:150px;margin-left:22px;display:flex;flex-direction:column;align-items:center;padding:0 10px}
-.cord i{display:block;width:1.5px;height:40px;background:#8c7556;transform-origin:50% 0}
-.cord b{display:block;width:11px;height:17px;border-radius:6px;background:#9A6538}
+.dl-cord{position:absolute;left:50%;top:0;width:1.2px;height:32px;margin-left:-.6px;background:#6b5a48}
+.dl-lantern{position:absolute;left:50%;top:24px;margin-left:-53px;overflow:visible;filter:drop-shadow(0 6px 10px rgba(70,40,12,.08))}
+.dl-lit,.dl-core{opacity:0;transition:opacity .9s ease .12s}
+.dl-ribs{opacity:.5;transition:opacity .9s ease .12s}
+.t-lamp.lit .dl-lit{opacity:1}
+.t-lamp.lit .dl-core{opacity:.9}
+.t-lamp.lit .dl-ribs{opacity:1}
+.cord{position:absolute;left:50%;top:132px;margin-left:6px;width:44px;padding:0;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center}
+.cord:focus-visible{outline:2px solid #E8855A;outline-offset:3px;border-radius:10px}
+.cord i{display:block;width:1.2px;height:60px;background:#a8937a;transform-origin:50% 0}
+.cord b{display:block;width:12px;height:18px;border-radius:7px;background:#9a6538;box-shadow:inset -3px -4px 0 rgba(0,0,0,.22),inset 2px 2px 0 rgba(255,230,190,.25)}
 .cord.tug i{animation:tug .55s var(--ease)}
 .cord.tug b{animation:tugb .55s var(--ease)}
-@keyframes tug{30%{transform:scaleY(1.4)}60%{transform:scaleY(.95)}}
-@keyframes tugb{30%{transform:translateY(16px)}60%{transform:translateY(-3px)}}
+@keyframes tug{30%{transform:scaleY(1.3)}60%{transform:scaleY(.95)}}
+@keyframes tugb{30%{transform:translateY(18px)}60%{transform:translateY(-3px)}}
 .hint{position:absolute;bottom:10px;right:14px;font-family:var(--hand);font-weight:600;font-size:22px;color:var(--red)}
 .t-lamp.lit .hint{color:#E8B27A}
 .shelf{display:flex;align-items:flex-end;gap:5px;height:150px;border-bottom:6px solid #8a6a48;padding:0 6px}
@@ -768,13 +773,29 @@ dialog.lb p{color:#E9E7DF;text-align:center;font-size:14px;margin-top:12px}
     <div class="pgrid">
       <article class="pcard rv">
         <div class="thumb t-lamp" id="lampThumb">
+          <div class="dl-cord" aria-hidden="true"></div>
           <div class="lamp-glow"></div>
-          <svg class="lamp-svg" width="88" height="160" viewBox="0 0 88 160" aria-hidden="true">
-            <line x1="44" y1="0" x2="44" y2="48" stroke="#8c7556" stroke-width="1.5"/>
-            <rect x="36" y="46" width="16" height="7" rx="2" fill="#2a2119"/>
-            <ellipse class="shade" cx="44" cy="100" rx="38" ry="46"/>
-            <g fill="none" stroke="rgba(110,72,36,.33)" stroke-width="1"><path d="M17 72 Q44 77 71 72"/><path d="M8 88 Q44 94 80 88"/><path d="M6 104 Q44 110 82 104"/><path d="M9 120 Q44 125 79 120"/><path d="M18 134 Q44 138 70 134"/></g>
-            <ellipse cx="44" cy="146" rx="10" ry="2.5" fill="#2a2119"/>
+          <svg class="dl-lantern" aria-hidden="true" width="106" height="124" viewBox="0 0 128 150">
+            <defs>
+              <filter id="dl-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+              <filter id="dl-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+              <radialGradient id="dl-paper-on" cx="50%" cy="57%" r="60%"><stop offset="0" stop-color="#fffcf6"/><stop offset=".38" stop-color="#fff0d6"/><stop offset=".72" stop-color="#fbdcb0"/><stop offset="1" stop-color="#efc08e"/></radialGradient>
+              <radialGradient id="dl-paper-off" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#f6f2eb"/><stop offset=".55" stop-color="#e4ddd0"/><stop offset="1" stop-color="#c7bdad"/></radialGradient>
+              <linearGradient id="dl-rib-fade" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="122" y2="0"><stop offset="0" stop-color="#b48a5e" stop-opacity="0"/><stop offset=".2" stop-color="#b48a5e" stop-opacity=".26"/><stop offset=".5" stop-color="#b48a5e" stop-opacity=".36"/><stop offset=".8" stop-color="#b48a5e" stop-opacity=".26"/><stop offset="1" stop-color="#b48a5e" stop-opacity="0"/></linearGradient>
+              <linearGradient id="dl-lacquer" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a2f26"/><stop offset=".42" stop-color="#76624f"/><stop offset=".6" stop-color="#5f4d3e"/><stop offset="1" stop-color="#342a22"/></linearGradient>
+              <clipPath id="dl-shade-clip"><ellipse cx="64" cy="80" rx="58" ry="68"/></clipPath>
+            </defs>
+            <rect x="58" y="2" width="12" height="9" rx="2" fill="url(#dl-lacquer)"/>
+            <ellipse cx="64" cy="80" rx="58" ry="68" fill="url(#dl-paper-off)"/>
+            <ellipse class="dl-lit" cx="64" cy="80" rx="58" ry="68" fill="url(#dl-paper-on)"/>
+            <g clip-path="url(#dl-shade-clip)">
+              <ellipse class="dl-core" cx="64" cy="92" rx="24" ry="30" fill="#fffdf7" filter="url(#dl-blur)"/>
+              <g class="dl-ribs" fill="none" stroke="url(#dl-rib-fade)" stroke-width=".9"><path d="M31.1 24 Q64 28.6 96.9 24"/><path d="M19.8 36 Q64 42.2 108.2 36"/><path d="M12.8 48 Q64 55.2 115.2 48"/><path d="M8.6 60 Q64 67.8 119.4 60"/><path d="M6.4 72 Q64 80.1 121.6 72"/><path d="M6.1 84 Q64 92.1 121.9 84"/><path d="M7.6 96 Q64 103.9 120.4 96"/><path d="M11.1 108 Q64 115.4 116.9 108"/><path d="M17.1 120 Q64 126.6 110.9 120"/><path d="M26.6 132 Q64 137.2 101.4 132"/></g>
+              <ellipse cx="38" cy="50" rx="9" ry="24" transform="rotate(-24 38 50)" fill="#ffffff" opacity=".28" filter="url(#dl-soft)"/>
+            </g>
+            <ellipse cx="64" cy="13.2" rx="17" ry="2.8" fill="url(#dl-lacquer)"/>
+            <ellipse cx="64" cy="146" rx="16" ry="3" fill="url(#dl-lacquer)"/>
+            <ellipse class="dl-lit" cx="64" cy="145.6" rx="11.5" ry="1.6" fill="#ffe6bb"/>
           </svg>
           <button class="cord" type="button" id="cord" aria-label="Pull the lamp cord"><i></i><b></b></button>
           <span class="hint">pull the cord</span>
