@@ -6,6 +6,7 @@
     - About: depression bullet reworded; "than" → "rather than" fix
     - About: "what now" trimmed to 2 items
     - Sidebar: hid "moving to north america" locked item; updated portfolio date
+    - Library: new bookshelf page (/library) after blog, with watering-can easter egg on the pothos
     - Meme generator: new gacha page below GenZ fortune cookie (/meme-generator)
     - Routing: sidebar items now matched by data-tab, not position (fixes active highlight after design portfolio link)
     - Sidebar: added "design portfolio ↗" link (opens /design-portfolio/ in new tab)
@@ -1511,6 +1512,11 @@
             <div class="ni-sub">Writing & thinking</div>
           </div>
 
+          <div class="ni" data-tab="library" onclick="setTab(this,'library')">
+            <div class="ni-title">📚 library</div>
+            <div class="ni-sub">books i've read</div>
+          </div>
+
           <div class="ni" data-tab="sakura" onclick="setTab(this,'sakura')">
             <div class="ni-title">🌸 project sakura</div>
             <div class="ni-sub">#mentalhealthultrapromax</div>
@@ -2410,6 +2416,563 @@
 
         </div>
 
+        <!-- ══════════════ LIBRARY ══════════════ -->
+        <div id="pane-library" class="pane pane-wide">
+          <style>
+            #pane-library .lib{position:relative}
+            #pane-library .sub-line a{color:#E8855A;text-decoration:none}
+            #pane-library .sub-line a:hover{text-decoration:underline}
+
+            /* ── room + shelves ── */
+            .lib-room{position:relative;padding-top:104px}
+            .lib-shelves{position:relative;z-index:1;display:flex;flex-direction:column;align-items:stretch;gap:30px}
+            .lib-row{display:flex;flex-direction:column;align-self:center;max-width:100%}
+            .lib-books{display:flex;align-items:flex-end;justify-content:center;gap:2px;padding:0 10px;position:relative}
+            .lib-books::after{content:"";position:absolute;left:4%;right:4%;bottom:-4px;height:12px;z-index:-1;
+              background:radial-gradient(50% 100% at 50% 0,rgba(41,30,18,.22),transparent 72%);filter:blur(3px)}
+            .lib-plank{height:9px;border-radius:2px 2px 3px 3px;position:relative;
+              background:linear-gradient(180deg,#e6d7b9 0%,#d6c19b 55%,#c7b089 100%);
+              box-shadow:0 1px 0 #b9a17a,0 14px 22px -14px rgba(41,30,18,.35),inset 0 1px 0 rgba(255,251,240,.75)}
+
+            .lib-book{position:relative;flex:none;width:var(--w);height:var(--h);padding:0;border:0;margin:0;
+              background:var(--bg,#ddd);border-radius:2px 2px 1px 1px;cursor:pointer;overflow:hidden;
+              box-shadow:0 1px 0 rgba(0,0,0,.08),2px 0 3px -2px rgba(0,0,0,.25);
+              transform-origin:50% 100%;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease}
+            #pane-library .lib-book img{display:block;width:100% !important;height:100% !important;max-width:none !important;object-fit:cover}
+            .lib-book::after{content:"";position:absolute;inset:0;pointer-events:none;
+              background:linear-gradient(90deg,rgba(255,255,255,.16) 0,rgba(255,255,255,0) 14%,rgba(0,0,0,0) 78%,rgba(0,0,0,.16) 100%),
+                         linear-gradient(180deg,rgba(255,255,255,.12) 0,rgba(255,255,255,0) 2.5%)}
+            .lib-book:hover,.lib-book:focus-visible,.lib-book.lib-on{transform:translateY(-12px);z-index:2;
+              box-shadow:0 18px 22px -12px rgba(41,30,18,.45),0 2px 4px rgba(0,0,0,.12)}
+            .lib-book:focus-visible{outline:2px solid #E8855A;outline-offset:2px}
+
+            /* drawn spines (books without a photo) */
+            .lib-drawn{display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+              padding:9% 0 7%;box-sizing:border-box;color:var(--fg);font-family:Georgia,'Times New Roman',serif}
+            .lib-drawn::before{content:"";position:absolute;inset:0;opacity:.32;mix-blend-mode:multiply;pointer-events:none;
+              background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .4 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+            .lib-drawn .t,.lib-drawn .a{writing-mode:vertical-rl;white-space:nowrap;line-height:1}
+            .lib-drawn .t{font-size:var(--fs);letter-spacing:.06em}
+            .lib-drawn .a{font-size:calc(var(--fs)*.72);letter-spacing:.08em;opacity:.85;margin-top:auto}
+            .lib-drawn .m{width:42%;aspect-ratio:1;border-radius:50%;background:var(--mk,currentColor);margin-top:10%}
+            .lib-drawn .band{position:absolute;left:0;right:0;top:0;height:var(--band-h,0);background:var(--band,transparent)}
+
+            /* ── warm light ── */
+            /* one even wash over the whole window (like the dusk), brightest around the lantern */
+            .lib-light{position:fixed;inset:-20px;z-index:2;pointer-events:none;mix-blend-mode:multiply;opacity:0;transition:opacity 1.1s ease .12s}
+            .lib-light.on{opacity:1}
+            .lib-light.lib-sway{animation:lib-pool-sway 1.8s cubic-bezier(.35,.55,.4,1)}
+
+            /* ── paper lantern ── */
+            .lib-lamp{position:absolute;top:-32px;right:40px;width:110px;height:300px;z-index:3;pointer-events:none;transform-origin:50% 0}
+            .lib-lamp.lib-sway{animation:lib-sway 1.8s cubic-bezier(.35,.55,.4,1)}
+            @keyframes lib-sway{0%{transform:rotate(0)}18%{transform:rotate(.85deg)}42%{transform:rotate(-.5deg)}66%{transform:rotate(.22deg)}84%{transform:rotate(-.07deg)}100%{transform:rotate(0)}}
+            @keyframes lib-pool-sway{0%{transform:translateX(0)}18%{transform:translateX(-5px)}42%{transform:translateX(3px)}66%{transform:translateX(-1.2px)}100%{transform:translateX(0)}}
+            .lib-cord{position:absolute;left:50%;top:0;width:1.2px;height:62px;margin-left:-.6px;background:#6b5a48}
+            .lib-glow{position:absolute;left:50%;top:72px;width:92px;height:104px;margin-left:-46px;border-radius:50%;
+              box-shadow:0 0 80px 34px rgba(255,190,120,.26);transition:box-shadow 1s ease .12s}
+            .lib.lib-off .lib-glow{box-shadow:0 0 0 0 rgba(255,176,92,0)}
+            .lib-lantern{position:absolute;left:50%;top:54px;margin-left:-53px;overflow:visible;filter:drop-shadow(0 6px 10px rgba(70,40,12,.08))}
+            .lib-lit,.lib-core,.lib-ribs{transition:opacity .9s ease .12s}
+            .lib-core{opacity:.9}
+            .lib.lib-off .lib-lit,.lib.lib-off .lib-core{opacity:0}
+            .lib.lib-off .lib-ribs{opacity:.5}
+
+            .lib-pull{position:absolute;left:50%;top:162px;margin-left:6px;width:44px;height:108px;padding:0;border:0;background:none;
+              cursor:pointer;pointer-events:auto;display:flex;flex-direction:column;align-items:center}
+            .lib-pull:focus-visible{outline:2px solid #E8855A;outline-offset:3px;border-radius:10px}
+            .lib-pull .cl{display:block;width:1.2px;height:76px;background:#a8937a;transform-origin:50% 0;transition:transform .2s ease}
+            .lib-pull .bd{display:block;width:12px;height:18px;border-radius:7px;background:#9a6538;
+              box-shadow:inset -3px -4px 0 rgba(0,0,0,.22),inset 2px 2px 0 rgba(255,230,190,.25);transition:transform .2s ease}
+            .lib-pull:hover .bd{transform:translateY(3px)}
+            .lib-pull:hover .cl{transform:scaleY(1.04)}
+            .lib-pull.tug .cl{animation:lib-cord .6s cubic-bezier(.3,.7,.3,1)}
+            .lib-pull.tug .bd{animation:lib-bead .6s cubic-bezier(.3,.7,.3,1)}
+            @keyframes lib-cord{0%{transform:scaleY(1)}30%{transform:scaleY(1.3)}55%{transform:scaleY(.95)}78%{transform:scaleY(1.02)}100%{transform:scaleY(1)}}
+            @keyframes lib-bead{0%{transform:translateY(0)}30%{transform:translateY(19px)}55%{transform:translateY(-4px)}78%{transform:translateY(1px)}100%{transform:translateY(0)}}
+
+            .lib-quiet{position:absolute;top:196px;right:150px;z-index:55;margin:0;font-family:Georgia,serif;font-style:italic;
+              font-size:15px;color:#f3dcae;opacity:0;pointer-events:none;transition:opacity 1.4s ease .6s}
+            .lib.lib-off .lib-quiet{opacity:1}
+
+            /* whole-window dusk when the lamp is off */
+            .lib-dusk{position:fixed;inset:0;z-index:50;pointer-events:none;background:#6f6352;mix-blend-mode:multiply;
+              opacity:0;transition:opacity 1.3s ease .15s}
+            .lib-dusk.on{opacity:.88}
+
+            /* ── hover card ── */
+            .lib-card{position:fixed;z-index:60;left:0;top:0;width:224px;box-sizing:border-box;padding:12px 14px 11px;
+              background:#fff;border:.5px solid #e7e5e4;border-radius:8px;pointer-events:none;
+              box-shadow:0 12px 30px -12px rgba(28,25,23,.28),0 1px 2px rgba(28,25,23,.06);
+              opacity:0;transform:translateY(4px);transition:opacity .16s ease,transform .18s ease}
+            .lib-card.show{opacity:1;transform:none}
+            .lib-card .ct{font-size:14px;font-weight:500;color:#1c1917;line-height:1.35}
+            .lib-card .ca{font-size:12px;color:#78716c;margin-top:2px}
+            .lib-card .cm{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11px;color:#a8a29e}
+            .lib-card .st{font-size:11px;padding:2px 7px;border-radius:5px;background:#f5f5f4;color:#78716c}
+            .lib-card .st.rd{background:#fff8f5;color:#c2410c}
+            .lib-card .sr{color:#E8855A;letter-spacing:.06em}
+            .lib-card .cn{font-size:12px;font-style:italic;color:#78716c;margin-top:8px;padding-top:8px;border-top:.5px solid #f0efee}
+
+            /* planter */
+            .lib-plant{position:relative;flex:none;z-index:3;margin:0 6px 0 0}
+            .lib-plant svg{position:absolute;left:0;top:0;overflow:visible}
+            .lib-plant .lp-fol{transform-box:view-box}
+            .lib-plant:hover .lp-fol{animation:lp-rustle 1.6s ease}
+            @keyframes lp-rustle{0%{transform:rotate(0)}25%{transform:rotate(1.2deg)}55%{transform:rotate(-.7deg)}80%{transform:rotate(.25deg)}100%{transform:rotate(0)}}
+
+            /* watering can — tap the pothos (waters twice, then a note, then rests) */
+            .lib-plant{cursor:pointer}
+            .lib-plant:focus-visible{outline:2px solid #E8855A;outline-offset:4px;border-radius:6px}
+            .lib-plant .lp-canwrap{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+            .lib-plant .lp-can,.lib-plant .lp-drip{transform-box:view-box}
+            .lp-can{opacity:0}
+            .lib-plant.watering .lp-can{animation:lp-can 3.2s cubic-bezier(.45,.05,.3,1) forwards}
+            @keyframes lp-can{0%{opacity:0;transform:translate(-10px,-3px) rotate(0)}14%{opacity:1;transform:translate(0,0) rotate(0)}31%{transform:rotate(38deg)}50%{transform:rotate(40deg)}69%{transform:rotate(38deg)}86%{opacity:1;transform:rotate(0)}100%{opacity:0;transform:translate(-10px,-3px) rotate(0)}}
+            .lp-drops{opacity:0}
+            .lib-plant.watering .lp-drops{animation:lp-drops 3.2s linear forwards}
+            @keyframes lp-drops{0%,31%{opacity:0}35%,66%{opacity:1}72%,100%{opacity:0}}
+            .lp-drip{animation:lp-drip .75s cubic-bezier(.5,0,.9,.6) infinite}
+            @keyframes lp-drip{0%{transform:translate(0,0);opacity:0}15%{opacity:.9}100%{transform:translate(var(--dx),26px);opacity:0}}
+            .lib-plant.happy .lp-fol{animation:lp-rustle 1.3s ease}
+            .lp-note{position:absolute;left:50%;top:-6px;transform:translate(-50%,4px);white-space:nowrap;font-size:12px;font-style:italic;color:#78716c;
+              background:#fff;border:.5px solid #e7e5e4;border-radius:6px;padding:4px 9px;box-shadow:0 6px 16px -8px rgba(28,25,23,.25);
+              opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+            .lp-note.show{opacity:1;transform:translate(-50%,0)}
+            .lib-plant.done{cursor:default}
+            /* keep the intro lines from running under the lantern on narrower windows */
+            @media (min-width:641px){#pane-library .sub-line{max-width:calc(100% - 170px)}}
+            @media (prefers-reduced-motion:reduce){.lib-plant.watering .lp-can,.lib-plant.happy .lp-fol,.lp-drip{animation:none}}
+            @media (max-width:640px){
+              .lib-room{padding-top:44px}
+              #pane-library .sub-line{padding-right:96px}
+              .lib-lamp{right:4px;transform:scale(.8);transform-origin:50% 0}
+              .lib-lamp.lib-sway{animation-name:lib-sway-m}
+              @keyframes lib-sway-m{0%{transform:scale(.8) rotate(0)}18%{transform:scale(.8) rotate(.85deg)}42%{transform:scale(.8) rotate(-.5deg)}66%{transform:scale(.8) rotate(.22deg)}84%{transform:scale(.8) rotate(-.07deg)}100%{transform:scale(.8) rotate(0)}}
+              .lib-dusk{z-index:8}
+              .lib-quiet{z-index:9}
+              .lib-quiet{right:104px;top:168px}
+              .lib-shelves{gap:24px}
+            }
+            @media (prefers-reduced-motion:reduce){
+              .lib-lamp.lib-sway,.lib-light.lib-sway,.lib-pull.tug .cl,.lib-pull.tug .bd,.lib-plant:hover .lp-fol{animation:none}
+              .lib-book{transition:none}
+            }
+          </style>
+
+          <div class="lib" id="lib">
+            <p class="conviction">📚 library</p>
+            <p class="sub-line">books i've read, re-read multiple times, and a few i'm still somewhere in the middle of</p>
+            <p class="sub-line">goal is understanding and learning, and not to optimise #no. of books</p>
+            <p class="sub-line">if you've a book suggestion <a href="mailto:yashvijaykar98@gmail.com?subject=book%20suggestion">hmu!</a></p>
+            <hr class="divider" />
+
+            <div class="lib-lamp" id="lib-lamp">
+              <div class="lib-cord" aria-hidden="true"></div>
+              <div class="lib-glow" aria-hidden="true"></div>
+              <svg class="lib-lantern" aria-hidden="true" width="106" height="124" viewBox="0 0 128 150">
+                <defs>
+                  <filter id="lib-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+                  <filter id="lib-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+                  <radialGradient id="lib-paper-on" cx="50%" cy="57%" r="60%"><stop offset="0" stop-color="#fffcf6"/><stop offset=".38" stop-color="#fff0d6"/><stop offset=".72" stop-color="#fbdcb0"/><stop offset="1" stop-color="#efc08e"/></radialGradient>
+                  <radialGradient id="lib-paper-off" cx="36%" cy="30%" r="80%"><stop offset="0" stop-color="#f6f2eb"/><stop offset=".55" stop-color="#e4ddd0"/><stop offset="1" stop-color="#c7bdad"/></radialGradient>
+                  <linearGradient id="lib-rib-fade" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="122" y2="0"><stop offset="0" stop-color="#b48a5e" stop-opacity="0"/><stop offset=".2" stop-color="#b48a5e" stop-opacity=".26"/><stop offset=".5" stop-color="#b48a5e" stop-opacity=".36"/><stop offset=".8" stop-color="#b48a5e" stop-opacity=".26"/><stop offset="1" stop-color="#b48a5e" stop-opacity="0"/></linearGradient>
+                  <linearGradient id="lib-lacquer" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a2f26"/><stop offset=".42" stop-color="#76624f"/><stop offset=".6" stop-color="#5f4d3e"/><stop offset="1" stop-color="#342a22"/></linearGradient>
+                  <clipPath id="lib-shade-clip"><ellipse cx="64" cy="80" rx="58" ry="68"/></clipPath>
+                </defs>
+                <rect x="58" y="2" width="12" height="9" rx="2" fill="url(#lib-lacquer)"/>
+                <ellipse cx="64" cy="80" rx="58" ry="68" fill="url(#lib-paper-off)"/>
+                <ellipse class="lib-lit" cx="64" cy="80" rx="58" ry="68" fill="url(#lib-paper-on)"/>
+                <g clip-path="url(#lib-shade-clip)">
+                  <ellipse class="lib-core" cx="64" cy="92" rx="24" ry="30" fill="#fffdf7" filter="url(#lib-blur)"/>
+                  <g class="lib-ribs" fill="none" stroke="url(#lib-rib-fade)" stroke-width=".9"><path d="M31.1 24 Q64 28.6 96.9 24"/><path d="M19.8 36 Q64 42.2 108.2 36"/><path d="M12.8 48 Q64 55.2 115.2 48"/><path d="M8.6 60 Q64 67.8 119.4 60"/><path d="M6.4 72 Q64 80.1 121.6 72"/><path d="M6.1 84 Q64 92.1 121.9 84"/><path d="M7.6 96 Q64 103.9 120.4 96"/><path d="M11.1 108 Q64 115.4 116.9 108"/><path d="M17.1 120 Q64 126.6 110.9 120"/><path d="M26.6 132 Q64 137.2 101.4 132"/></g>
+                  <ellipse cx="38" cy="50" rx="9" ry="24" transform="rotate(-24 38 50)" fill="#ffffff" opacity=".28" filter="url(#lib-soft)"/>
+                </g>
+                <ellipse cx="64" cy="13.2" rx="17" ry="2.8" fill="url(#lib-lacquer)"/>
+                <ellipse cx="64" cy="146" rx="16" ry="3" fill="url(#lib-lacquer)"/>
+                <ellipse class="lib-lit" cx="64" cy="145.6" rx="11.5" ry="1.6" fill="#ffe6bb"/>
+              </svg>
+              <button type="button" class="lib-pull" id="lib-pull" aria-label="Pull the lamp string to turn the light off" aria-pressed="true">
+                <span class="cl" aria-hidden="true"></span><span class="bd" aria-hidden="true"></span>
+              </button>
+            </div>
+            <p class="lib-quiet" aria-hidden="true">ahh low cortisol</p>
+
+            <div class="lib-room">
+              <div class="lib-shelves" id="lib-shelves"></div>
+            </div>
+          </div>
+
+          <div class="lib-card" id="lib-card" role="tooltip" aria-hidden="true">
+            <div class="ct"></div><div class="ca"></div><div class="cm"></div>
+          </div>
+
+          <script>
+          (function(){
+            var IMG = 'assets/books/';
+            // w,h = real spine size in cm. img:true = photographed spine; otherwise drawn.
+            var BOOKS = [
+              {s:'lean-startup',t:'The Lean Startup',a:'Eric Ries',st:'read',r:4,w:2.22,h:22.78,img:1},
+              {s:'feeling-good',t:'Feeling Good',a:'David D. Burns',st:'read',r:5,w:3.96,h:19.79,img:1},
+              {s:'1984',t:'1984',a:'George Orwell',st:'read',w:1.84,h:18.27,img:1},
+              {s:'in-praise-of-shadows',t:'In Praise of Shadows',a:"Jun'ichirō Tanizaki",st:'reading',w:.64,h:18.57,img:1,n:'the reason this room has a lamp'},
+              {s:'meditations',t:'Meditations',a:'Marcus Aurelius',st:'reading',w:1.45,h:19.8,d:{bg:'#1b1917',fg:'#f2ede4',mk:'#e3742c',t:'MEDITATIONS',a:'MARCUS AURELIUS',f:'serif'}},
+              {s:'sapiens',t:'Sapiens',a:'Yuval Noah Harari',st:'reading',r:5,w:4.26,h:19.96,img:1},
+              {s:'zero-to-one',t:'Zero to One',a:'Peter Thiel',st:'read',r:5,w:1.88,h:19.43,img:1},
+              {s:'mans-search',t:"Man's Search for Meaning",a:'Viktor E. Frankl',st:'read',r:5,w:1.49,h:17.43,img:1},
+              {s:'book-of-elon',t:'The Book of Elon',a:'Eric Jorgenson',st:'reading',r:5,w:2.43,h:21.21,img:1},
+              {s:'courage',t:'The Courage to Be Disliked',a:'Ichiro Kishimi & Fumitake Koga',st:'read',r:5,w:2.09,h:19.96,img:1},
+              {s:'healthy-gamer',t:'How to Raise a Healthy Gamer',a:'Alok Kanojia',st:'reading',w:2.02,h:22.35,img:1},
+              {s:'animal-farm',t:'Animal Farm',a:'George Orwell',st:'read',r:4,w:.71,h:18.35,img:1},
+              {s:'7-habits',t:'The 7 Habits of Highly Effective People',a:'Stephen R. Covey',st:'read',w:2.65,h:18.35,img:1},
+              {s:'shoe-dog',t:'Shoe Dog',a:'Phil Knight',st:'reading',w:3.0,h:18.73,img:1},
+              {s:'antifragile',t:'Antifragile',a:'Nassim Nicholas Taleb',st:'reading',w:3.04,h:19.23,img:1},
+              {s:'skin-in-the-game',t:'Skin in the Game',a:'Nassim Nicholas Taleb',st:'read',w:1.81,h:19.34,img:1},
+              {s:'belonging',t:'The Psychology of Belonging',a:'Kelly-Ann Allen',st:'reading',w:1.25,h:19.8,d:{bg:'#6fb0ab',fg:'#ffffff',mk:'#1f4f4c',t:'THE PSYCHOLOGY OF BELONGING',a:'ALLEN',f:'sans'}},
+              {s:'what-are-you-doing',t:'What Are You Doing With Your Life?',a:'J. Krishnamurti',st:'reading',w:1.45,h:18.98,img:1},
+              {s:'book-of-tea',t:'The Book of Tea',a:'Kakuzō Okakura',st:'reading',w:1.6,h:18.6,d:{bg:'#666a43',fg:'#efe7cf',mk:'#c9ab5c',t:'THE BOOK OF TEA',a:'OKAKURA',f:'serif',band:'#c9ab5c',bh:'7%'}},
+              {s:'dalai-lamas-cat',t:"The Dalai Lama's Cat",a:'David Michie',st:'read',r:4,w:1.24,h:20.27,img:1},
+              {s:'wealth-of-nations',t:'The Wealth of Nations',a:'Adam Smith',st:'read',w:6.76,h:20.55,img:1},
+              {s:'basic-economics',t:'Basic Economics',a:'Thomas Sowell',st:'reading',w:3.6,h:23.6,d:{bg:'#b52f35',fg:'#fbf3ea',mk:'#fbf3ea',t:'BASIC ECONOMICS',a:'THOMAS SOWELL',f:'serif'}},
+              {s:'influence',t:'Influence: The Psychology of Persuasion',a:'Robert B. Cialdini',st:'reading',w:3.22,h:20.21,img:1},
+              {s:'hooked',t:'Hooked',a:'Nir Eyal',st:'read',w:2.22,h:19.22,img:1},
+              {s:'rich-dad',t:'Rich Dad Poor Dad',a:'Robert T. Kiyosaki',st:'read',w:1.67,h:19.92,img:1},
+              {s:'rework',t:'Rework',a:'Jason Fried & David Heinemeier Hansson',st:'read',r:4,w:1.97,h:20.16,img:1},
+              {s:'hard-thing',t:'The Hard Thing About Hard Things',a:'Ben Horowitz',st:'read',w:2.66,h:22.26,img:1},
+              {s:'tools-of-titans',t:'Tools of Titans',a:'Tim Ferriss',st:'read',w:4.57,h:20.16,img:1},
+              {s:'atomic-habits',t:'Atomic Habits',a:'James Clear',st:'read',r:4,w:2.4,h:23.4,d:{bg:'#f1ead7',fg:'#2a2622',mk:'#c98a3a',t:'ATOMIC HABITS',a:'JAMES CLEAR',f:'sans',tc:'#c4842f'}},
+              {s:'four-agreements',t:'The Four Agreements',a:'Don Miguel Ruiz',st:'read',w:1.96,h:19.04,img:1},
+              {s:'feynman',t:"Surely You're Joking, Mr. Feynman!",a:'Richard P. Feynman',st:'read',w:2.66,h:19.51,img:1},
+              {s:'emotional-intelligence',t:'Emotional Intelligence',a:'Daniel Goleman',st:'read',w:2.08,h:18.87,img:1},
+              {s:'kafka',t:'Kafka on the Shore',a:'Haruki Murakami',st:'read',w:2.39,h:18.41,img:1},
+              {s:'pathless-path',t:'The Pathless Path',a:'Paul Millerd',st:'read',w:1.39,h:20.86,img:1},
+              {s:'how-to-do-nothing',t:'How to Do Nothing',a:'Jenny Odell',st:'reading',w:2.4,h:21.6,d:{bg:'#23302a',fg:'#f6eee6',mk:'#e48aa3',t:'HOW TO DO NOTHING',a:'JENNY ODELL',f:'sans',tc:'#f6eee6',ac:'#e48aa3'}},
+              {s:'steal-like-an-artist',t:'Steal Like an Artist',a:'Austin Kleon',st:'read',r:5,w:1.27,h:19.84,img:1},
+              {s:'show-your-work',t:'Show Your Work!',a:'Austin Kleon',st:'read',w:2.17,h:18.5,img:1},
+              {s:'keep-going',t:'Keep Going',a:'Austin Kleon',st:'read',w:1.23,h:21.11,img:1}
+            ];
+
+            var lib = document.getElementById('lib'), shelves = document.getElementById('lib-shelves');
+            var pane = document.getElementById('pane-library'), card = document.getElementById('lib-card');
+            var pull = document.getElementById('lib-pull'), lamp = document.getElementById('lib-lamp'), lantern = lamp.querySelector('.lib-lantern');
+            var content = document.querySelector('.content') || window;
+            var dusk = document.createElement('div'); dusk.className = 'lib-dusk'; document.body.appendChild(dusk);
+            var light = document.createElement('div'); light.className = 'lib-light'; document.body.appendChild(light);
+            var sidebar = document.querySelector('.sidebar');
+            var lit = true, active = null, lastW = 0;
+
+
+            function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+            function spine(b, i, pxcm){
+              var w = Math.max(7, Math.round(b.w*pxcm)), h = Math.round(b.h*pxcm);
+              var el = document.createElement('button');
+              el.type = 'button'; el.className = 'lib-book'; el.dataset.i = i;
+              el.setAttribute('aria-label', b.t + ' by ' + b.a);
+              el.style.setProperty('--w', w+'px'); el.style.setProperty('--h', h+'px');
+              if (b.img){
+                el.innerHTML = '<img src="'+IMG+b.s+'.webp" alt="" loading="lazy" decoding="async" draggable="false">';
+              } else {
+                var d = b.d, n = d.t.length + d.a.length, fs = Math.max(5, Math.min(11, w*.46, (h*.8)/(n*.8+2)));
+                el.classList.add('lib-drawn');
+                el.style.setProperty('--bg', d.bg); el.style.setProperty('--fg', d.fg); el.style.setProperty('--fs', fs+'px');
+                el.style.setProperty('--mk', d.mk);
+                if (d.band){ el.style.setProperty('--band', d.band); el.style.setProperty('--band-h', d.bh); }
+                var ff = d.f==='sans' ? "-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif" : "Georgia,'Times New Roman',serif";
+                el.innerHTML = '<span class="band"></span><span class="t" style="font-family:'+ff+';font-weight:'+(d.f==='sans'?700:400)+';color:'+(d.tc||d.fg)+'">'+esc(d.t)+'</span>'+
+                  '<span class="a" style="font-family:'+ff+';color:'+(d.ac||d.fg)+'">'+esc(d.a)+'</span><span class="m"></span>';
+              }
+              return el;
+            }
+
+            /* ── trailing pothos in a white ceramic pot, bottom-left of the last shelf ── */
+            function plantDef(){
+              var seed = 11;
+              function R(){ seed = (seed*16807) % 2147483647; return (seed-1)/2147483646; }
+              function f(n){ return Math.round(n*100)/100; }
+              function hsl(h,s,l){ return 'hsl('+f(h)+','+f(s)+'%,'+f(l)+'%)'; }
+              var H = 170, B = 96, vx = 8, vw = 138, wcm = 12.5, CX = 75;
+
+              // one leaf: base at (x,y), pointing along ang (0 = up), L = length in mm
+              function leaf(x, y, ang, L, o){
+                o = o || {};
+                var h = 90 + R()*20, sat = 34 + R()*20, li = (o.dark ? 22 : 31) + R()*11 + (o.young ? 9 : 0);
+                var lit = R() < .5 ? -1 : 1, sx = o.sx || (.8 + R()*.2), sy = o.sy || 1, wl = .9 + R()*.16, wr = .9 + R()*.16;
+                var half = function(k, w){ return 'M0 0 C'+f(k*.21*w)+' .07 '+f(k*.45*w)+' .01 '+f(k*.44*w)+' -.26 C'+f(k*.43*w)+' -.53 '+f(k*.19*w)+' -.79 0 -1 Q.02 -.5 0 0Z'; };
+                var Lh = half(-1, wl), Rh = half(1, wr);
+                var g = '<g transform="translate('+f(x)+' '+f(y)+') rotate('+f(ang)+') scale('+f(L*sx)+' '+f(L*sy)+')">' +
+                  '<path d="'+Lh+'" fill="'+hsl(h,sat,li+(lit<0?6:-3))+'" stroke="rgba(18,38,10,.28)" stroke-width=".012"/>' +
+                  '<path d="'+Rh+'" fill="'+hsl(h,sat,li+(lit>0?6:-3))+'" stroke="rgba(18,38,10,.28)" stroke-width=".012"/>';
+                var n = R() < .8 ? 1 + Math.floor(R()*3) : 0;
+                for (var j=0;j<n;j++){
+                  var sd = R()<.5?-1:1, t0 = .14 + R()*.55, ln = .1 + R()*.2, x1 = sd*(.07+R()*.15);
+                  g += '<path d="M'+f(sd*.015)+' '+f(-t0)+' Q'+f(x1*.55)+' '+f(-t0-ln*.45)+' '+f(x1)+' '+f(-t0-ln*.75)+'" stroke="#e6e49c" stroke-opacity="'+f(.28+R()*.3)+'" stroke-width="'+f(.025+R()*.04)+'" fill="none" stroke-linecap="round" filter="url(#lp-soft)"/>';
+                }
+                g += '<path d="M0 -.03 Q.025 -.5 0 -.93" stroke="'+hsl(h,sat-8,li+24)+'" stroke-width=".013" fill="none" opacity=".75"/>' +
+                     '<path d="'+(lit<0?Lh:Rh)+'" fill="url(#lp-gloss)"/></g>';
+                return g;
+              }
+              function stem(x0,y0,x1,y1,bend){ return '<path d="M'+f(x0)+' '+f(y0)+' Q'+f((x0+x1)/2+bend)+' '+f((y0+y1)/2-4)+' '+f(x1)+' '+f(y1)+'" fill="none" stroke="hsl(92,32%,44%)" stroke-width=".85"/>'; }
+
+              var defs =
+                '<filter id="lp-sh" x="-30%" y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="1.6"/></filter>' +
+                '<filter id="lp-blur2" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="2.2"/></filter>' +
+                '<filter id="lp-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".012"/></filter>' +
+                '<filter id="lp-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .35 0 0 0 0 .32 0 0 0 0 .28 0 0 0 .22 0"/></filter>' +
+                '<linearGradient id="lp-gloss" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity=".2"/><stop offset=".8" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+                '<linearGradient id="lp-pot" x1="0" x2="1"><stop offset="0" stop-color="#c8c2b7"/><stop offset=".18" stop-color="#ebe8e1"/><stop offset=".38" stop-color="#f9f8f4"/><stop offset=".6" stop-color="#f0ede7"/><stop offset=".84" stop-color="#d6d0c5"/><stop offset="1" stop-color="#b9b2a6"/></linearGradient>' +
+                '<linearGradient id="lp-potv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a4e3e" stop-opacity="0"/><stop offset=".7" stop-color="#5a4e3e" stop-opacity=".04"/><stop offset="1" stop-color="#5a4e3e" stop-opacity=".16"/></linearGradient>' +
+                '<clipPath id="lp-potclip"><path d="M37 116 L113 116 C112.4 138 111 154 106 164 Q103 170 96 170 L54 170 Q47 170 44 164 C39 154 37.6 138 37 116 Z"/></clipPath>';
+
+              // back of the mound (behind the pot rim)
+              var back = '', front = '', vines = '';
+              var bl = [];
+              for (var i=0;i<22;i++){
+                var th = (-104 + 208*(i+.5)/22 + (R()-.5)*14), tr = th*Math.PI/180, dist = 8 + R()*18;
+                var up = Math.max(0, 1 - Math.abs(th)/75);
+                bl.push({x: CX + Math.sin(tr)*dist*1.35, y: 112 - Math.cos(tr)*dist*.72, a: th*1.28 + (R()-.5)*22, L: 24 + R()*10, sy: 1 - up*(.28 + R()*.18)});
+              }
+              bl.sort(function(p,q){ return p.y - q.y; });
+              bl.forEach(function(l){ back += stem(CX + (R()-.5)*10, 115, l.x, l.y, (R()-.5)*6) + leaf(l.x, l.y, l.a, l.L, {dark:1, sy:l.sy}); });
+
+              // front leaves spilling over the rim
+              var fl = [];
+              for (i=0;i<14;i++){
+                var t2 = (-118 + 236*(i+.5)/14 + (R()-.5)*16), r2 = t2*Math.PI/180, d2 = 4 + R()*15;
+                var up2 = Math.max(0, 1 - Math.abs(t2)/70);
+                fl.push({x: CX + Math.sin(r2)*d2*1.4, y: 117 - Math.cos(r2)*d2*.6, a: t2*1.3 + (R()-.5)*22, L: 25 + R()*9, sy: 1 - up2*(.35 + R()*.2)});
+              }
+              fl.sort(function(p,q){ return p.y - q.y; });
+              fl.forEach(function(l){ front += stem(CX + (R()-.5)*14, 116, l.x, l.y, (R()-.5)*5) + leaf(l.x, l.y, l.a, l.L, {sy:l.sy}); });
+
+              // trailing vines over the shelf edge
+              var V = [[[101,119,118,124,126,148,124,172],[124,172,122,200,131,228,127,258]],
+                       [[93,121,108,136,106,158,110,178],[110,178,113,196,108,212,112,226]],
+                       [[50,120,37,127,31,147,34,166],[34,166,36,182,31,196,33,208]]];
+              var cub = function(p,t){ var u=1-t; return [u*u*u*p[0]+3*u*u*t*p[2]+3*u*t*t*p[4]+t*t*t*p[6], u*u*u*p[1]+3*u*u*t*p[3]+3*u*t*t*p[5]+t*t*t*p[7]]; };
+              V.forEach(function(segs, vi){
+                vines += '<path d="M'+segs[0][0]+' '+segs[0][1]+' C'+segs[0].slice(2).join(' ')+' C'+segs[1].slice(2).join(' ')+'" fill="none" stroke="hsl(90,30%,40%)" stroke-width="1.05"/>';
+                var steps = vi===0 ? 10 : 7, side = 1;
+                for (var k=0;k<steps;k++){
+                  var tt = (k+.6)/steps, seg = segs[tt<.5?0:1], lt = tt<.5 ? tt*2 : (tt-.5)*2;
+                  var a = cub(seg, lt), b = cub(seg, Math.min(1, lt+.04));
+                  var dir = Math.atan2(b[0]-a[0], -(b[1]-a[1]))*180/Math.PI;
+                  var L = (vi===0 ? 26 : 23) * (1 - tt*.48);
+                  vines += leaf(a[0], a[1], dir + side*(42 + R()*16), L, {young: tt > .8, sx: .72 + R()*.28});
+                  side = -side;
+                }
+              });
+
+              var pot = '<path d="M37 116 L113 116 C112.4 138 111 154 106 164 Q103 170 96 170 L54 170 Q47 170 44 164 C39 154 37.6 138 37 116 Z" fill="url(#lp-pot)"/>' +
+                '<g clip-path="url(#lp-potclip)"><rect x="36" y="114" width="78" height="58" fill="url(#lp-potv)"/><rect x="36" y="114" width="78" height="58" filter="url(#lp-grain)"/>' +
+                '<ellipse cx="75" cy="121" rx="37" ry="6" fill="rgba(34,44,24,.24)" filter="url(#lp-blur2)"/></g>' +
+                '<ellipse cx="75" cy="116" rx="38" ry="3.3" fill="#f6f4ef"/><ellipse cx="75" cy="116.4" rx="35" ry="2.4" fill="#3b2c20"/>';
+
+              var s = '<defs>'+defs+'</defs><ellipse cx="75" cy="169.6" rx="32" ry="2.4" fill="rgba(38,26,14,.34)" filter="url(#lp-sh)"/>' +
+                '<g class="lp-fol" style="transform-origin:75px 116px">'+back+'</g>' + pot +
+                '<g class="lp-fol" style="transform-origin:75px 116px">'+front+vines+'</g>';
+              return {w:wcm, h:wcm*H/vw, below:wcm*B/vw,
+                      svg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vx+' 0 '+vw+' '+(H+B)+'" preserveAspectRatio="xMinYMin meet">'+s+'</svg>'};
+            }
+            var PL = plantDef();
+            function plantEl(pxcm){
+              var el = document.createElement('div'), w = Math.round(PL.w*pxcm), h = Math.round(PL.h*pxcm);
+              el.className = 'lib-plant'; el.setAttribute('aria-hidden','true');
+              el.style.width = w+'px'; el.style.height = h+'px';
+              el.innerHTML = PL.svg;
+              el.firstChild.setAttribute('width', w); el.firstChild.setAttribute('height', Math.round((PL.h+PL.below)*pxcm));
+              return el;
+            }
+            function itemW(i, pxcm){ return i < 0 ? Math.round(PL.w*pxcm) + 8 : Math.max(7, Math.round(BOOKS[i].w*pxcm)) + 2; }
+
+            function render(){
+              var W = shelves.clientWidth; if (!W || Math.abs(W-lastW) < 2) return; lastW = W;
+              var pxcm = Math.max(7.2, Math.min(12.5, (W-20)/72));
+              var items = BOOKS.map(function(b, i){ return i; }); items.push(-1); // -1 = planter
+              var total = 0; items.forEach(function(i){ total += itemW(i, pxcm); });
+              var avail = W - 20, rows = Math.max(1, Math.ceil(total/avail)), target = total/rows;
+              shelves.innerHTML = ''; hideCard();
+              var groups = [[]], acc = 0;
+              items.forEach(function(i){
+                var bw = itemW(i, pxcm), cur = groups[groups.length-1];
+                if (cur.length && ((groups.length < rows && acc + bw/2 > target) || acc + bw > avail)){ cur = []; groups.push(cur); acc = 0; }
+                cur.push(i); acc += bw;
+              });
+              var last = groups[groups.length-1]; if (last[last.length-1] === -1){ last.pop(); last.unshift(-1); }
+              var widest = 0;
+              groups.forEach(function(g){
+                var row = document.createElement('div'), t = 0; row.className = 'lib-row';
+                row.innerHTML = '<div class="lib-books"></div><div class="lib-plank"></div>';
+                g.forEach(function(i){ t += itemW(i, pxcm); row.firstChild.appendChild(i < 0 ? plantEl(pxcm) : spine(BOOKS[i], i, pxcm)); });
+                widest = Math.max(widest, t); shelves.appendChild(row);
+              });
+              [].forEach.call(shelves.children, function(r){ r.style.width = Math.min(W, widest + 64) + 'px'; });
+            }
+
+            /* ── watering can: taps 1–2 water, tap 3 shows a note, then nothing ── */
+            var taps = 0, pouring = false;
+            var CAN = '<defs><linearGradient id="lp-white" x1="0" x2="1"><stop offset="0" stop-color="#dcd6cc"/><stop offset=".3" stop-color="#f8f7f3"/><stop offset=".45" stop-color="#ffffff"/><stop offset=".72" stop-color="#ece8e1"/><stop offset="1" stop-color="#c9c2b6"/></linearGradient></defs>' +
+              '<g class="lp-can" style="transform-origin:3px 21px">' +
+                '<path d="M-11 10 C-11 -10 17 -10 17 10" fill="none" stroke="#c9c2b6" stroke-width="3" stroke-linecap="round"/>' +
+                '<path d="M-11 10 C-11 -10 17 -10 17 10" fill="none" stroke="#fbfaf7" stroke-width="2" stroke-linecap="round"/>' +
+                '<path d="M16 33 L64 7.5" stroke="#c9c2b6" stroke-width="3.1" stroke-linecap="round"/>' +
+                '<path d="M16 33 L64 7.5" stroke="#fbfaf7" stroke-width="2.2" stroke-linecap="round"/>' +
+                '<ellipse cx="65.6" cy="6.4" rx="1.7" ry="3.4" transform="rotate(-28 65.6 6.4)" fill="#efebe4" stroke="#b9b1a4" stroke-width=".4"/>' +
+                '<path d="M-11 10 Q-12 32 -9 34 L15 34 Q18 32 17 10 Z" fill="url(#lp-white)" stroke="rgba(110,100,85,.3)" stroke-width=".45"/>' +
+                '<ellipse cx="3" cy="10" rx="14" ry="3.2" fill="#f6f4f0" stroke="rgba(110,100,85,.25)" stroke-width=".4"/>' +
+                '<ellipse cx="3" cy="9.2" rx="5" ry="1.5" fill="#ddd7cd"/>' +
+                '<rect x="-9.5" y="32.6" width="25" height="2.2" rx="1" fill="#d9d3c8"/></g><g class="lp-drops">';
+            [[-3,0],[1,.11],[-1,.22],[3,.33],[-2,.44],[2,.55],[0,.66]].forEach(function(d){
+              CAN += '<ellipse class="lp-drip" cx="61" cy="48" rx=".85" ry="1.6" fill="rgba(128,178,214,.9)" style="--dx:'+d[0]+'px;animation-delay:'+d[1]+'s"/>';
+            });
+            CAN += '</g>';
+            function drips(){   // a few soft droplet plinks, quiet
+              try {
+                var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+                ac = ac || new C();
+                var t0 = ac.currentTime + 1.05;
+                for (var i=0;i<7;i++){
+                  var t = t0 + i*.19 + Math.random()*.08, f0 = 650 + Math.random()*550;
+                  var o = ac.createOscillator(), g = ac.createGain();
+                  o.type = 'sine';
+                  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f0*2.1, t+.045);
+                  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.025, t+.006); g.gain.exponentialRampToValueAtTime(.0001, t+.11);
+                  o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+.13);
+                }
+              } catch(e){}
+            }
+            function water(el){
+              if (pouring || taps >= 3) return;
+              taps++;
+              if (taps === 3){
+                var n = el.querySelector('.lp-note');
+                n.textContent = 'anything in excess...';
+                n.classList.add('show');
+                setTimeout(function(){ n.classList.remove('show'); el.classList.add('done'); }, 1200); // gone by 1.5s
+                return;
+              }
+              pouring = true;
+              el.classList.remove('happy'); void el.offsetWidth; el.classList.add('watering');
+              drips();
+              setTimeout(function(){ el.classList.add('happy'); }, 2500);
+              setTimeout(function(){ el.classList.remove('watering','happy'); pouring = false; }, 3400);
+            }
+            var basePlantEl = plantEl;
+            plantEl = function(pxcm){
+              var el = basePlantEl(pxcm), sv = el.firstChild;
+              el.removeAttribute('aria-hidden'); el.setAttribute('role','button'); el.tabIndex = 0; el.setAttribute('aria-label','Water the pothos');
+              if (taps >= 3) el.classList.add('done');
+              el.insertAdjacentHTML('beforeend', '<svg class="lp-canwrap" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="'+sv.getAttribute('viewBox')+
+                '" width="'+sv.getAttribute('width')+'" height="'+sv.getAttribute('height')+'" preserveAspectRatio="xMinYMin meet">'+CAN+'</svg><span class="lp-note" aria-live="polite"></span>');
+              return el;
+            };
+            shelves.addEventListener('click', function(e){ var pe = e.target.closest('.lib-plant'); if (pe) water(pe); });
+            shelves.addEventListener('keydown', function(e){
+              var pe = e.target.closest && e.target.closest('.lib-plant');
+              if (pe && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); water(pe); }
+            });
+            /* card */
+            function showCard(el){
+              var b = BOOKS[+el.dataset.i];
+              card.querySelector('.ct').textContent = b.t;
+              card.querySelector('.ca').textContent = b.a;
+              var m = '<span class="st'+(b.st==='reading'?' rd':'')+'">'+(b.st==='reading'?'still reading':'read')+'</span>';
+              if (b.r) m += '<span class="sr" aria-label="'+b.r+' of 5">'+'★★★★★'.slice(0,b.r)+'</span>';
+              card.querySelector('.cm').innerHTML = m;
+              var old = card.querySelector('.cn'); if (old) old.remove();
+              if (b.n){ var n = document.createElement('div'); n.className='cn'; n.textContent=b.n; card.appendChild(n); }
+              if (active && active!==el) active.classList.remove('lib-on');
+              active = el; el.classList.add('lib-on');
+              card.classList.add('show'); card.setAttribute('aria-hidden','false');
+              var r = el.getBoundingClientRect(), cw = card.offsetWidth, ch = card.offsetHeight;
+              var x = Math.max(10, Math.min(r.left + r.width/2 - cw/2, window.innerWidth - cw - 10));
+              var y = r.top - 12 - ch - 10; if (y < 10) y = r.bottom + 10;
+              card.style.left = x+'px'; card.style.top = y+'px';
+            }
+            function hideCard(){
+              if (active){ active.classList.remove('lib-on'); active = null; }
+              card.classList.remove('show'); card.setAttribute('aria-hidden','true');
+            }
+            shelves.addEventListener('pointerover', function(e){
+              var el = e.target.closest('.lib-book'); if (el && e.pointerType==='mouse') showCard(el);
+            });
+            shelves.addEventListener('pointerout', function(e){
+              var el = e.target.closest('.lib-book');
+              if (el && e.pointerType==='mouse' && !el.contains(e.relatedTarget)) hideCard();
+            });
+            shelves.addEventListener('click', function(e){
+              var el = e.target.closest('.lib-book'); if (!el) return;
+              if (active===el && e.pointerType!=='mouse') hideCard(); else showCard(el);
+            });
+            shelves.addEventListener('focusin', function(e){ var el=e.target.closest('.lib-book'); if (el) showCard(el); });
+            shelves.addEventListener('focusout', hideCard);
+            document.addEventListener('pointerdown', function(e){ if (active && !e.target.closest('.lib-book')) hideCard(); });
+            content.addEventListener('scroll', hideCard, {passive:true});
+            window.addEventListener('resize', function(){ hideCard(); });
+
+            /* lamp */
+            var ac;
+            function click(wasLit){
+              try {
+                var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+                ac = ac || new C();
+                var tick = function(at, freq, vol){
+                  var len = Math.floor(ac.sampleRate*.035), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+                  for (var i=0;i<len;i++) d[i] = (Math.random()*2-1)*Math.pow(1-i/len,5);
+                  var src = ac.createBufferSource(); src.buffer = buf;
+                  var f = ac.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=4;
+                  var g = ac.createGain(); g.gain.value = vol;
+                  src.connect(f); f.connect(g); g.connect(ac.destination); src.start(ac.currentTime+at);
+                };
+                tick(.16, wasLit?2100:2600, .9); tick(.34, 1500, .35);
+              } catch(e){}
+            }
+            function restart(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+            function shown(){
+              var mobileListOpen = window.innerWidth <= 640 && sidebar && !sidebar.classList.contains('collapsed');
+              return pane.classList.contains('active') && !mobileListOpen;
+            }
+            var queued = false;
+            function placeLight(){
+              if (queued) return; queued = true;
+              requestAnimationFrame(function(){
+                queued = false;
+                var r = lantern.getBoundingClientRect(), x = r.left + r.width/2 + 20, y = r.top + r.height*.6 + 20;
+                var size = window.innerWidth <= 640 ? '420px 380px' : '720px 600px';
+                light.style.background =
+                  'radial-gradient(ellipse '+size+' at '+x+'px '+y+'px,rgba(255,190,112,.32),rgba(255,196,122,.13) 44%,rgba(255,200,130,0) 74%),' +
+                  'linear-gradient(rgba(255,230,196,.16),rgba(255,230,196,.16))';
+              });
+            }
+            function syncDusk(){
+              var v = shown();
+              dusk.classList.toggle('on', v && !lit);
+              light.classList.toggle('on', v && lit);
+              if (v) placeLight();
+            }
+            content.addEventListener('scroll', placeLight, {passive:true});
+            window.addEventListener('resize', function(){ placeLight(); syncDusk(); });
+            if (sidebar) new MutationObserver(syncDusk).observe(sidebar, {attributes:true, attributeFilter:['class']});
+            pull.addEventListener('click', function(){
+              var was = lit; lit = !lit;
+              lib.classList.toggle('lib-off', !lit);
+              pull.setAttribute('aria-pressed', lit ? 'true' : 'false');
+              pull.setAttribute('aria-label', lit ? 'Pull the lamp string to turn the light off' : 'Pull the lamp string to turn the light on');
+              restart(pull, 'tug'); restart(lamp, 'lib-sway'); restart(light, 'lib-sway');
+              syncDusk(); click(was);
+            });
+
+            // follow the pane being shown / hidden by setTab()
+            new MutationObserver(function(){
+              syncDusk();
+              if (pane.classList.contains('active')) requestAnimationFrame(render); else hideCard();
+            }).observe(pane, {attributes:true, attributeFilter:['class']});
+            if (window.ResizeObserver) new ResizeObserver(function(){ render(); }).observe(shelves);
+            render(); syncDusk();
+          })();
+          </script>
+        </div>
+
         <!-- ══════════════ AI ROI CALCULATOR ══════════════ -->
         <div id="pane-AI_ROI" class="pane pane-wide">
 
@@ -2556,7 +3119,7 @@
     })();
 
     // ── Tab switching ──
-    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, AI_ROI: 5, fortune: 6, 'meme-generator': 7, birds: 8, entrepreneurship: 9, inspo: 10 };
+    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, AI_ROI: 5, fortune: 6, 'meme-generator': 7, birds: 8, entrepreneurship: 9, inspo: 10, library: 11 };
 
     function setTab(el, id, pushState) {
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
