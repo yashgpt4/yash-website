@@ -6,6 +6,8 @@
     - About: depression bullet reworded; "than" → "rather than" fix
     - About: "what now" trimmed to 2 items
     - Sidebar: hid "moving to north america" locked item; updated portfolio date
+    - Meme generator: new gacha page below GenZ fortune cookie (/meme-generator)
+    - Routing: sidebar items now matched by data-tab, not position (fixes active highlight after design portfolio link)
     - Sidebar: added "design portfolio ↗" link (opens /design-portfolio/ in new tab)
     - Portfolio: hid Sahil Lavingia entry
     - Portfolio: blurb, stat chips, HealthyGamer / Nabeel / Nikhil outcomes reworded
@@ -1329,6 +1331,133 @@
     -webkit-text-fill-color: transparent;
     animation: roiGradientBreath 7s ease-in-out infinite;
   }
+  /* ── Meme generator (gacha) ── */
+  .mg-window {
+    background: #fffcf8;
+    border: 1px solid #e7e5e4;
+    border-radius: 18px;
+    padding: 28px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 12px;
+  }
+  .mg-machine { display: flex; flex-direction: column; align-items: center; }
+  .mg-dome {
+    width: 200px; height: 176px;
+    position: relative; overflow: hidden;
+    background: #ffffff;
+    border: 2px solid #d6d3d1;
+    border-bottom: none;
+    border-radius: 100px 100px 10px 10px;
+  }
+  .mg-dome::before {               /* glass glint */
+    content: ''; position: absolute; left: 22px; top: 18px;
+    width: 46px; height: 70px;
+    border-left: 5px solid rgba(255,255,255,0.95);
+    border-radius: 50%;
+    transform: rotate(18deg);
+    z-index: 3; pointer-events: none;
+  }
+  .mg-dome::after {                /* soft glass tint */
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0) 40%, rgba(214,211,209,0.18) 100%);
+    pointer-events: none; z-index: 2;
+  }
+  .mg-ball {
+    position: absolute; width: 38px; height: 38px;
+    border-radius: 50%;
+    cursor: pointer; z-index: 1;
+    box-shadow: inset -4px -5px 0 rgba(0,0,0,0.07), 0 1px 0 rgba(0,0,0,0.06);
+    transition: left 0.45s cubic-bezier(.34,1.56,.64,1), top 0.45s cubic-bezier(.34,1.56,.64,1);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mg-ball::before {               /* capsule seam: bottom half cream */
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
+    background: #fffaf0; border-radius: 0 0 19px 19px;
+    border-top: 1.5px solid rgba(0,0,0,0.08);
+  }
+  .mg-ball::after {                /* highlight */
+    content: ''; position: absolute; left: 8px; top: 6px;
+    width: 10px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.75); transform: rotate(-25deg);
+  }
+  @keyframes mg-wobble {
+    0%   { transform: rotate(var(--r,0deg)) translate(0,0); }
+    20%  { transform: rotate(calc(var(--r,0deg) - 16deg)) translate(-2px,-5px); }
+    45%  { transform: rotate(calc(var(--r,0deg) + 12deg)) translate(2px,-2px); }
+    70%  { transform: rotate(calc(var(--r,0deg) - 6deg)) translate(-1px,0); }
+    100% { transform: rotate(var(--r,0deg)) translate(0,0); }
+  }
+  .mg-ball.wobble { animation: mg-wobble 0.5s ease; }
+  @keyframes mg-shake {
+    0%,100% { transform: rotate(var(--r,0deg)) translate(0,0); }
+    25% { transform: rotate(var(--r,0deg)) translate(5px,-9px); }
+    50% { transform: rotate(var(--r,0deg)) translate(-5px,-3px); }
+    75% { transform: rotate(var(--r,0deg)) translate(3px,-7px); }
+  }
+  .mg-dome.shaking .mg-ball { animation: mg-shake 0.16s linear infinite; }
+  .mg-base {
+    width: 220px; height: 92px; margin-top: -2px;
+    background: #E8855A; border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-around;
+    position: relative; z-index: 4;
+  }
+  .mg-knob {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #ffffff; border: 3px solid #1c1917;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform 0.75s cubic-bezier(.36,.07,.19,.97);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mg-knob:hover { box-shadow: 0 0 0 4px rgba(255,255,255,0.45); }
+  .mg-knob span { width: 38px; height: 9px; background: #1c1917; border-radius: 5px; }
+  .mg-chute {
+    width: 50px; height: 42px; background: #1c1917; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mg-chute .mg-ball { position: relative; width: 26px; height: 26px; cursor: default; opacity: 0; transform: translateY(-14px); transition: opacity .2s, transform .25s cubic-bezier(.34,1.56,.64,1); }
+  .mg-chute .mg-ball.drop { opacity: 1; transform: translateY(0); }
+  .mg-chute .mg-ball::before { border-radius: 0 0 13px 13px; }
+  .mg-chute .mg-ball::after { left: 5px; top: 4px; width: 7px; height: 5px; }
+  .mg-hint { font-size: 12px; color: #78716c; margin-top: 10px; }
+
+  .mg-meme {
+    width: 280px; min-height: 280px;
+    border: 1px dashed #d6d3d1; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: #ffffff;
+    touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  }
+  .mg-meme.filled { border: 1px solid #e7e5e4; cursor: pointer; }
+  .mg-meme img { width: 100%; height: auto; max-height: 380px; object-fit: contain; display: block; -webkit-user-drag: none; }
+  .mg-placeholder { font-size: 13px; color: #a8a29e; text-align: center; padding: 20px; line-height: 1.6; }
+  @keyframes mg-reveal { 0% { opacity: 0; transform: scale(0.92); } 100% { opacity: 1; transform: scale(1); } }
+  .mg-meme img.reveal { animation: mg-reveal 0.35s cubic-bezier(0.22,1,0.36,1); }
+  .mg-burst {
+    position: absolute; left: 50%; top: 50%; font-size: 72px;
+    transform: translate(-50%,-50%) scale(0); pointer-events: none; opacity: 0;
+  }
+  @keyframes mg-pop {
+    0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+    35%  { transform: translate(-50%,-50%) scale(1.25); opacity: 1; }
+    70%  { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%,-62%) scale(1); opacity: 0; }
+  }
+  .mg-burst.go { animation: mg-pop 0.75s ease forwards; }
+
+  .mg-like-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; min-height: 40px; }
+  .mg-like-row.hidden { visibility: hidden; }
+  .mg-progress { font-size: 12px; color: #78716c; text-align: center; margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .mg-window { padding: 22px 14px; gap: 20px; }
+    .mg-meme { width: 100%; }
+  }
 </style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
@@ -1357,12 +1486,12 @@
         </div>
         <div class="sidebar-list">
 
-          <div class="ni active" onclick="setTab(this,'about')">
+          <div class="ni active" data-tab="about" onclick="setTab(this,'about')">
             <div class="ni-title">🙋‍♂️ about</div>
             <div class="ni-sub">Yash Vijaykar</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'portfolio')">
+          <div class="ni" data-tab="portfolio" onclick="setTab(this,'portfolio')">
             <div class="ni-title">🚣 portfolio (work work work)</div>
             <div class="ni-sub">Aug 2026 · I show up before I'm hired</div>
           </div>
@@ -1372,42 +1501,47 @@
             <div class="ni-sub">design work & case studies</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'principles')">
+          <div class="ni" data-tab="principles" onclick="setTab(this,'principles')">
             <div class="ni-title">🏔️ principles</div>
             <div class="ni-sub">Operating system</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'blog')">
+          <div class="ni" data-tab="blog" onclick="setTab(this,'blog')">
             <div class="ni-title">📝 blog</div>
             <div class="ni-sub">Writing & thinking</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'sakura')">
+          <div class="ni" data-tab="sakura" onclick="setTab(this,'sakura')">
             <div class="ni-title">🌸 project sakura</div>
             <div class="ni-sub">#mentalhealthultrapromax</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'AI_ROI')">
+          <div class="ni" data-tab="AI_ROI" onclick="setTab(this,'AI_ROI')">
             <div class="ni-title">📈 AI vs Hooman ROI</div>
             <div class="ni-sub">exploit machines, not hoomans</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'fortune')">
+          <div class="ni" data-tab="fortune" onclick="setTab(this,'fortune')">
             <div class="ni-title">🍪 GenZ fortune cookie</div>
             <div class="ni-sub">free good luck for you</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'birds')">
+          <div class="ni" data-tab="meme-generator" onclick="setTab(this,'meme-generator')">
+            <div class="ni-title">🎰 meme generator</div>
+            <div class="ni-sub">free memes - no ads</div>
+          </div>
+
+          <div class="ni" data-tab="birds" onclick="setTab(this,'birds')">
             <div class="ni-title">🦅 lecturing birds how to fly</div>
             <div class="ni-sub">experimenting</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'entrepreneurship')">
+          <div class="ni" data-tab="entrepreneurship" onclick="setTab(this,'entrepreneurship')">
             <div class="ni-title">🫠 entrepreneurship (WIP)</div>
             <div class="ni-sub">notes to self</div>
           </div>
 
-          <div class="ni" onclick="setTab(this,'inspo')">
+          <div class="ni" data-tab="inspo" onclick="setTab(this,'inspo')">
             <div class="ni-title">🌟 inspo</div>
             <div class="ni-sub">collection of inspiration</div>
           </div>
@@ -2243,6 +2377,39 @@
 
         </div>
 
+        <!-- ══════════════ MEME GENERATOR ══════════════ -->
+        <div id="pane-meme-generator" class="pane">
+
+          <p class="conviction">🎰 meme generator</p>
+          <p class="sub-line" style="margin-bottom:20px;">free memes - no ads</p>
+
+          <hr class="divider" />
+
+          <div class="mg-window">
+            <!-- Machine -->
+            <div class="mg-machine">
+              <div class="mg-dome" id="mg-dome"></div>
+              <div class="mg-base">
+                <div class="mg-knob" id="mg-knob" onclick="mgTwist()" title="Twist me"><span></span></div>
+                <div class="mg-chute"><div class="mg-ball" id="mg-capsule"></div></div>
+              </div>
+              <p class="mg-hint">twist the knob ↻</p>
+            </div>
+            <!-- Meme -->
+            <div class="mg-meme" id="mg-meme">
+              <p class="mg-placeholder" id="mg-placeholder">your meme lands here</p>
+              <span class="mg-burst" id="mg-burst">❤️</span>
+            </div>
+          </div>
+
+          <div class="mg-like-row hidden" id="mg-like-row">
+            <button class="fc-like-btn" id="mg-like-btn" onclick="mgToggleLike()" title="Like">🤍</button>
+            <span class="fc-like-count" id="mg-like-count"></span>
+          </div>
+          <p class="mg-progress" id="mg-progress">0 of 7 memes unlocked for you today</p>
+
+        </div>
+
         <!-- ══════════════ AI ROI CALCULATOR ══════════════ -->
         <div id="pane-AI_ROI" class="pane pane-wide">
 
@@ -2389,7 +2556,7 @@
     })();
 
     // ── Tab switching ──
-    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, AI_ROI: 5, fortune: 6, birds: 7, entrepreneurship: 8, inspo: 9 };
+    var TABS = { about: 0, portfolio: 1, principles: 2, blog: 3, sakura: 4, AI_ROI: 5, fortune: 6, 'meme-generator': 7, birds: 8, entrepreneurship: 9, inspo: 10 };
 
     function setTab(el, id, pushState) {
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
@@ -2410,7 +2577,7 @@
     }
 
     function setTabByName(id, pushState) {
-      const ni = document.querySelectorAll('.ni')[TABS[id]];
+      const ni = document.querySelector('.ni[data-tab="' + id + '"]');
       if (ni) setTab(ni, id, pushState);
     }
 
@@ -2686,6 +2853,195 @@
     // Init: if already used up today, show locked immediately
     if (fcGetCount() >= 5) fcShowLocked();
   })();
+  // ── Meme generator (gacha) ──
+  (function () {
+    var MEME_COUNT = 21;
+    var MEME_PATH  = '/assets/memes/meme-';           // meme-01.jpg … meme-21.jpg
+    var DAILY_GOAL = 7;
+    var POP_URL = 'https://yarbcxcufofnqjzxdmmu.supabase.co/storage/v1/object/sign/sounds/soundreality-pop-423717.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lMzQ3NjMzNS03ZjRmLTQ3OTYtYmJjOS1hYjIwNDJmNDE3MDAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzb3VuZHMvc291bmRyZWFsaXR5LXBvcC00MjM3MTcubXAzIiwiaWF0IjoxNzc5OTcyODQ4LCJleHAiOjE4MTE1MDg4NDh9.SopA1Nh_Jhglm_AfGohPyjAHxxzL_j3HSaCrCuE_vDo';
+    var COLORS = ['#FAD647', '#E8855A', '#F4C0D1', '#9FE1CB', '#CECBF6', '#B5D4F4'];
+    // Pile of capsules resting at the bottom of the dome (left, top in px)
+    var PILE = [[6,134],[44,136],[82,135],[120,136],[156,133],
+                [24,103],[62,100],[100,102],[138,101],
+                [42,70],[80,67],[118,70]];
+
+    var dome    = document.getElementById('mg-dome');
+    if (!dome) return;
+    var knob    = document.getElementById('mg-knob');
+    var capsule = document.getElementById('mg-capsule');
+    var memeBox = document.getElementById('mg-meme');
+    var burst   = document.getElementById('mg-burst');
+    var likeRow = document.getElementById('mg-like-row');
+    var likeBtn = document.getElementById('mg-like-btn');
+    var likeCnt = document.getElementById('mg-like-count');
+    var progEl  = document.getElementById('mg-progress');
+
+    var audio = new Audio(POP_URL); audio.preload = 'auto';
+    var busy = false, rot = 0, current = -1, lastTap = 0;
+
+    // ── storage helpers (fail silently, e.g. private mode) ──
+    function get(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }
+    function set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+    function todayKey() { return 'mg_day_' + new Date().toISOString().slice(0, 10); }
+    function track(name) { try { if (window.clarity) window.clarity('event', name); } catch (e) {} }
+
+    function shuffled() {
+      var a = []; for (var i = 1; i <= MEME_COUNT; i++) a.push(i);
+      for (var j = a.length - 1; j > 0; j--) { var r = Math.floor(Math.random() * (j + 1)); var t = a[j]; a[j] = a[r]; a[r] = t; }
+      return a;
+    }
+
+    // Shuffle bag: no repeats until all 21 are seen (persists across refreshes)
+    function nextMeme() {
+      var bag = get('mg_bag', null);
+      var wrapped = false;
+      if (!bag || !bag.order || bag.order.length !== MEME_COUNT || bag.pos >= MEME_COUNT) {
+        bag = { order: shuffled(), pos: 0 };
+      }
+      var id = bag.order[bag.pos++];
+      if (bag.pos >= MEME_COUNT) wrapped = true;
+      set('mg_bag', bag);
+      return { id: id, wrapped: wrapped };
+    }
+    function peekNext() {
+      var bag = get('mg_bag', null);
+      if (bag && bag.order && bag.pos < MEME_COUNT) return bag.order[bag.pos];
+      return null;
+    }
+    function src(id) { return MEME_PATH + (id < 10 ? '0' : '') + id + '.jpg'; }
+    function preload(id) { if (id) { var i = new Image(); i.src = src(id); } }
+
+    // Likes: each meme gets a random starting count (150–300) once per visitor
+    function likeState(id) {
+      var all = get('mg_likes', {});
+      if (!all[id]) { all[id] = { base: 150 + Math.floor(Math.random() * 151), liked: false }; set('mg_likes', all); }
+      return all[id];
+    }
+    function saveLike(id, liked) { var all = get('mg_likes', {}); likeState(id); all = get('mg_likes', {}); all[id].liked = liked; set('mg_likes', all); }
+    function paintLike(pop) {
+      if (current < 0) return;
+      var s = likeState(current);
+      likeBtn.textContent = s.liked ? '❤️' : '🤍';
+      likeCnt.textContent = s.base + (s.liked ? 1 : 0);
+      if (pop) { likeBtn.classList.remove('pop'); void likeBtn.offsetWidth; likeBtn.classList.add('pop'); }
+    }
+    function like() {
+      if (current < 0) return;
+      if (!likeState(current).liked) { saveLike(current, true); track('meme_like'); }
+      paintLike(true);
+    }
+    window.mgToggleLike = function () {
+      if (current < 0) return;
+      var s = likeState(current);
+      if (s.liked) { saveLike(current, false); paintLike(false); } else like();
+    };
+
+    // Double-tap / double-click on the meme = like (never un-likes)
+    memeBox.addEventListener('pointerup', function () {
+      if (current < 0) return;
+      var now = Date.now();
+      if (now - lastTap < 320) {
+        like();
+        burst.classList.remove('go'); void burst.offsetWidth; burst.classList.add('go');
+        lastTap = 0;
+      } else lastTap = now;
+    });
+
+    // Progress line
+    function paintProgress(n, wrapped) {
+      var txt;
+      if (n <= 0) txt = '0 of ' + DAILY_GOAL + ' memes unlocked for you today';
+      else if (n < DAILY_GOAL) txt = n + ' of ' + DAILY_GOAL + ' memes unlocked for you today';
+      else if (n === DAILY_GOAL) txt = DAILY_GOAL + ' new memes unlocked for you today 🎉';
+      else txt = DAILY_GOAL + ' new memes unlocked for you today 🎉 · +' + (n - DAILY_GOAL) + ' bonus 👀';
+      if (wrapped) txt += ' · you’ve seen all ' + MEME_COUNT + ', reshuffling 🫠';
+      progEl.textContent = txt;
+    }
+
+    // Capsules in the dome
+    function buildBalls() {
+      var html = '';
+      for (var i = 0; i < PILE.length; i++) {
+        var r = Math.round(Math.random() * 60 - 30);
+        html += '<span class="mg-ball" style="left:' + PILE[i][0] + 'px;top:' + PILE[i][1] + 'px;background:' +
+                COLORS[i % COLORS.length] + ';--r:' + r + 'deg;transform:rotate(' + r + 'deg)"></span>';
+      }
+      dome.innerHTML = html;
+      dome.querySelectorAll('.mg-ball').forEach(function (b) {
+        b.addEventListener('click', function () {
+          b.classList.remove('wobble'); void b.offsetWidth; b.classList.add('wobble');
+        });
+        b.addEventListener('animationend', function () { b.classList.remove('wobble'); });
+      });
+    }
+    function resettleBalls() {
+      var balls = Array.prototype.slice.call(dome.querySelectorAll('.mg-ball'));
+      var spots = PILE.slice().sort(function () { return Math.random() - 0.5; });
+      balls.forEach(function (b, i) {
+        var jx = Math.round(Math.random() * 6 - 3), jy = Math.round(Math.random() * 4 - 2);
+        var r = Math.round(Math.random() * 60 - 30);
+        b.style.left = (spots[i][0] + jx) + 'px';
+        b.style.top  = (spots[i][1] + jy) + 'px';
+        b.style.setProperty('--r', r + 'deg');
+        b.style.transform = 'rotate(' + r + 'deg)';
+      });
+    }
+
+    function reveal(id) {
+      var img = new Image();
+      img.alt = 'meme';
+      img.draggable = false;
+      img.onload = function () {
+        memeBox.querySelectorAll('img, .mg-placeholder').forEach(function (n) { n.remove(); });
+        img.className = 'reveal';
+        memeBox.insertBefore(img, burst);
+        memeBox.classList.add('filled');
+        likeRow.classList.remove('hidden');
+        paintLike(false);
+        busy = false;
+      };
+      img.onerror = function () { busy = false; };
+      img.src = src(id);
+    }
+
+    window.mgTwist = function () {
+      if (busy) return;
+      busy = true;
+      rot += 360;
+      knob.style.transform = 'rotate(' + rot + 'deg)';
+      dome.classList.add('shaking');
+      try { if (navigator.vibrate) navigator.vibrate(30); } catch (e) {}
+
+      var pick = nextMeme();
+      current = pick.id;
+      preload(current);
+
+      setTimeout(function () {
+        dome.classList.remove('shaking');
+        resettleBalls();
+        capsule.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+        capsule.classList.add('drop');
+        try { audio.currentTime = 0; audio.play().catch(function () {}); } catch (e) {}
+
+        var n = get(todayKey(), 0) + 1;
+        set(todayKey(), n);
+        paintProgress(n, pick.wrapped);
+        if (n === 1) track('meme_first_twist');
+        if (n === DAILY_GOAL) track('meme_reached_7');
+        if (n === DAILY_GOAL + 1) track('meme_went_beyond_7');
+        if (pick.wrapped) track('meme_seen_all_21');
+
+        reveal(current);
+        preload(peekNext());
+        setTimeout(function () { capsule.classList.remove('drop'); }, 900);
+      }, 800);
+    };
+
+    buildBalls();
+    paintProgress(get(todayKey(), 0), false);
+    preload(peekNext());
+  })();
+
 
   // ── ROI CALCULATOR ──────────────────────────────────────────────────────────
 
