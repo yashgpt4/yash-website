@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>stamp booklet · Yash Vijaykar</title>
+<style>
+  :root {
+    --text: #1c1917; --text2: #44403c; --muted: #78716c; --tertiary: #a8a29e;
+    --border: #e7e5e4; --accent: #E8855A; --paper: #fbf8f3;
+    --sea: #f1efeb; --land: #fffdf9; --ink: #57534e; --pin: #c2410c;
+    --washi: rgba(250, 214, 71, .78);
+    --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-family: var(--sans); font-size: 14px; color: var(--text); background: #fff; -webkit-font-smoothing: antialiased; }
+  body.sheet-open { padding-bottom: 46vh; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 28px 64px; }
+
+  .conviction { font-size: 23px; font-weight: 500; line-height: 1.35; margin-bottom: 6px; }
+  .sub-line { font-size: 14px; color: var(--text2); line-height: 1.55; max-width: 640px; }
+  .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 20px 0 16px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .chip { font: inherit; font-size: 12px; color: var(--muted); background: #fff; border: 0.5px solid #d6d3d1; border-radius: 99px; padding: 5px 12px; cursor: pointer; transition: background .15s, color .15s; }
+  .chip:hover { background: #f5f5f4; color: var(--text); }
+  .chip.on { background: var(--text); border-color: var(--text); color: #fff; }
+  .chip span { opacity: .55; margin-left: 3px; }
+
+  /* layout: journal page + map column */
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; align-items: start; }
+  .side { position: sticky; top: 16px; }
+
+  /* journal page */
+  .board {
+    background-color: var(--paper);
+    background-image: radial-gradient(rgba(120,113,108,.18) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+    border: 0.5px solid var(--border); border-radius: 16px; padding: 22px 22px 34px;
+  }
+  .grid { display: grid; grid-auto-flow: dense; gap: 16px 14px; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); grid-auto-rows: 92px; }
+  .st {
+    position: relative; border: none; background: none; cursor: pointer; padding: 4px;
+    display: flex; align-items: center; justify-content: center;
+    transform: rotate(var(--r, 0deg));
+    transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .st img { max-width: 100%; max-height: 100%; display: block; pointer-events: none;
+    filter: drop-shadow(0 1px 1px rgba(28,25,23,.10)) drop-shadow(0 3px 6px rgba(28,25,23,.10)); transition: filter .25s; }
+  .st.L { grid-column: span 2; grid-row: span 2; }
+  .st.S { padding: 10px; }
+  .st:hover, .st:focus-visible { transform: rotate(0deg) scale(1.08); z-index: 5; outline: none; }
+  .st:hover img, .st:focus-visible img { filter: drop-shadow(0 2px 2px rgba(28,25,23,.12)) drop-shadow(0 10px 18px rgba(28,25,23,.16)); }
+  .grid.has-sel .st { opacity: .45; }
+  .grid.has-sel .st.sel { opacity: 1; }
+  .grid.has-sel .st.sib { opacity: .82; }
+  .st.sel { transform: rotate(0deg) scale(1.14); z-index: 6; }
+  .st.sel img { filter: drop-shadow(0 2px 2px rgba(28,25,23,.14)) drop-shadow(0 14px 24px rgba(28,25,23,.20)); }
+  .st.dim { opacity: .18; }
+  @keyframes thunk { 0% { transform: scale(1.28); } 45% { transform: scale(.94); } 70% { transform: scale(1.18); } 100% { transform: scale(1.14); } }
+  .st.thunk { animation: thunk .42s ease; }
+
+  /* washi-tape name tag: taped onto the sticker's bottom edge (top set in JS) */
+  .tag {
+    position: absolute; left: 50%; top: calc(100% - 8px); transform: translate(-50%, 4px) rotate(-2.5deg);
+    background: rgba(250, 214, 71, .72); color: #3d2e00;
+    font-size: 10.5px; font-weight: 500; line-height: 1;
+    padding: 5px 11px 6px; white-space: nowrap; pointer-events: none;
+    clip-path: polygon(0 6%, 3% 0, 6% 8%, 9% 0, 91% 0, 94% 7%, 97% 0, 100% 6%, 98% 50%, 100% 94%, 97% 100%, 94% 93%, 91% 100%, 9% 100%, 6% 92%, 3% 100%, 0 94%, 2% 50%);
+    opacity: 0; transition: opacity .18s, transform .18s; z-index: 2;
+  }
+  .st:hover .tag, .st:focus-visible .tag, .st.sel .tag { opacity: 1; transform: translate(-50%, 0) rotate(-2.5deg); }
+
+  /* caption */
+  .side .cap { min-height: 88px; }
+  .cap { min-height: 64px; display: flex; gap: 10px; align-items: flex-start; }
+  .cap-pin { font-size: 17px; line-height: 1.25; }
+  .cap-title { font-size: 15px; font-weight: 500; line-height: 1.35; }
+  .cap-place { color: var(--muted); font-weight: 400; }
+  .cap-line { font-size: 13.5px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+  .cap-hint { font-size: 13px; color: var(--tertiary); padding-top: 2px; line-height: 1.5; }
+  @keyframes capin { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .cap.in > * { animation: capin .3s ease; }
+
+  /* maps */
+  .mapbox { position: relative; border: 0.5px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--sea); }
+  .mapbox svg { display: block; width: 100%; height: 100%; }
+  .side .mapbox { aspect-ratio: 0.95; margin-top: 12px; }
+  .mobile-map .mapbox { aspect-ratio: 1.6; }
+  .sheet .mapbox { aspect-ratio: 2.3; margin-top: 10px; border-radius: 10px; }
+  .map-reset { position: absolute; right: 10px; top: 10px; font: inherit; font-size: 12px; color: var(--muted); background: #fff; border: 0.5px solid #d6d3d1; border-radius: 99px; padding: 4px 10px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .map-reset.show { opacity: 1; pointer-events: auto; }
+  .pin { cursor: pointer; }
+  .pin .dot { fill: var(--pin); stroke: #fff; }
+  .pin .halo { fill: var(--pin); opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .pin.on .halo { animation: halo 1.6s ease-out infinite; }
+  @keyframes halo { 0% { opacity: .35; transform: scale(1); } 100% { opacity: 0; transform: scale(3.2); } }
+  .pin text { font-family: var(--sans); fill: var(--text); paint-order: stroke; stroke: var(--land); stroke-linejoin: round; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  svg.zoomed .pin text { opacity: .6; }
+  .pin.on text, .pin.hov text, svg.zoomed .pin.on text, svg.zoomed .pin.hov text { opacity: 1; }
+  .pin.mute .dot { fill: #d6a58c; }
+  svg.mini .pin text, svg.mini.zoomed .pin text { opacity: 0; }
+  svg.mini .pin.on text { opacity: 1; }
+  svg.mini .rlabel { display: none; }
+  svg:not(.zoomed) .rl-near { display: none; }
+  svg.zoomed .rl-far { display: none; }
+  .pin.hov .dot { fill: var(--pin); }
+  .rlabel { font-family: var(--sans); fill: var(--muted); letter-spacing: .08em; pointer-events: none; }
+  .sea-label { font-family: var(--sans); font-style: italic; fill: #a8a29e; pointer-events: none; }
+  .foot { font-size: 11px; color: var(--tertiary); margin-top: 8px; }
+  .mobile-map { display: none; margin-top: 18px; }
+
+  /* sign-off */
+  .signoff { margin: 48px auto 0; text-align: center; }
+  .signoff button { border: none; background: none; cursor: pointer; display: inline-block; width: 300px; max-width: 80vw; -webkit-tap-highlight-color: transparent; }
+  .signoff img { width: 100%; display: block; transform: rotate(-2.5deg); transition: transform .35s cubic-bezier(.34,1.56,.64,1), filter .3s;
+    filter: drop-shadow(0 1px 1px rgba(28,25,23,.10)) drop-shadow(0 4px 8px rgba(28,25,23,.10)); }
+  .signoff button:hover img, .signoff button:focus-visible img { transform: rotate(3deg) scale(1.05); filter: drop-shadow(0 2px 2px rgba(28,25,23,.12)) drop-shadow(0 12px 20px rgba(28,25,23,.16)); }
+  .signoff button:focus-visible { outline: none; }
+  @keyframes gd-press { 0% { transform: rotate(3deg) scale(1.05); } 35% { transform: rotate(2deg) scale(.97); } 100% { transform: rotate(3deg) scale(1.05); } }
+  .signoff button.press img { animation: gd-press .45s ease; }
+  .signoff p { font-size: 12px; color: var(--tertiary); margin-top: 12px; white-space: nowrap; }
+  .confetti { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 80; will-change: transform, opacity; }
+
+  /* phone sheet */
+  .sheet {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: #fff; border-radius: 18px 18px 0 0; border-top: 0.5px solid var(--border);
+    box-shadow: 0 -8px 30px rgba(28,25,23,.12);
+    padding: 8px 18px calc(16px + env(safe-area-inset-bottom));
+    transform: translateY(110%); transition: transform .32s cubic-bezier(.22,1,.36,1);
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet .handle { width: 36px; height: 4px; border-radius: 2px; background: #d6d3d1; margin: 0 auto 12px; }
+  .sheet-close { position: absolute; right: 12px; top: 10px; width: 28px; height: 28px; border-radius: 50%; border: none; background: #f5f5f4; color: var(--muted); font-size: 15px; cursor: pointer; }
+  .sheet .cap { min-height: 0; padding-right: 30px; }
+
+  @media (max-width: 819px) {
+    .wrap { padding: 20px 16px 40px; }
+    .layout { grid-template-columns: 1fr; }
+    .side { display: none; }
+    .mobile-map { display: block; }
+    .sheet { display: block; }
+    .board { padding: 14px 14px 26px; }
+    .grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 74px; gap: 12px 10px; }
+    .tag { font-size: 10px; padding: 4px 9px 5px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xpsg8uqnw9");
+</script>
+</head>
+<body>
+<div class="wrap">
+  <p class="conviction">🗾 stamp booklet</p>
+  <p class="sub-line">Japan has rubber stamps at train stations, temples, airports and shops, free for anyone with paper. These are the ones I collected in my Traveler's notebook.</p>
+  <p class="meta" id="meta"></p>
+  <hr class="divider" />
+  <div class="chips" id="chips"></div>
+
+  <div class="layout">
+    <div class="board"><div class="grid" id="grid"></div></div>
+    <aside class="side">
+      <div class="cap" id="cap-d"></div>
+      <div class="mapbox"><button class="map-reset" data-reset>show all ↺</button><svg id="map-d" role="img" aria-label="Map of where each stamp was collected"></svg></div>
+      <p class="foot">map traced from OpenStreetMap coastlines (© OpenStreetMap contributors)</p>
+    </aside>
+  </div>
+
+  <div class="mobile-map">
+    <div class="mapbox"><button class="map-reset" data-reset>show all ↺</button><svg id="map-m" role="img" aria-label="Map of where each stamp was collected"></svg></div>
+    <p class="foot">map traced from OpenStreetMap coastlines (© OpenStreetMap contributors)</p>
+  </div>
+
+  <div class="signoff">
+    <button id="good-day" aria-label="Have a good day, good music, good coffee, and a good notebook! Tap for confetti"><img src="stamps/good-day.webp" alt="" /></button>
+    <p>the last stamp in the notebook, and the best advice in it</p>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" aria-live="polite">
+  <div class="handle"></div>
+  <button class="sheet-close" id="sheet-close" aria-label="Close">✕</button>
+  <div class="cap" id="cap-s"></div>
+  <div class="mapbox"><svg id="map-s" role="img" aria-label="Map showing where this stamp is from"></svg></div>
+</div>
+
+<script>
+const SPOTS = {
+  haneda:    { name: 'Haneda Airport',           city: 'Tokyo', lon: 139.781, lat: 35.549 , pin: "Haneda" },
+  shinjuku:  { name: 'Shinjuku Station',         city: 'Tokyo', lon: 139.700, lat: 35.690 , pin: "Shinjuku", left: true },
+  sendagaya: { name: 'Sendagaya Station',        city: 'Tokyo', lon: 139.711, lat: 35.681 , pin: "Sendagaya" },
+  narita:    { name: 'Narita Airport',           city: 'Chiba', lon: 140.386, lat: 35.773 , pin: "Narita", left: true },
+  kyotostn:  { name: 'Kyoto Station',            city: 'Kyoto', lon: 135.758, lat: 34.985 , pin: "Kyoto Station", left: true },
+  tfkyoto:   { name: "Traveler's Factory Kyoto", city: 'Kyoto', lon: 135.759, lat: 35.010 , pin: "Traveler's Factory" },
+  nara:      { name: 'Tōdai-ji & Nara Park',     city: 'Nara',  lon: 135.840, lat: 34.689 , pin: "Tōdai-ji" },
+  umeda:     { name: 'Osaka Station · Umeda',    city: 'Osaka', lon: 135.497, lat: 34.703 , pin: "Umeda", left: true },
+  castle:    { name: 'Osaka Castle · Morinomiya',city: 'Osaka', lon: 135.528, lat: 34.686 , pin: "Osaka Castle" },
+  namba:     { name: 'Namba',                    city: 'Osaka', lon: 135.501, lat: 34.662 , pin: "Namba" },
+  itami:     { name: 'Itami Airport',            city: 'Osaka', lon: 135.439, lat: 34.784 , pin: "Itami Airport", left: true },
+  senri:     { name: 'Senri-Chūō',               city: 'Osaka', lon: 135.496, lat: 34.807 , pin: "Senri-Chūō" },
+};
+
+// size: L = hero, M = medium, S = small.  Order = grid order (dense packing fills gaps).
+const STAMPS = [
+  { id: 'osaka-castle',    spot: 'castle',    size: 'L', title: 'Osaka Castle Museum',        line: "Hideyoshi's 1583 castle; today's tower was rebuilt in 1931." },
+  { id: 'shinjuku',        spot: 'shinjuku',  size: 'M', title: 'Shinjuku Station',           line: "The world's busiest railway station, per Guinness." },
+  { id: 'sendagaya',       spot: 'sendagaya', size: 'M', title: 'Sendagaya Station',          line: 'Home turf of the National Noh Theatre.' },
+  { id: 'kyoto-station',   spot: 'kyotostn',  size: 'L', title: 'Kyoto Station',              line: "Hiroshi Hara's 1997 glass-and-steel gate to the old capital." },
+  { id: 'umeda',           spot: 'umeda',     size: 'M', title: 'Umeda',                      line: "Under HEP Five's bright red rooftop Ferris wheel." },
+  { id: 'travelers-town',  spot: 'tfkyoto',   size: 'L', title: "Traveler's Factory Kyoto",   line: 'Pilgrimage stop for Traveler’s notebook fans since 2020.' },
+  { id: 'expo-store',      spot: 'umeda',     size: 'M', title: 'Expo 2025 Official Store',   line: 'Myaku-Myaku merch HQ, right at JR Osaka Station.' },
+  { id: 'haneda-station',  spot: 'haneda',    size: 'S', title: 'Haneda Airport Station',     line: 'The rail link from runway to Tokyo.' },
+  { id: 'todaiji',         spot: 'nara',      size: 'L', title: 'Tōdai-ji Great Buddha Hall', line: 'World’s largest wooden building, home of the Great Buddha.' },
+  { id: 'daibutsu-kannon', spot: 'nara',      size: 'M', title: 'Lotus-petal bodhisattva',    line: 'Engraved on the petals the Great Buddha sits on.' },
+  { id: 'kintetsu-nara',   spot: 'nara',      size: 'S', title: 'Kintetsu Nara Station',      line: 'Step out, walk five minutes, meet the deer.' },
+  { id: 'namba',           spot: 'namba',     size: 'L', title: 'Nankai Namba Station',       line: "Osaka's gateway to the world: trains to Kansai Airport." },
+  { id: 'osaka-station',   spot: 'umeda',     size: 'M', title: 'Osaka Station',              line: 'The stamp’s motto: a station of ginkgo avenues in the water city.' },
+  { id: 'sorayan-hex',     spot: 'itami',     size: 'L', title: 'Sorayan',                    line: 'Mascot of all three Osaka-area airports.' },
+  { id: 'morinomiya-oct',  spot: 'castle',    size: 'M', title: 'Morinomiya Station',         line: 'The back door into Osaka Castle Park.' },
+  { id: 'morinomiya',      spot: 'castle',    size: 'S', title: 'Morinomiya (Chūō line)',     line: 'Same castle, second line, second stamp.' },
+  { id: 'itami-airport',   spot: 'itami',     size: 'M', title: 'Itami Airport',              line: "Osaka's domestic airport, flying since 1939." },
+  { id: 'sorayan-hello',   spot: 'itami',     size: 'M', title: 'Hello Sorayan!',             line: 'Sorayan again, now with a sidekick.' },
+  { id: 'monorail-airport',spot: 'itami',     size: 'M', title: 'Osaka Monorail · Airport',   line: "Japan's longest monorail, once the world's longest." },
+  { id: 'monorail-senri',  spot: 'senri',     size: 'S', title: 'Osaka Monorail · Senri-Chūō', line: 'Same monorail, a few stops north.' },
+  { id: 'kyoto-calling',   spot: 'tfkyoto',   size: 'M', title: 'Kyoto Calling',              line: "Traveler's Factory's Kyoto-only stamp." },
+  { id: 'good-music',      spot: 'tfkyoto',   size: 'M', title: 'Good Music',                 line: 'Have a nice trip with good music, says the record.' },
+  { id: 'visit-pass',      spot: 'tfkyoto',   size: 'M', title: 'Visit Pass',                 line: 'Proof I made the Kyoto stationery pilgrimage.' },
+  { id: 'travelers-globe', spot: 'tfkyoto',   size: 'S', title: "Traveler's Company",         line: 'The brand behind the Traveler’s notebook, born 2006.' },
+  { id: 'maiko',           spot: 'tfkyoto',   size: 'S', title: 'Maiko with a notebook',      line: 'Kyoto’s apprentice geisha, journaling.' },
+  { id: 'air-mail',        spot: 'tfkyoto',   size: 'S', title: 'Via Air Mail',               line: 'For the notebook’s envelope pages.' },
+  { id: 'love-trip',       spot: 'tfkyoto',   size: 'S', title: 'Love and Trip',              line: 'Every traveler’s notebook is filled with love.' },
+  { id: 'hnd',             spot: 'haneda',    size: 'L', title: 'Haneda Airport',             line: 'Japan’s busiest airport and Tokyo’s front door.' },
+  { id: 'haneda-airport',  spot: 'haneda',    size: 'M', title: 'Haneda Terminals 1 & 2',     line: 'Same airport, drawn in black ink.' },
+  { id: 'kyonavi-2',       spot: 'kyotostn',  size: 'M', title: 'Kyo Navi',                   line: "Kyoto Station's tourist desk, with its own stamp set." },
+  { id: 'kyonavi-1',       spot: 'kyotostn',  size: 'S', title: 'Kyo Navi',                   line: 'A rickshaw and pine, Kyoto in one circle.' },
+  { id: 'kyonavi-3',       spot: 'kyotostn',  size: 'S', title: 'Kyo Navi',                   line: 'Two maiko on a mountain path.' },
+  { id: 'jr-east-narita',  spot: 'narita',    size: 'M', title: 'JR East Travel Centre',      line: 'Narita Airport’s rail desk, cherry blossoms included.' },
+];
+
+// Coastlines: OpenStreetMap (© OpenStreetMap contributors, ODbL), simplified via Nominatim.
+const COAST_S = [[134.003,34.512],[134.001,34.546],[134.047,34.576],[133.946,34.599],[134.120,34.589],[134.245,34.698],[134.197,34.708],[134.214,34.716],[134.195,34.717],[134.205,34.727],[134.179,34.733],[134.186,34.743],[134.321,34.722],[134.359,34.759],[134.409,34.726],[134.464,34.764],[134.456,34.783],[134.465,34.809],[134.474,34.755],[134.527,34.783],[134.570,34.758],[134.656,34.788],[134.746,34.769],[134.832,34.698],[134.822,34.731],[135.046,34.625],[135.183,34.649],[135.190,34.686],[135.202,34.679],[135.205,34.692],[135.225,34.701],[135.337,34.727],[135.371,34.681],[135.401,34.699],[135.376,34.677],[135.418,34.688],[135.414,34.652],[135.454,34.629],[135.426,34.593],[135.461,34.595],[135.469,34.586],[135.421,34.570],[135.402,34.600],[135.410,34.555],[135.349,34.447],[135.218,34.345],[135.070,34.299],[135.062,34.263],[135.145,34.227],[135.140,34.188],[135.211,34.149],[135.126,34.137],[135.146,34.111],[135.116,34.120],[135.106,34.082],[135.078,34.074],[135.136,34.065],[135.172,34.028],[135.068,33.977],[135.079,33.956],[135.102,33.967],[135.118,33.960],[135.065,33.927],[135.083,33.910],[135.058,33.880],[135.141,33.885],[135.235,33.782],[135.400,33.722],[135.330,33.670],[135.391,33.643],[135.391,33.591],[135.446,33.549],[135.593,33.498],[135.766,33.482],[135.750,33.450],[135.763,33.433],[135.798,33.445],[135.799,33.499],[135.960,33.582],[135.926,33.605],[135.954,33.622],[135.937,33.643],[135.986,33.655],[135.972,33.673],[136.095,33.879],[136.149,33.897],[136.150,33.931],[136.180,33.913],[136.182,33.939],[136.232,33.946],[136.192,33.971],[136.212,34.000],[136.272,33.972],[136.242,34.015],[136.281,34.023],[136.201,34.076],[136.268,34.129],[136.250,34.094],[136.298,34.087],[136.316,34.115],[136.284,34.118],[136.278,34.161],[136.322,34.196],[136.452,34.220],[136.440,34.247],[136.466,34.257],[136.464,34.231],[136.508,34.229],[136.485,34.240],[136.519,34.240],[136.506,34.279],[136.548,34.250],[136.549,34.283],[136.591,34.295],[136.571,34.275],[136.605,34.259],[136.677,34.316],[136.637,34.309],[136.673,34.324],[136.662,34.346],[136.691,34.345],[136.683,34.324],[136.695,34.335],[136.692,34.348],[136.727,34.343],[136.687,34.284],[136.764,34.292],[136.752,34.299],[136.762,34.316],[136.799,34.290],[136.792,34.309],[136.798,34.320],[136.808,34.328],[136.866,34.289],[136.834,34.292],[136.833,34.270],[136.855,34.281],[136.869,34.262],[136.900,34.276],[136.878,34.334],[136.909,34.365],[136.867,34.343],[136.812,34.368],[136.913,34.376],[136.925,34.444],[136.876,34.429],[136.877,34.474],[136.833,34.506],[136.816,34.483],[136.630,34.598],[136.555,34.590],[136.563,34.613],[136.549,34.608],[136.527,34.611],[136.557,34.671],[136.521,34.694],[136.548,34.780],[136.667,34.937],[136.634,34.949],[136.651,34.993],[136.678,34.987],[136.657,35.000],[136.740,35.033],[136.794,35.015],[136.778,35.038],[136.856,35.057],[136.867,35.093],[136.896,35.077],[136.889,35.042],[136.821,34.966],[136.822,34.884],[136.866,34.839],[136.840,34.765],[136.859,34.738],[136.978,34.702],[136.913,34.777],[136.981,34.956],[136.946,34.820],[136.997,34.816],[137.030,34.775],[137.168,34.788],[137.171,34.765],[137.210,34.825],[137.298,34.811],[137.337,34.779],[137.320,34.733],[137.353,34.727],[137.285,34.678],[137.285,34.731],[137.119,34.634],[137.071,34.662],[137.018,34.579],[137.572,34.680],[137.805,34.646],[137.973,34.665],[138.227,34.595],[138.197,34.669],[138.306,34.778],[138.367,34.925],[138.516,34.984],[138.533,35.015],[138.504,35.015],[138.512,34.995],[138.503,34.986],[138.494,35.031],[138.574,35.110],[138.686,35.145],[138.785,35.124],[138.907,35.048],[138.891,35.017],[138.787,35.030],[138.762,34.972],[138.790,34.908],[138.756,34.883],[138.777,34.760],[138.739,34.690],[138.843,34.601],[138.948,34.674],[138.987,34.657],[138.999,34.744],[139.141,34.891],[139.147,34.955],[139.094,34.978],[139.100,35.045],[139.069,35.054],[139.116,35.147],[139.161,35.141],[139.136,35.181],[139.148,35.241],[139.333,35.313],[139.542,35.309],[139.627,35.216],[139.599,35.196],[139.630,35.163],[139.605,35.145],[139.678,35.139],[139.657,35.185],[139.725,35.211],[139.717,35.246],[139.747,35.253],[139.633,35.295],[139.662,35.328],[139.630,35.317],[139.622,35.331],[139.641,35.345],[139.657,35.342],[139.658,35.379],[139.622,35.396],[139.670,35.403],[139.691,35.439],[139.664,35.433],[139.632,35.453],[139.635,35.474],[139.688,35.495],[139.713,35.464],[139.784,35.502],[139.765,35.512],[139.799,35.509],[139.786,35.570],[139.764,35.560],[139.749,35.567],[139.787,35.579],[139.753,35.634],[139.761,35.652],[139.792,35.655],[139.768,35.626],[139.787,35.602],[139.822,35.643],[139.836,35.612],[139.849,35.643],[139.871,35.639],[139.898,35.617],[139.939,35.641],[139.918,35.655],[139.948,35.670],[139.922,35.674],[139.968,35.684],[139.992,35.675],[139.987,35.654],[140.084,35.597],[140.118,35.597],[140.127,35.568],[140.091,35.565],[140.115,35.550],[140.101,35.538],[140.098,35.529],[140.066,35.553],[140.010,35.486],[140.023,35.468],[140.003,35.483],[139.993,35.453],[139.982,35.475],[139.900,35.430],[139.898,35.358],[139.846,35.375],[139.860,35.346],[139.838,35.359],[139.834,35.322],[139.784,35.313],[139.850,35.288],[139.870,35.237],[139.815,35.171],[139.842,35.085],[139.810,35.038],[139.858,34.999],[139.752,34.965],[139.837,34.903],[139.928,34.909],[139.984,35.015],[140.084,35.062],[140.121,35.115],[140.327,35.139],[140.394,35.203],[140.397,35.419],[140.497,35.577],[140.661,35.691],[140.827,35.714],[140.865,35.693],[140.882,35.731],[140.770,35.830],[140.707,35.923],[140.713,35.962],[140.677,35.912],[140.691,35.883],[140.652,35.927],[140.694,35.929],[140.701,35.963],[140.603,36.098],[140.558,36.281],[140.627,36.377],[140.612,36.487],[140.717,36.662],[140.748,36.784],[140.806,36.831],[140.792,36.882],[140.925,36.935],[140.983,36.996],[141.046,37.481],[141.018,37.661]];
+const COAST_N = [[138.5,37.4],[138.231,37.174],[137.914,37.061],[137.436,36.931],[137.393,36.807],[137.320,36.758],[137.122,36.780],[136.995,36.849],[136.985,36.877],[137.057,36.968],[137.058,37.109],[136.986,37.048],[136.935,37.087],[136.859,37.077],[136.924,37.234],[137.010,37.183],[137.151,37.307],[137.234,37.295],[137.268,37.336],[137.238,37.379],[137.251,37.424],[137.360,37.450],[137.346,37.515],[137.264,37.531],[136.926,37.395],[136.868,37.407],[136.756,37.365],[136.670,37.150],[136.727,37.135],[136.719,37.059],[136.770,36.996],[136.765,36.892],[136.713,36.769],[136.414,36.417],[136.214,36.274],[136.122,36.249],[136.129,36.192],[136.108,36.174],[136.120,36.190],[136.113,36.205],[135.961,35.990],[135.993,35.888],[136.100,35.778],[136.086,35.685],[136.056,35.680],[136.072,35.661],[136.025,35.680],[136.044,35.706],[136.018,35.764],[135.954,35.722],[135.978,35.627],[135.868,35.608],[135.846,35.635],[135.815,35.642],[135.856,35.600],[135.840,35.563],[135.801,35.571],[135.834,35.536],[135.798,35.525],[135.714,35.570],[135.689,35.546],[135.716,35.521],[135.739,35.536],[135.765,35.534],[135.719,35.484],[135.581,35.490],[135.627,35.489],[135.631,35.522],[135.670,35.525],[135.661,35.548],[135.573,35.492],[135.518,35.494],[135.516,35.551],[135.504,35.523],[135.469,35.530],[135.487,35.558],[135.452,35.568],[135.462,35.604],[135.341,35.550],[135.343,35.504],[135.395,35.517],[135.401,35.478],[135.347,35.495],[135.317,35.451],[135.332,35.516],[135.242,35.538],[135.275,35.560],[135.254,35.600],[135.202,35.537],[135.154,35.555],[135.195,35.581],[135.187,35.563],[135.268,35.667],[135.303,35.663],[135.307,35.699],[135.223,35.779],[134.901,35.649],[134.929,35.633],[134.909,35.605],[134.879,35.661],[134.664,35.667],[134.616,35.639],[134.540,35.670],[134.167,35.533]];
+const AWAJI = [[134.654,34.293],[134.676,34.256],[134.659,34.243],[134.723,34.255],[134.700,34.222],[134.730,34.207],[134.731,34.189],[134.800,34.200],[134.952,34.267],[134.943,34.299],[134.894,34.352],[134.895,34.419],[134.987,34.511],[134.999,34.552],[135.026,34.576],[135.023,34.589],[135.003,34.609],[134.984,34.604],[134.935,34.549],[134.878,34.525],[134.842,34.471],[134.798,34.449],[134.730,34.330],[134.687,34.331]];
+const SHIKOKU = [[133.935,33.487],[134.177,33.243],[134.311,33.577],[134.582,33.772],[134.750,33.834],[134.627,33.857],[134.712,33.926],[134.570,34.041],[134.642,34.180],[134.581,34.202],[134.589,34.239],[134.436,34.207],[134.259,34.284],[134.266,34.336],[134.211,34.369],[134.210,34.346],[134.183,34.353],[134.190,34.331],[134.164,34.327],[134.137,34.400],[134.121,34.350],[133.928,34.390]];
+const BIWA = [[135.860,35.014],[135.908,34.983],[135.921,35.010],[135.906,35.036],[135.932,35.076],[135.948,35.076],[135.937,35.094],[135.946,35.125],[135.980,35.123],[135.988,35.144],[136.060,35.144],[136.062,35.180],[136.093,35.193],[136.085,35.203],[136.155,35.228],[136.257,35.295],[136.277,35.364],[136.214,35.388],[136.215,35.404],[136.187,35.442],[136.199,35.455],[136.192,35.496],[136.169,35.515],[136.148,35.475],[136.151,35.443],[136.128,35.456],[136.132,35.483],[136.119,35.487],[136.101,35.452],[136.074,35.464],[136.042,35.435],[136.036,35.379],[136.067,35.357],[136.079,35.317],[136.061,35.317],[136.013,35.294],[136.019,35.279],[135.977,35.257],[135.925,35.200],[135.916,35.181],[135.937,35.156],[135.932,35.125],[135.895,35.088]];
+
+/* ───────── state & helpers ───────── */
+let selected = null, filter = 'all';
+const grid = document.getElementById('grid');
+const places = ['Tokyo', 'Kyoto', 'Nara', 'Osaka'];
+const cityOf = s => SPOTS[s.spot].city === 'Chiba' ? 'Tokyo' : SPOTS[s.spot].city;
+const REGION_OF = { Tokyo: 'tokyo', Chiba: 'tokyo', Kyoto: 'kansai', Nara: 'kansai', Osaka: 'kansai' };
+const isPhone = () => window.matchMedia('(max-width: 819px)').matches;
+const stampById = id => STAMPS.find(s => s.id === id);
+
+document.getElementById('meta').textContent = STAMPS.length + ' stamps · ' + Object.keys(SPOTS).length + ' spots · Tokyo, Kyoto, Nara, Osaka';
+
+/* chips */
+const chipsEl = document.getElementById('chips');
+function chip(label, key, n) {
+  const b = document.createElement('button');
+  b.className = 'chip' + (key === filter ? ' on' : ''); b.dataset.key = key;
+  b.innerHTML = label + '<span>' + n + '</span>';
+  b.onclick = () => setFilter(key);
+  chipsEl.appendChild(b);
+}
+chip('all', 'all', STAMPS.length);
+places.forEach(p => chip(p.toLowerCase(), p, STAMPS.filter(s => cityOf(s) === p).length));
+
+/* grid */
+const tilt = id => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 997; return ((h % 9) - 4) * 0.8; };
+STAMPS.forEach(s => {
+  const b = document.createElement('button');
+  b.className = 'st ' + s.size; b.dataset.id = s.id;
+  b.style.setProperty('--r', tilt(s.id) + 'deg');
+  b.setAttribute('aria-label', s.title + ', ' + SPOTS[s.spot].name);
+  b.innerHTML = '<img src="stamps/' + s.id + '.webp" alt="" loading="lazy" decoding="async"><span class="tag">' + s.title + '</span>';
+  b.onclick = () => select(selected === s.id && !isPhone() ? null : s.id, true);
+  b.onmouseenter = () => maps.forEach(m => m.hover(s.spot, true));
+  b.onmouseleave = () => maps.forEach(m => m.hover(s.spot, false));
+  grid.appendChild(b);
+  const img = b.querySelector('img'), tag = b.querySelector('.tag');
+  const place = () => { if (img.offsetHeight) tag.style.top = (img.offsetTop + img.offsetHeight - Math.min(8, img.offsetHeight * 0.08)) + 'px'; };
+  img.addEventListener('load', place); if (img.complete) place();
+  new ResizeObserver(place).observe(img);
+});
+
+/* captions */
+const caps = [document.getElementById('cap-d'), document.getElementById('cap-s')];
+function paintCaps() {
+  const s = selected && stampById(selected);
+  caps.forEach(cap => {
+    if (!s) { cap.className = 'cap'; cap.innerHTML = '<p class="cap-hint">hover or tap a stamp to see what it is and where it\'s from</p>'; return; }
+    const sp = SPOTS[s.spot];
+    const where = s.title === sp.name ? sp.city : sp.name + (sp.name.includes(sp.city) ? '' : ', ' + sp.city);
+    cap.className = 'cap'; void cap.offsetWidth; cap.className = 'cap in';
+    cap.innerHTML = '<div class="cap-pin">📍</div><div><p class="cap-title">' + s.title + ' <span class="cap-place">· ' + where + '</span></p><p class="cap-line">' + s.line + '</p></div>';
+  });
+}
+
+/* ───────── map factory ───────── */
+const LON0 = 134.4, LAT0 = 36.3, K = 177, COS = Math.cos(35 * Math.PI / 180);
+const P = (lon, lat) => [(lon - LON0) * K * COS, (LAT0 - lat) * K];
+const NS = 'http://www.w3.org/2000/svg';
+function fit(lonA, lonB, latA, latB, aspect) {
+  const a = P(lonA, latA), b = P(lonB, latB);
+  const cx = (a[0] + b[0]) / 2, cy = (a[1] + b[1]) / 2;
+  const w = Math.max(Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1]) * aspect), h = w / aspect;
+  return [cx - w / 2, cy - h / 2, w, h];
+}
+const line = (pts, close) => pts.map(([lo, la], i) => { const q = P(lo, la); return (i ? 'L' : 'M') + q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join('') + (close ? 'Z' : '');
+
+function makeMap(svg, opts) {
+  const id = svg.id;
+  if (opts.mini) svg.classList.add('mini');
+  const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; };
+  svg.innerHTML = '<defs><filter id="' + id + '-wob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence class="wt" type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/><feDisplacementMap class="wd" in="SourceGraphic" scale="2.2"/></filter>' +
+    '<pattern id="' + id + '-waves" width="26" height="12" patternUnits="userSpaceOnUse"><path d="M2 8 q4 -4 8 0 t8 0" fill="none" stroke="#d6d3d1" stroke-width="0.8" stroke-linecap="round"/></pattern></defs>';
+  const world = mk('g', {});
+  mk('rect', { x: -3000, y: -3000, width: 7000, height: 7000, fill: 'url(#' + id + '-waves)', opacity: .55 }, world);
+  const land = mk('g', { filter: 'url(#' + id + '-wob)' }, world);
+  const ink = { fill: 'none', stroke: 'var(--ink)', 'stroke-width': 1.2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', 'vector-effect': 'non-scaling-stroke' };
+  mk('path', { d: line(COAST_S.concat(COAST_N), true), fill: 'var(--land)' }, land);
+  mk('path', Object.assign({ d: line(COAST_S) }, ink), land);
+  mk('path', Object.assign({ d: line(COAST_N) }, ink), land);
+  mk('path', Object.assign({ d: line(SHIKOKU, true) }, ink, { fill: 'var(--land)' }), land);
+  mk('path', Object.assign({ d: line(AWAJI, true) }, ink, { fill: 'var(--land)' }), land);
+  mk('path', Object.assign({ d: line(BIWA, true) }, ink, { fill: '#e7edf0', 'stroke-width': 1 }), land);
+
+  const labels = mk('g', {}, world);
+  const txt = (t, lon, lat, size, cls, anchor) => { const [x, y] = P(lon, lat); const e = mk('text', { x, y, class: cls, 'text-anchor': anchor || 'start' }, labels); e.dataset.fs = size; e.textContent = t; return e; };
+  if (!opts.mini) { txt('Sea of Japan', 134.75, 36.05, 13, 'sea-label'); txt('Pacific Ocean', 137.4, 33.85, 14, 'sea-label'); }
+  txt('Osaka Bay', 135.2, 34.56, 9, 'sea-label'); txt('Tokyo Bay', 139.79, 35.46, 8, 'sea-label');
+  [['tokyo', 139.55, 35.98, ''], ['lake biwa', 136.38, 35.35, ''], ['kansai', 135.2, 35.25, ' rl-far'],
+   ['kyoto', 135.6, 35.02, ' rl-near'], ['nara', 135.95, 34.6, ' rl-near'], ['osaka', 135.64, 34.63, ' rl-near'], ['kobe', 135.17, 34.76, ' rl-near']]
+    .forEach(([t, lo, la, c]) => txt(t, lo, la, 11, 'rlabel' + c, 'middle'));
+
+  const pinsG = mk('g', {}, world), pins = {};
+  Object.entries(SPOTS).forEach(([key, sp]) => {
+    const [x, y] = P(sp.lon, sp.lat);
+    const g = mk('g', { class: 'pin', 'data-x': x, 'data-y': y, transform: 'translate(' + x + ',' + y + ')', tabindex: 0, role: 'button', 'aria-label': sp.name }, pinsG);
+    mk('circle', { class: 'halo', r: 5 }, g);
+    mk('circle', { class: 'dot', r: 5, 'stroke-width': 1.5 }, g);
+    const t = mk('text', sp.left ? { x: -9, y: 4, 'font-size': 12, 'stroke-width': 3, 'text-anchor': 'end' } : { x: 9, y: 4, 'font-size': 12, 'stroke-width': 3 }, g);
+    t.textContent = sp.pin || sp.name;
+    g.onclick = e => { e.stopPropagation(); const first = STAMPS.find(s => s.spot === key); if (first) { select(first.id); const el = grid.querySelector('[data-id="' + first.id + '"]'); if (!isPhone()) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } };
+    g.onmouseenter = () => g.classList.add('hov'); g.onmouseleave = () => g.classList.remove('hov');
+    pins[key] = g;
+  });
+
+  const box = svg.parentElement, resetBtn = box.querySelector('[data-reset]');
+  const aspect = () => { const w = svg.clientWidth, h = svg.clientHeight; return w && h ? w / h : (opts.aspect || 1.6); };
+  const views = () => { const a = aspect(); return {
+    all: fit(134.4, 140.6, 36.3, 33.4, a),
+    tokyo: fit(139.25, 140.62, 35.88, 35.4, a),
+    kansai: fit(134.98, 136.22, 35.1, 34.52, a),
+  }; };
+  let current = 'all', vb = null, anim = null;
+  function apply(v) {
+    vb = v;
+    svg.setAttribute('viewBox', v.map(n => n.toFixed(2)).join(' '));
+    const px = svg.clientWidth || 360, s = v[2] / px;          // world units per screen px
+    const allW = views().all[2];
+    Object.values(pins).forEach(g => g.setAttribute('transform', 'translate(' + g.dataset.x + ',' + g.dataset.y + ') scale(' + s.toFixed(4) + ')'));
+    labels.querySelectorAll('text').forEach(t => t.setAttribute('font-size', (t.dataset.fs * s).toFixed(2)));
+    const pat = svg.querySelector('pattern'); pat.setAttribute('patternTransform', 'scale(' + s.toFixed(4) + ')');
+    svg.querySelector('.wd').setAttribute('scale', (2.2 * s).toFixed(3));
+    svg.querySelector('.wt').setAttribute('baseFrequency', (0.035 / s).toFixed(4));
+    const zoomed = v[2] < allW * 0.8;
+    svg.classList.toggle('zoomed', zoomed);
+    if (resetBtn) resetBtn.classList.toggle('show', zoomed);
+  }
+  function zoomTo(view, instant) {
+    current = view;
+    const to = views()[view] || views().all;
+    if (instant || !vb) { apply(to); return; }
+    const from = vb.slice(), t0 = performance.now(), D = 650;
+    if (anim) cancelAnimationFrame(anim);
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const step = now => { const t = Math.min(1, (now - t0) / D), e = ease(t); apply(from.map((f, i) => f + (to[i] - f) * e)); if (t < 1) anim = requestAnimationFrame(step); };
+    anim = requestAnimationFrame(step);
+  }
+  function paint() {
+    const sel = selected && stampById(selected);
+    Object.entries(pins).forEach(([k, g]) => {
+      const city = SPOTS[k].city === 'Chiba' ? 'Tokyo' : SPOTS[k].city;
+      g.classList.toggle('on', !!sel && sel.spot === k);
+      g.classList.toggle('mute', (!!sel && sel.spot !== k) || (filter !== 'all' && city !== filter));
+    });
+  }
+  if (resetBtn) resetBtn.onclick = () => { setFilter('all'); select(null); };
+  new ResizeObserver(() => zoomTo(current, true)).observe(svg);
+  zoomTo('all', true);
+  return { zoomTo, paint, hover: (k, on) => pins[k].classList.toggle('hov', on), refresh: () => zoomTo(current, true) };
+}
+
+const maps = [makeMap(document.getElementById('map-d'), { aspect: 0.95 }), makeMap(document.getElementById('map-m'), { aspect: 1.6 }), makeMap(document.getElementById('map-s'), { aspect: 2.3, mini: true })];
+const viewFor = () => { const s = selected && stampById(selected); if (s) return REGION_OF[SPOTS[s.spot].city]; return filter === 'all' ? 'all' : (filter === 'Tokyo' ? 'tokyo' : 'kansai'); };
+
+/* ───────── sheet (phone) ───────── */
+const sheet = document.getElementById('sheet');
+function openSheet(on) {
+  sheet.classList.toggle('open', on);
+  document.body.classList.toggle('sheet-open', on);
+  if (on) requestAnimationFrame(() => maps[2].refresh());
+}
+document.getElementById('sheet-close').onclick = () => select(null);
+let sy0 = null, sdy = 0;
+sheet.addEventListener('touchstart', e => { sy0 = e.touches[0].clientY; sdy = 0; sheet.style.transition = 'none'; }, { passive: true });
+sheet.addEventListener('touchmove', e => { if (sy0 === null) return; sdy = Math.max(0, e.touches[0].clientY - sy0); sheet.style.transform = 'translateY(' + sdy + 'px)'; }, { passive: true });
+sheet.addEventListener('touchend', () => { sheet.style.transition = ''; sheet.style.transform = ''; if (sdy > 60) select(null); sy0 = null; });
+document.addEventListener('click', e => {
+  if (!isPhone() || !selected) return;
+  if (sheet.contains(e.target) || e.target.closest('.st') || e.target.closest('.pin') || e.target.closest('.chip')) return;
+  select(null);
+});
+
+/* ───────── selection ───────── */
+function paintGrid() {
+  const sel = selected && stampById(selected);
+  grid.classList.toggle('has-sel', !!sel);
+  grid.querySelectorAll('.st').forEach(el => {
+    const s = stampById(el.dataset.id);
+    el.classList.toggle('sel', !!sel && s.id === sel.id);
+    el.classList.toggle('sib', !!sel && s.id !== sel.id && s.spot === sel.spot);
+    el.classList.toggle('dim', filter !== 'all' && cityOf(s) !== filter);
+  });
+  maps.forEach(m => m.paint());
+}
+function select(id, fromGrid) {
+  selected = id;
+  const el = id && grid.querySelector('[data-id="' + id + '"]');
+  if (el && fromGrid) { el.classList.remove('thunk'); void el.offsetWidth; el.classList.add('thunk'); }
+  paintGrid(); paintCaps();
+  maps.forEach(m => m.zoomTo(viewFor()));
+  if (isPhone()) {
+    openSheet(!!id);
+    if (el) setTimeout(() => {
+      const r = el.getBoundingClientRect(), sheetTop = sheet.getBoundingClientRect().top;
+      const over = r.bottom + 34 - sheetTop;
+      if (over > 0 || r.top < 0) window.scrollBy({ top: r.top < 0 ? r.top - 20 : over, behavior: 'smooth' });
+    }, 340);
+  } else openSheet(false);
+}
+function setFilter(key) {
+  filter = key;
+  chipsEl.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c.dataset.key === key));
+  if (selected && key !== 'all' && cityOf(stampById(selected)) !== key) { select(null); return; }
+  paintGrid(); maps.forEach(m => m.zoomTo(viewFor()));
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') select(null); });
+window.addEventListener('resize', () => { if (!isPhone()) openSheet(false); else if (selected) openSheet(true); });
+paintGrid(); paintCaps();
+
+/* ───────── sign-off: soft ink dust ───────── */
+(function () {
+  const btn = document.getElementById('good-day');
+  // muted versions of the stamp inks
+  const COLORS = ['rgba(194,65,12,.7)', 'rgba(37,99,235,.6)', 'rgba(234,179,8,.75)', 'rgba(5,150,105,.6)', 'rgba(147,51,234,.55)', 'rgba(232,133,90,.75)', 'rgba(68,64,60,.45)'];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  btn.addEventListener('click', () => {
+    btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press');
+    try { if (navigator.vibrate) navigator.vibrate(12); } catch (e) {}
+    if (reduce) return;
+    const r = btn.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // soft ring, like ink spreading from the stamp
+    const ring = document.createElement('span');
+    ring.className = 'confetti';
+    ring.style.cssText += 'width:' + r.width + 'px;height:' + r.width + 'px;border-radius:50%;border:1.5px solid rgba(232,133,90,.45);';
+    document.body.appendChild(ring);
+    ring.animate([
+      { transform: `translate(${cx - r.width / 2}px, ${cy - r.width / 2}px) scale(.55)`, opacity: .9 },
+      { transform: `translate(${cx - r.width / 2}px, ${cy - r.width / 2}px) scale(1.9)`, opacity: 0 }
+    ], { duration: 1400, easing: 'cubic-bezier(.16,1,.3,1)' }).onfinish = () => ring.remove();
+    // dust that drifts outward and dissolves
+    const N = window.innerWidth < 640 ? 36 : 54;
+    for (let i = 0; i < N; i++) {
+      const el = document.createElement('span');
+      const round = Math.random() < .65, w = round ? 4 + Math.random() * 6 : 3 + Math.random() * 2, h = round ? w : w * (2.5 + Math.random() * 1.5);
+      el.className = 'confetti';
+      el.style.cssText += 'width:' + w + 'px;height:' + h + 'px;background:' + COLORS[i % COLORS.length] + ';border-radius:' + (round ? '50%' : '3px');
+      document.body.appendChild(el);
+      const ang = (i / N) * Math.PI * 2 + (Math.random() - .5) * .5;
+      const dist = 160 + Math.random() * Math.min(460, window.innerWidth * .48);
+      const sx = Math.cos(ang) * r.width * .32, sy = Math.sin(ang) * r.height * .32;   // start around the stamp's edge
+      const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist * .62 - 30;            // wide, slightly upward drift
+      const rot = (Math.random() - .5) * 160, x0 = cx + sx, y0 = cy + sy;
+      el.animate([
+        { transform: `translate(${x0}px, ${y0}px) rotate(0deg) scale(.6)`, opacity: 0, filter: 'blur(0px)' },
+        { transform: `translate(${x0 + dx * .45}px, ${y0 + dy * .45}px) rotate(${rot * .3}deg) scale(1)`, opacity: 1, filter: 'blur(0px)', offset: .15 },
+        { transform: `translate(${x0 + dx * .85}px, ${y0 + dy * .85}px) rotate(${rot * .75}deg) scale(.85)`, opacity: .75, filter: 'blur(.6px)', offset: .55 },
+        { transform: `translate(${x0 + dx}px, ${y0 + dy}px) rotate(${rot}deg) scale(.5)`, opacity: 0, filter: 'blur(2.5px)' }
+      ], { duration: 2300 + Math.random() * 1100, delay: Math.random() * 140, easing: 'ease-out', fill: 'backwards' }).onfinish = () => el.remove();
+    }
+  });
+})();
+</script>
+</body>
+</html>
