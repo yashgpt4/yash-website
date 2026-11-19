@@ -6,6 +6,7 @@
     - About: depression bullet reworded; "than" → "rather than" fix
     - About: "what now" trimmed to 2 items
     - Sidebar: hid "moving to north america" locked item; updated portfolio date
+    - Stamp booklet: standalone page /stamp-booklet/ with its own copy of the sidebar; sidebar item above fortune cookie links to it
     - Library: new bookshelf page (/library) after blog, with watering-can easter egg on the pothos
     - Meme generator: new gacha page below GenZ fortune cookie (/meme-generator)
     - Routing: sidebar items now matched by data-tab, not position (fixes active highlight after design portfolio link)
@@ -1525,6 +1526,11 @@
           <div class="ni" data-tab="AI_ROI" onclick="setTab(this,'AI_ROI')">
             <div class="ni-title">📈 AI vs Hooman ROI</div>
             <div class="ni-sub">exploit machines, not hoomans</div>
+          </div>
+
+          <div class="ni" onclick="location.href = location.protocol === 'file:' ? 'stamp-booklet/index.html' : '/stamp-booklet/'">
+            <div class="ni-title">🗾 stamp booklet</div>
+            <div class="ni-sub">33 stamps from japan</div>
           </div>
 
           <div class="ni" data-tab="fortune" onclick="setTab(this,'fortune')">

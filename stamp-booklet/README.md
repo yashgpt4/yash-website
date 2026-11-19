@@ -7,7 +7,8 @@ It's **one self-contained HTML file plus images**. No build step, no frameworks,
 ```
 stamp-booklet/
 ├── index.html        ← page, styles, script and data (≈38 KB)
-├── stamps/           ← 34 transparent WebP stickers (≈1.6 MB total)
+├── stamps/           ← 34 transparent WebP stickers at 520px (big stamps / high-res screens)
+│   └── sm/           ← 260px versions for small & medium stamps (≈13 KB each)
 └── README.md
 ```
 
@@ -15,7 +16,7 @@ stamp-booklet/
 
 ## How to ship (recommended)
 
-Deploy the folder as its own route, the same way `/design-portfolio/` is set up:
+The page has the site sidebar built in. Deploy the folder as its own route, the same way `/design-portfolio/` is set up:
 
 1. Copy the `stamp-booklet/` folder into the site repo root.
 2. It will be served at **`yashvijaykar.com/stamp-booklet/`**. Image paths are relative (`stamps/...`), so the trailing slash matters. GitHub Pages adds it automatically.
@@ -24,6 +25,10 @@ Deploy the folder as its own route, the same way `/design-portfolio/` is set up:
 **Don't paste it into the main `index.html`.** It uses class names that already exist there (`.chip`, `.divider`, `.conviction`, `.sub-line`), and the styles would clash. As a standalone page it inherits nothing and breaks nothing.
 
 To match the main site's analytics, optionally add the Microsoft Clarity snippet from the main `index.html` inside `<head>`.
+
+## Sidebar
+
+The page includes a copy of the main site's sidebar (the `<nav class="sidebar">` list in `index.html`). Items link to the main site's routes (`/about`, `/library`, …). When the main sidebar changes, update this list too.
 
 ---
 
@@ -52,7 +57,7 @@ To match the main site's analytics, optionally add the Microsoft Clarity snippet
   ```
   - `id` must match `stamps/<id>.webp`.
   - `size` is `L` (2×2 cell), `M` or `S`.
-- **To add a stamp:** drop a transparent WebP (about 520 px on the long side) into `stamps/` and add an entry to `STAMPS`.
+- **To add a stamp:** add `stamps/<id>.webp` (520px long side) and `stamps/sm/<id>.webp` (260px), then add an entry to `STAMPS`.
 - **Coastlines** (`COAST_S`, `COAST_N`, `AWAJI`, `SHIKOKU`, `BIWA`) are simplified OpenStreetMap outlines. You shouldn't need to touch them.
 
 ---
@@ -61,6 +66,6 @@ To match the main site's analytics, optionally add the Microsoft Clarity snippet
 
 - **Attribution:** the map outlines come from OpenStreetMap, which requires the credit line "© OpenStreetMap contributors" (ODbL). It already appears under the map. Please keep it.
 - **Browsers:** tested in Chrome, desktop (1280px) and mobile (390px), with no console errors. It uses standard APIs only: CSS `aspect-ratio`, `ResizeObserver`, Web Animations, and `clip-path`. All of these are supported in current Safari, Chrome, Firefox and Edge.
-- **Performance:** images use `loading="lazy"`. The whole page is about 1.6 MB.
+- **Performance:** each stamp uses `srcset` (260px / 520px), so phones download about 0.65 MB. The first 12 stamps load with high priority, the rest lazily, and each fades in when ready.
 - **Fonts:** it uses the system font stack (`-apple-system, Inter, Segoe UI`), the same as the main site.
 - **Preview link:** a working copy is published as a private Claude artifact. Ask Yash for access if you want to compare it against your deploy.
